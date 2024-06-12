@@ -1,0 +1,374 @@
+<%- include('../layouts/admin/adminHeaders.ejs') %>
+    <body data-layout="horizontal" data-topbar="dark">
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+        
+            <!-- header -->
+           
+            <%- include('../layouts/admin/pageTopbar.ejs') %>
+
+            <!-- ========== Left Sidebar Start ========== -->
+            
+            <%- include('../layouts/admin/verticalMenu.ejs') %>
+
+            <!-- Left Sidebar End -->
+           
+            <%- include('../layouts/admin/leftsidebarEnd.ejs') %>
+    
+
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0">Products</h4>
+
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
+                                            <li class="breadcrumb-item active">Products</li>
+                                        </ol>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-sm-4">
+                                               
+                                            </div>
+                                            <form action="/admin/addproduct" method="post">
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            <div class="mb-3 mb-4">
+                                                                <label class="form-label" for="billing-name">Name</label>
+                                                                <input  type="text" class="form-control" name="name" id="billing-name" placeholder="Enter name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-4">
+                                                            <div class="mb-3 mb-4">
+                                                                <label class="form-label" for="billing-phone">price</label>
+                                                                <input  type="text" class="form-control" mi name="price" id="billing-phone" placeholder="enter the price.">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-4">
+                                                            <div class="mb-3 mb-4">
+                                                                <label class="form-label" for="billing-phone">stock</label>
+                                                                <input  type="text" min="1" class="form-control" name="stock" id="billing-phone" placeholder="enter the price.">
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-4 col-lg-7">
+                                                            <label class="form-label" for="billing-address">Description</label>
+                                                            <textarea class="form-control" id="billing-address" name="description" rows="3" placeholder="Enter the Description"></textarea>
+                                                        </div>
+                                                       
+                                                        <div class="col-lg-4 p-4 col-md-4">
+                                                            <div class="mb-3">
+                                                                <label for="choices-single-no-sorting"  class="form-label font-size-13 text-muted">Category</label>
+                                                                <select class="form-control" name="category"
+                                                                    id="choices-single-no-sorting">
+                                                                    <% productCategory.forEach(category => { %>
+                                                                        
+                                                                        <option value="<%=category._id  %>"><%=category.name  %></option>
+                                                                        
+                                                                        <%  }); %>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                            <div class="card " >
+                                                                <a href="#addproduct-img-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-img-collapse">
+                                                                    <div >
+                                                                        
+                                                                        <div class="d-flex align-items-center  p-1 ">
+                                                                            <div class="flex-shrink-0 me-1">
+                                                                                <div class="avatar-sm">
+                                                                                    
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="flex-grow-1 overflow-hidden " style="padding-left: 370px;">
+                                                                                <h5 class="font-size-16 mb-1">Product Image</h5>
+                                                                                <p class="text-muted text-truncate mb-0">Add here the image</p>
+                                                                            </div>
+                                                                            <div class="flex-shrink-0">
+                                                                                <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </a>
+                        
+                                                                <div id="addproduct-img-collapse" class="collapse"  >
+                                                                    <div class="form-group">
+                                                                        <label>File upload</label>
+                                                                        <!-- <input  type="file" name="img[]" class="file-upload-default" required>  -->
+                                                                        <div class="input-group col-xs-12">
+                                                                          <div class="input-group">
+                                                                            <div for="images"
+                                                                              class="image card d-flex align-items-center flex-column  justify-content-center "
+                                                                              style="width: 100%; height: 9rem; border: 0px;">
+                                                                              <div
+                                                                                class=" border-0   aa d-flex align-items-center justify-content-center gap-3  h-100  position-relative "
+                                                                                style="  gap:1rem">
+                                                                                <% for(let i=0;i<4;i++) {%>
+                                                                                  <label for="images<%=i  %>"
+                                                                                    class="img-co   l position-relative   d-flex align-items-center justify-content-center "
+                                                                                    style="width: 6rem; height: 6.2rem; max-height: 90%;  cursor:pointer;  border: 2px dashed #4d454540; border-radius: 15px;">
+                                                                                    <input  type="file" class="inp" accept="image/*" onchange='hello(this,"<%=i %>")'
+                                                                                      name='images' id="images<%=i  %>" hidden>
+                                                                                      <input  type="hidden" name="image" id="">
+                                                                                    <p class="opacity-50 text-center text-capitalize w-100  " id="p<%=i  %>"
+                                                                                      style="opacity: .7;"><i class="ri-upload-cloud-2-line text-center   "></i><br>uplaod
+                                                                                      images</p>
+                                                                                    <img src="" alt="" id="i<%=i  %>"
+                                                                                      style="display: none;     border-radius: 15px;  width: 100% ; height: 100%; object-fit: cover; ">
+                                                                                   <p> <i class="ri-close-circle-line position-absolute text-white  mt-1 " id="icon<%=i  %>"
+                                                                                      onclick="clear(this,'<%=i%>')"
+                                                                                      style="opacity: 0;  top: -3px; right:0; z-index: 9999999999; scale: 1.5;"></i></p>
+                                                                                    <div for="images<%=i  %>" id="imageL<%= i %>"
+                                                                                      class="   position-absolute  mt-1  align-items-center justify-content-center      pointer-event "
+                                                                                      style="
+                                                                                      color: white;
+                                                                                 width: 5.5rem;
+                                                                                  background-color: rgba(24, 23, 23, 0.11);
+                                                                                  backdrop-filter: blur(1px);
+                                                                                  height: 6.2rem;
+                                                                                  border-radius: 10px;
+                                                                                  transition: all 0.3s ease 0s;
+                                                                                  cursor: pointer;
+                                                                                  /* letter-spacing: 0.1rem; */
+                                                                                    
+                                                                                  object-fit: cover;
+                                                                           "><p>Replace</p></div>
+                                                                                  </label>
+                                                                                  <% } %>
+                                                                              </div>
+                                                                              <div class="msg w-100 p-2 d-flex align-items-center justify-content-center ">
+                                                                                <p id="msgP"></p>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>
+                                                  
+                                                  
+                                                                        </div>
+                                                                      </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                    
+
+                                                    <!-- <div class="mb-4">
+                                                        <label class="form-label" for="billing-address">Address</label>
+                                                        <textarea class="form-control" id="billing-address" name="address" rows="3" placeholder="Enter full address"></textarea>
+                                                    </div> -->
+
+                                                    <!-- <div class="mb-4 col-lg-4 col-s">
+                                                        <label class="form-label" for="billing-address">Image</label>
+                                                        <textarea class="form-control" id="billing-address" rows="3" placeholder="Add the image"></textarea> 
+                                                    </div> -->
+                                             <p class="text-danger"><%= msg %></p>  
+                                                 <button class="btn btn-success" type="submit">button</button>
+                                                    
+                                                </div>
+
+                                            </form>
+                                            <!-- end col-->
+                                        </div>
+
+                                     
+                                        <ul class="pagination pagination-rounded justify-content-end mb-2">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">
+                                                    <i class="mdi mdi-chevron-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
+                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="javascript: void(0);" aria-label="Next">
+                                                    <i class="mdi mdi-chevron-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- container-fluid -->
+                </div>
+                <!-- End Page-content -->
+                
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <script>document.write(new Date().getFullYear())</script> &copy; Symox.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="https://themesbrand.com/" target="_blank" class="text-reset">Themesbrand</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <!-- end main content-->
+
+        </div>
+        
+  <style>
+    @media (max-width:900px) {
+      .aa {
+        width: 100% !important;
+      }
+    }
+
+  
+
+    .aa {
+      width: 50%;
+    }
+
+ 
+
+    .container-scroller {
+      overflow: hidden;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none !important;
+    }
+    #imageL3,
+    #imageL1,
+    #imageL2,
+    #imageL0 {
+      display: none;
+      opacity: 0;
+    
+    }
+    #msgP{
+      letter-spacing: .1rem;
+    text-transform: uppercase;
+
+    }
+    
+    .l:hover #imageL3,
+    .l:hover #imageL1,
+    .l:hover #imageL2,
+    .l:hover #imageL0 {
+      opacity: 1;
+    }
+  </style>
+<script>
+      async function hello(e, i) {
+           const link=await upload(e)
+         
+           e.nextElementSibling.value=link
+           const text = document.getElementById(`p${i}`);
+           const im = document.getElementById(`i${i}`);
+      const imL = document.getElementById(`imageL${i}`);
+      im.src = URL.createObjectURL(e.files[0]);
+      const icon = document.getElementById(`icon${i}`)
+      icon.style.opacity = 1;
+      im.style.display = 'block';
+      text.style.display = 'none';
+      imL.style.display = 'flex';
+    }
+
+   async function upload(e){
+        const data = new FormData();
+      data.append("file", e.files[0]);
+      data.append("upload_preset", "chat-app");
+      data.append("cloud_name", "piyushproj");
+   const link=   await fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          
+          console.log(data.url.toString());
+          return data.url.toString()
+        })
+        return link
+    }
+
+    for (let i = 0; i < 4; i++) {
+      const icon = document.getElementById(`icon${i}`)
+      icon.addEventListener('click', (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const text = document.getElementById(`p${i}`);
+        const im = document.getElementById(`i${i}`);
+        const imL = document.getElementById(`imageL${i}`);
+        const inp = document.getElementById(`images${i}`);
+        inp.value = '';
+        im.src = '';
+        im.style.display = 'none';
+        text.style.display = 'block';
+        imL.style.display = 'none';
+        icon.style.opacity = 0;
+      });
+    }
+
+</script>
+        <!-- END layout-wrapper -->
+
+        <!-- Right Sidebar -->
+        <a href="#" class="right-bar-toggle layout-setting-btn" id="right-bar-toggle">
+            <i class="icon-sm mb-2" data-feather="settings"></i> <span class="align-middle">Settings</span>
+        </a>
+
+       
+        <!-- /Right-bar -->
+
+        <%- include('../layouts/admin/rightBar.ejs') %>  
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- JAVASCRIPT -->
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/metismenujs/metismenujs.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/feather-icons/feather.min.js"></script>
+
+        <!-- apexcharts -->
+        <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+        <!-- Chart JS -->
+        <script src="assets/js/pages/chartjs.js"></script>
+
+        <script src="assets/js/pages/dashboard.init.js"></script>
+
+        <script src="assets/js/app.js"></script>
+
+    </body>
+
+<!-- Mirrored from themesdesign.in/symox-laravel/layouts/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Feb 2024 16:06:55 GMT -->
+</html>

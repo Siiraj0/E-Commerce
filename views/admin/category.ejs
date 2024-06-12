@@ -1,0 +1,383 @@
+<%- include('../layouts/admin/adminHeaders.ejs') %>
+<body data-layout="horizontal" data-topbar="dark">
+  <!-- Begin page -->
+  <div id="layout-wrapper">
+    <!-- header -->
+
+    <%- include('../layouts/admin/pageTopbar.ejs') %>
+
+    <!-- ========== Left Sidebar Start ========== -->
+
+    <%- include('../layouts/admin/verticalMenu.ejs') %>
+
+    <!-- Left Sidebar End -->
+
+    <%- include('../layouts/admin/leftsidebarEnd.ejs') %>
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+      <div class="page-content">
+        <div class="container-fluid">
+          <!-- start page title -->
+          <div class="row">
+            <div class="col-12">
+              <div
+                class="page-title-box d-flex align-items-center justify-content-between"
+              >
+                <h4 class="mb-0">Category</h4>
+
+                <div class="page-title-right">
+                  <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                      <a href="javascript: void(0);">Ecommerce</a>
+                    </li>
+                    <li class="breadcrumb-item active">Category</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end page title -->
+
+          <div
+            class="modal fade"
+            id="edit"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Edit Category
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <form method="post" action="/editcategory/:id" id="myform" >
+                  <div class="modal-body">
+                    <div class="form-floating mb-3">
+                      <input
+                        required
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        id="name" 
+                        placeholder="namegfhkjample.com"
+                      />
+                      <label for="name">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                      <input
+                        required
+                        type="text"
+                        name="description"
+                        class="form-control"
+                        id="description"
+                        placeholder="namegdfd.com"
+                        
+                      />
+                      <label for="Discription">Discription</label>
+                    </div>
+                  </div>
+                  <input type="hidden" id="iddd">
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="submit"
+                      onclick="editcategory()"
+                      class="btn btn-primary"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div id="tablepart" class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row mb-2">
+                    <div class="col-sm-4">
+                      <div class="search-box me-2 mb-2 d-inline-block">
+                        <div class="position-relative">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search..."
+                          />
+                          <i class="bx bx-search-alt search-icon"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="text-sm-end">
+                        <button
+                          type="button"
+                          class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2"
+                        >
+                          <i class="mdi mdi-plus me-1"></i>
+                          <a class="text-white" href="/admin/addcategory"
+                            >Add Category</a
+                          >
+                        </button>
+                      </div>
+                    </div>
+                    <!-- end col-->
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table align-middle table-nowrap">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th style="transform: translateX(2.5rem)">Name</th>
+
+                          <th style="transform: translateX(4rem)">
+                            Discription
+                          </th>
+
+                          <th style="transform: translateX(10rem)">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% findcategorys.forEach(category => { %>
+
+                        <tr>
+                          <td>
+                            <div class="form-check font-size-16">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="customerlistcheck01"
+                              />
+                              <label
+                                class="form-check-label"
+                                for="customerlistcheck01"
+                              ></label>
+                            </div>
+                          </td>
+                          <td style="transform: translateX(2.5rem)">
+                            <%=category.name %>
+                          </td>
+
+                          <td style="transform: translateX(4rem)">
+                            <%=category.description %>
+                          </td >
+
+                          <td  style="transform: translate(-1.5rem);" class="text-end">
+                            <a
+                              data-bs-toggle="modal"
+                              data-bs-target="#edit"
+                              data-id="<%=category._id  %>"
+                              data-des="<%=category.description %>"
+                             
+                              onclick="edit('<%=category._id %>','<%=category.name %>',this)"
+                              class="btn btn-success"
+                              >Edit</a>
+
+                              <% if(category.isBlocked==false){  %>
+
+                                <button class="btn btn-danger" onclick="blockCategory('<%=category._id %>')">Block</button>
+
+                                
+                            <% } else{%>
+                                <button class="btn btn-success" onclick="blockCategory('<%=category._id %>')">Unblock</button>
+                                <% }  %>
+                            
+                            
+
+                          </td>
+                        </tr>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <ul
+                    class="pagination pagination-rounded justify-content-end mb-2"
+                  >
+                    <li class="page-item disabled">
+                      <a
+                        class="page-link"
+                        href="javascript: void(0);"
+                        aria-label="Previous"
+                      >
+                        <i class="mdi mdi-chevron-left"></i>
+                      </a>
+                    </li>
+                    <li class="page-item active">
+                      <a class="page-link" href="javascript: void(0);">1</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript: void(0);">2</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript: void(0);">3</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript: void(0);">4</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript: void(0);">5</a>
+                    </li>
+                    <li class="page-item">
+                      <a
+                        class="page-link"
+                        href="javascript: void(0);"
+                        aria-label="Next"
+                      >
+                        <i class="mdi mdi-chevron-right"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+      </div>
+      <!-- End Page-content -->
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              &copy; Symox.
+            </div>
+            <div class="col-sm-6">
+              <div class="text-sm-end d-none d-sm-block">
+                Crafted with <i class="mdi mdi-heart text-danger"></i> by
+                <a
+                  href="https://themesbrand.com/"
+                  target="_blank"
+                  class="text-reset"
+                  >Themesbrand</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- end main content-->
+  </div>
+  <!-- END layout-wrapper -->
+
+  <!-- Right Sidebar -->
+  <a href="#" class="right-bar-toggle layout-setting-btn" id="right-bar-toggle">
+    <i class="icon-sm mb-2" data-feather="settings"></i>
+    <span class="align-middle">Settings</span>
+  </a>
+
+  <!-- /Right-bar -->
+
+  <%- include('../layouts/admin/rightBar.ejs') %>
+
+  <!-- Right bar overlay-->
+  <div class="rightbar-overlay"></div>
+
+  <!-- JAVASCRIPT -->
+
+
+
+  <script>
+    function editcategory() {
+      console.log("helloooo");
+        const id=document.getElementById('iddd').value
+        console.log("id",id)
+      const name = document.getElementById("name");
+      const description = document.getElementById("description");
+      fetch(`/admin/editcategory/${id}`, {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          name: name.value,
+          description: description.value,
+        }),
+      })
+      
+        .then((data) => {
+          console.log("Success:", data);
+          // Handle successful response here
+          if(success){
+            window.location.href='/category'
+          }
+            
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle errors here
+        });
+    }
+
+    const name1 = document.getElementById("name");
+    const description = document.getElementById("description");
+    const idddd=document.getElementById('iddd')
+    const form=document.getElementById('myform')
+
+    function edit(id, name, e) {
+      // document.getElementById('ajaj').da
+  
+        idddd.value=id
+      name1.value = name;
+      description.value = e.dataset.des
+      console.log(form)
+      form.action = `/admin/editcategory/${id}`;
+      console.log(document.getElementById('myform'),id)
+    }
+  </script>
+
+  <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/libs/metismenujs/metismenujs.min.js"></script>
+  <script src="assets/libs/simplebar/simplebar.min.js"></script>/
+  <script src="assets/libs/feather-icons/feather.min.js"></script>
+
+  <!-- apexcharts -->
+  <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+  <!-- Chart JS -->
+  <script src="assets/js/pages/chartjs.js"></script>
+
+  <script src="assets/js/pages/dashboard.init.js"></script>
+
+  <script src="assets/js/app.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+ <script>
+  function blockCategory(categoryId){ 
+    fetch('/admin/blockCategory',{
+      method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({categoryId:categoryId})
+    }).then((res)=>{
+      $('#tablepart').load('/admin/category #tablepart')
+    })
+  }
+ </script>
+
+<!-- Mirrored from themesdesign.in/symox-laravel/layouts/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Feb 2024 16:06:55 GMT -->

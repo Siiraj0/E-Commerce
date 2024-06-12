@@ -1,0 +1,988 @@
+<%- include('../layouts/user/userHeader.ejs') %>
+<body>
+
+    <div class="m                                                                                                                                                                              ain-wrapper">
+        <header class="header-area section-padding-1">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-xl-2 col-lg-2">
+                        <div class="logo logo-width">
+                            <a href="index.html">
+                                <img src="user/assets/images/logo/logo.png" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 d-flex justify-content-center position-static">
+                        <div class="main-menu menu-lh-1 main-menu-padding-1">
+                            <nav>
+                                <ul>
+                                    <li class="position-static"><a  href="/">Home <i class="fa fa-angle-down"></i></a>
+                                        <div class="mega-menu-style-1">
+                                            
+                                        </div>
+                                    </li>
+                                    <li><a href="#">Pages <i class="fa fa-angle-down"></i></a>
+                                        <ul class="sub-menu-width">
+                                            <li><a href="about-us.html">About Us</a></li>
+                                            <li><a href="contact-us.html">Contact Page</a></li>
+                                            <li><a href="404.html">404 Page</a></li>
+                                            <li><a href="comming-soon.html">Comming Soon 01</a></li>
+                                            <li><a href="comming-soon-2.html">Comming Soon 02</a></li>
+                                            <li><a href="faq.html">FAQ</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="/shop">Shop <i class="fa fa-angle-down"></i></a>
+                                       
+                                    </li>
+                                    <li><a href="shop-collection-1.html">Collections <i class="fa fa-angle-down"></i> </a>
+                                        <ul class="sub-menu-width">
+                                            <li><a href="shop-collection-1.html">Shop Collection 01</a></li>
+                                            <li><a href="shop-collection-2.html">Shop Collection 02</a></li>
+                                            <li><a href="shop-metro.html">Shop Metro Layout</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="blog.html">Blog <i class="fa fa-angle-down"></i></a>
+                                        <ul class="sub-menu-width">
+                                            <li><a href="blog.html">Blog Style 01</a></li>
+                                            <li><a href="blog-2.html">Blog Style 02</a></li>
+                                            <li><a href="blog-3.html">Blog Style 03</a></li>
+                                            <li><a href="#">Single Posts <i class="fa fa-angle-right"></i></a>
+                                                <ul class="lavel-menu">
+                                                    <li><a href="blog-details.html">Single Post Style 01</a></li>
+                                                    <li><a href="blog-details-2.html">Single Post Style 02</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="shop-instagram.html">Instagram Shop </a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2">
+                        <div class="header-right-wrap header-right-flex">
+                            <div class="same-style header-wishlist">
+                                <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                            </div>
+                            <div class="same-style cart-wrap">
+                                <a href="#" class="cart-active">
+                                    <i class="dlicon shopping_bag-20"></i>
+                                    <span class="count-style">02</span>
+                                </a>
+                            </div>
+                            <div class="same-style header-search">
+                                <a class="search-active" href="#">
+                                    <i class="dlicon ui-1_zoom"></i>
+                                </a>
+                            </div>
+                            <div class="same-style header-off-canvas">
+                                <a href="<%= locals.user? '/myaccount' : '/login' %> ">
+                                    <!-- <i class="far fa-user-plus" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i> -->
+                                    <i class="far fa-user" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="header-small-mobile section-padding-1">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <div class="mobile-logo logo-width">
+                            <a href="index.html">
+                                <img alt="" src="user/assets/images/logo/logo.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mobile-header-right-wrap">
+                            <div class="header-right-wrap header-right-flex">
+                                <div class="same-style cart-wrap">
+                                    <a href="#" class="cart-active">
+                                        <i class="dlicon shopping_bag-20"></i>
+                                        <span class="count-style">02</span>
+                                    </a>
+                                </div>
+                                <div class="same-style header-off-canvas">
+                                    <a class="header-aside-button" href="#">
+                                        <i class="dlicon ui-3_menu-left"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- search start -->
+        <div class="search-content-wrap main-search-active">
+            <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
+            <div class="search-content">
+                <p>Start typing and press Enter to search</p>
+                <form class="search-form" action="#">
+                    <input type="text" placeholder="Search">
+                    <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
+                </form>
+            </div>
+        </div>
+        <!-- mini cart start -->
+        <div class="sidebar-cart-active">
+            <div class="sidebar-cart-all">
+                <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
+                <div class="cart-content">
+                    <h3>Shopping Cart</h3>
+                    <ul>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="user/assets/images/cart/cart-1.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Bejewelled velvet sandals</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="user/assets/images/cart/cart-2.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Contrast faux fur jacket</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="cart-total">
+                        <h4>Subtotal: <span>$170.00</span></h4>
+                    </div>
+                    <div class="cart-checkout-btn">
+                        <a class="btn-hover cart-btn-style" href="cart.html">view cart</a>
+                        <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- aside start -->
+        <div class="header-aside-active">
+            <div class="header-aside-wrap">
+                <a class="aside-close"><i class="dlicon ui-1_simple-remove"></i></a>
+                <div class="header-aside-content">
+                    <div class="mobile-menu-area">
+                        <div class="mobile-search">
+                            <form class="search-form" action="#">
+                                <input type="text" placeholder="Search entire store…">
+                                <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
+                            </form>
+                        </div>
+                        <div class="mobile-menu-wrap">
+                            <!-- mobile menu start -->
+                            <div class="mobile-navigation">
+                                <!-- mobile menu navigation start -->
+                                <nav>
+                                    <ul class="mobile-menu">
+                                        <li class="menu-item-has-children"><a href="index.html">Home</a>
+                                            <ul class="dropdown">
+                                                <li class="menu-item-has-children"><a href="#">Demo Group 01</a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="index.html">Home 01</a></li>
+                                                        <li><a href="index-2.html">Home 02</a></li>
+                                                        <li><a href="index-3.html">Home 03</a></li>
+                                                        <li><a href="index-4.html">Home 04</a></li>
+                                                        <li><a href="index-5.html">Home 05</a></li>
+                                                        <li><a href="index-6.html">Home 06</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu-item-has-children"><a href="#">Demo Group 02</a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="index-7.html">Home 07</a></li>
+                                                        <li><a href="index-8.html">Home 08</a></li>
+                                                        <li><a href="index-9.html">Home 09</a></li>
+                                                        <li><a href="index-10.html">Home 10</a></li>
+                                                        <li><a href="index-11.html">Home 11</a></li>
+                                                        <li><a href="index-12.html">Home 12</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu-item-has-children"><a href="#">Demo Group 03</a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="index-13.html">Home 13</a></li>
+                                                        <li><a href="index-14.html">Home 14</a></li>
+                                                        <li><a href="index-15.html">Home 15</a></li>
+                                                        <li><a href="index-16.html">Home 16</a></li>
+                                                        <li><a href="index-17.html">Home 17</a></li>
+                                                        <li><a href="index-18.html">Home 18</a></li>
+                                                        <li><a href="index-19.html">Home 19</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children"><a href="#">Pages</a>
+                                            <ul class="dropdown">
+                                                <li><a href="about-us.html">About Us</a></li>
+                                                <li><a href="contact-us.html">Contact Page</a></li>
+                                                <li><a href="404.html">404 Page</a></li>
+                                                <li><a href="comming-soon.html">Comming Soon 01</a></li>
+                                                <li><a href="comming-soon-2.html">Comming Soon 02</a></li>
+                                                <li><a href="faq.html">FAQ</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children "><a href="shop-fullwide.html">shop</a>
+                                            <ul class="dropdown">
+                                                <li class="menu-item-has-children"><a href="#">Shop Layout</a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="shop-fullwide.html">Shop Fullwidth</a></li>
+                                                        <li><a href="shop-sidebar.html">Shop Sidebar</a></li>
+                                                        <li><a href="shop-metro.html">Shop Metro Layout</a></li>
+                                                        <li><a href="shop-3-col.html">Shop 03 Columns</a></li>
+                                                        <li><a href="shop-2-col.html">Shop 02 Columns</a></li>
+                                                        <li><a href="shop-collection-1.html">Shop Collection 01</a></li>
+                                                        <li><a href="shop-collection-2.html">Shop Collection 02</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu-item-has-children"><a href="#">Product Layout</a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="product-details.html">Single 01</a></li>
+                                                        <li><a href="product-details-2.html">Single 02</a></li>
+                                                        <li><a href="product-details-group.html">Grouped</a></li>
+                                                        <li><a href="product-details-sticky.html">Sticky Info</a></li>
+                                                        <li><a href="product-details-configurable.html">Configurable</a></li>
+                                                        <li><a href="product-details-thumbnail.html">Thumbnail</a></li>
+                                                        <li><a href="product-details-video.html">Video</a></li>
+                                                        <li><a href="product-details-affiliate.html">Affiliate</a></li>
+                                                        <li><a href="product-details-sidebar.html">Sidebar</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="menu-item-has-children"><a href="#">Shop Pages </a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="my-account.html">My Account</a></li>
+                                                        <li><a href="checkout.html">Check Out</a></li>
+                                                        <li><a href="cart.html">Shopping Cart</a></li>
+                                                        <li><a href="wishlist.html">Wishlist</a></li>
+                                                        <li><a href="order-tracking.html">Order Tracking</a></li>
+                                                        <li><a href="compare.html">Compare</a></li>
+                                                        <li><a href="login-register.html">login / register</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children "><a href="shop-collection-1.html">Collection</a>
+                                            <ul class="dropdown">
+                                                <li><a href="shop-collection-1.html">Shop Collection 01</a></li>
+                                                <li><a href="shop-collection-2.html">Shop Collection 02</a></li>
+                                                <li><a href="shop-metro.html">Shop Metro Layout</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item-has-children "><a href="blog.html">Blog</a>
+                                            <ul class="dropdown">
+                                                <li><a href="blog.html">Blog Style 01</a></li>
+                                                <li><a href="blog-2.html">Blog Style 02</a></li>
+                                                <li><a href="blog-3.html">Blog Style 03</a></li>
+                                                <li><a href="blog-details.html">Single Post Style 01</a></li>
+                                                <li><a href="blog-details-2.html">Single Post Style 02</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="shop-instagram.html">Instagram Shop </a></li>
+                                    </ul>
+                                </nav>
+                                <!-- mobile menu navigation end -->
+                            </div>
+                            <!-- mobile menu end -->
+                        </div>
+                        <div class="mobile-curr-lang-wrap">
+                            <div class="single-mobile-curr-lang">
+                                <a class="mobile-language-active" href="#">Language <i class="fa fa-angle-down"></i></a>
+                                <div class="lang-curr-dropdown lang-dropdown-active">
+                                    <ul>
+                                        <li><a href="#">English (US)</a></li>
+                                        <li><a href="#">English (UK)</a></li>
+                                        <li><a href="#">Spanish</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="single-mobile-curr-lang">
+                                <a class="mobile-currency-active" href="#">Currency <i class="fa fa-angle-down"></i></a>
+                                <div class="lang-curr-dropdown curr-dropdown-active">
+                                    <ul>
+                                        <li><a href="#">USD</a></li>
+                                        <li><a href="#">EUR</a></li>
+                                        <li><a href="#">Real</a></li>
+                                        <li><a href="#">BDT</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="single-mobile-curr-lang">
+                                <a class="mobile-account-active" href="#">My Account <i class="fa fa-angle-down"></i></a>
+                                <div class="lang-curr-dropdown account-dropdown-active">
+                                    <ul>
+                                        <li><a href="#">Login</a></li>
+                                        <li><a href="#">Creat Account</a></li>
+                                        <li><a href="my-account.html">My Account</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <img src="user/assets/images/icon-img/payments.png" alt="payment">
+                    <p>Pellentesque mollis nec orci id tincidunt. Sed mollis risus eu nisi aliquet, sit amet fermentum justo dapibus.</p>
+                    <div class="aside-contact-info">
+                        <ul>
+                            <li><i class="dlicon ui-2_time-clock"></i>Monday - Friday: 9:00 - 19:00</li>
+                            <li><i class="dlicon ui-1_email-84"></i>Info@la-studioweb.com</li>
+                            <li><i class="dlicon tech-2_rotate"></i>(+55) 254. 254. 254</li>
+                            <li><i class="dlicon ui-1_home-minimal"></i>Helios Tower 75 Tam Trinh Hoang - Ha Noi - Viet Nam</li>
+                        </ul>
+                    </div>
+                    <div class="social-icon-style mb-25">
+                        <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                        <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                        <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
+                        <a class="behance" href="#"><i class="fa fa-behance"></i></a>
+                    </div>
+                    <div class="copyright">
+                        <p>© 2021 <a href="https://hasthemes.com/">Toro.</a> All rights reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+            <div class="container-fluid">
+                <div class="breadcrumb-content text-center">
+                    <div class="breadcrumb-title">
+                        <h2>My Account</h2>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home 01 </a>
+                        </li>
+                        <li><span> &gt; </span></li>
+                        <li class="active"> My Account </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="my-account-area pt-100 pb-95">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-12">
+                        <div class="myaccount-tab-menu nav" role="tablist">
+                            <a href="#dashboad" class="active" data-bs-toggle="tab">
+                                Dashboard</a>
+                            <a href="#orders" data-bs-toggle="tab"> Orders</a>
+                            <a href="#download" data-bs-toggle="tab"> Download</a>
+                            <a href="#address-edit" data-bs-toggle="tab"> address</a>
+                            <a href="#account-info" data-bs-toggle="tab"> Account Details</a>
+                            <a onclick="logout()" > Logout</a>
+                        </div>
+                        <!-- My Account Tab Menu End -->
+                        <!-- My Account Tab Content Start -->
+                        <div class="tab-content" id="myaccountContent">
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <div class="welcome">
+                                        <p>Hello, <strong><%= locals.user.name %></strong> (If Not <strong>Alex Tuntuni !</strong><a href="login-register.html" class="logout"> Logout</a>)</p>
+                                    </div>
+
+                                    <p class="mb-0">From your account dashboard. you can view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
+                                </div>
+                            </div>
+                            <!-- Single Tab Content End -->
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade" id="orders" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <div class="myaccount-table table-responsive text-center">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Order</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                    <th>Total</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Aug 22, 2023</td>
+                                                    <td>Pending</td>
+                                                    <td>$3000</td>
+                                                    <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>July 22, 2023</td>
+                                                    <td>Approved</td>
+                                                    <td>$200</td>
+                                                    <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>June 12, 2023</td>
+                                                    <td>On Hold</td>
+                                                    <td>$990</td>
+                                                    <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Tab Content End -->
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade" id="download" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <div class="myaccount-table table-responsive text-center">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Date</th>
+                                                    <th>Expire</th>
+                                                    <th>Download</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Haven - Free Real Estate PSD Template</td>
+                                                    <td>Aug 22, 2023</td>
+                                                    <td>Yes</td>
+                                                    <td><a href="#" class="check-btn sqr-btn "><i class="fa fa-cloud-download"></i> Download File</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>HasTech - Profolio Business Template</td>
+                                                    <td>Sep 12, 2023</td>
+                                                    <td>Never</td>
+                                                    <td><a href="#" class="check-btn sqr-btn "><i class="fa fa-cloud-download"></i> Download File</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Tab Content End -->
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade" id="address-edit" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <address>
+                                        <p><strong>Alex Tuntuni</strong></p>
+                                        <p>1355 Market St, Suite 900 <br>
+                                San Francisco, CA 94103</p>
+                                        <p>Mobile: (123) 456-7890</p>
+                                    </address>
+                                    <a href="#" class="check-btn sqr-btn "><i class="fa fa-edit"></i> Edit Address</a>
+                                </div>
+                            </div>
+                            <!-- Single Tab Content End -->
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade" id="account-info" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <div class="account-details-form">
+                                        <form action="/myaccount">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="single-input-item">
+                                                        <label for="first-name" class="required">First Name <span>*</span></label>
+                                                        <input type="text" id="first-name" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="single-input-item">
+                                                        <label for="last-name" class="required">Last Name <span>*</span></label>
+                                                        <input type="text" id="last-name" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="single-input-item">
+                                                <label for="display-name" class="required">Display Name <span>*</span></label>
+                                                <input type="text" id="display-name" />
+                                            </div>
+                                            <div class="single-input-item">
+                                                <label for="email" class="required">Email Addres <span>*</span></label>
+                                                <input type="email" id="email" />
+                                            </div>
+                                            <fieldset>
+                                                <legend>Password change</legend>
+                                                <div class="single-input-item">
+                                                    <label for="current-pwd" class="required">Current password (leave blank to leave unchanged)</label>
+                                                    <input type="password" id="current-pwd" />
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="single-input-item">
+                                                            <label for="new-pwd" class="required">New password (leave blank to leave unchanged)</label>
+                                                            <input type="password" id="new-pwd" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="single-input-item">
+                                                            <label for="confirm-pwd" class="required">Confirm new password</label>
+                                                            <input type="password" id="confirm-pwd" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <div class="single-input-item">
+                                                <button class="check-btn sqr-btn ">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- Single Tab Content End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer-area section-padding-1 border-top-3">
+            <div class="container-fluid">
+                <div class="footer-top pt-100 pb-60">
+                    <div class="row">
+                        <div class="footer-column footer-width-24">
+                            <div class="footer-widget footer-about mb-30">
+                                <a href="index.html">
+                                    <img src="user/assets/images/logo/logo.png" alt="logo">
+                                </a>
+                                <p>Lorem ipsum dolor sit amet, magna habemus ius ad, qui minimum voluptar</p>
+                                <div class="social-icon-style-2 social-icon-hm4">
+                                    <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                                    <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                                    <a class="youtube" href="#"><i class="fa fa-youtube"></i></a>
+                                    <a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-column footer-width-12">
+                            <div class="footer-widget footer-info-list-2 mb-30">
+                                <h3 class="footer-title">Company Link</h3>
+                                <ul>
+                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="#">Help Center</a></li>
+                                    <li><a href="#">Our Team</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">The Blog</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer-column footer-width-14">
+                            <div class="footer-widget footer-info-list-2 mb-30">
+                                <h3 class="footer-title">Userful Link</h3>
+                                <ul>
+                                    <li><a href="#">Guides & Articles</a></li>
+                                    <li><a href="#">Customer Reviews</a></li>
+                                    <li><a href="#">Coupon Codes</a></li>
+                                    <li><a href="#">Military Discount</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer-column footer-width-19">
+                            <div class="footer-widget footer-info-list-2 footer-contect mb-30">
+                                <h3 class="footer-title">Contact info</h3>
+                                <ul>
+                                    <li><i class="dlicon ui-2_time-clock"></i> Monday - Friday: 9:00 - 19:00</li>
+                                    <li><i class="dlicon ui-1_email-83"></i> info@example.com</li>
+                                    <li><i class="dlicon tech-2_rotate"></i> (+612) 2531 5600</li>
+                                    <li><i class="dlicon ui-1_home-simple"></i> PO Box 1622 Colins Street West Victoria 8077 Australia</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer-column footer-width-29 mb-30">
+                            <div class="contact-page-map">
+                                <div id="contact-map">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.838709675939!2d144.95320007668528!3d-37.817246734238516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4dd5a05d97%3A0x3e64f855a564844d!2s121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1670477011653!5m2!1sen!2sus" style="border:0;width:100%;height:100%;" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-botoom">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="copyright-2 text-center">
+                                <p>© 2021 <a href="https://hasthemes.com/">Toro.</a> All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div class="support-lists">
+            <ul>
+                <li><a href="#"><i class="dlicon ui-3_chat-46"></i></a></li>
+                <li><a href="#"><i class=" dlicon ui-3_phone"></i></a></li>
+                <li><a href="#"><i class="dlicon ui-1_email-85"></i></a></li>
+            </ul>
+        </div>
+        <div class="view-demo-area">
+            <a class="view-demo-btn-active" href="#">More Demos</a>
+            <div class="view-demo-aside-active">
+                <div class="view-demo-wrap">
+                    <div class="view-demo-tab-list nav">
+                        <a class="active" href="#view-demo-1" data-bs-toggle="tab">
+                            Demo Group 01
+                        </a>
+                        <a href="#view-demo-2" data-bs-toggle="tab">
+                            Demo Group 02
+                        </a>
+                        <a href="#view-demo-3" data-bs-toggle="tab">
+                            Demo Group 03
+                        </a>
+                    </div>
+                    <div class="tab-content jump-2">
+                        <div id="view-demo-1" class="tab-pane active">
+                            <div class="row">
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index.html">
+                                                <img src="user/assets/images/demo-img/h-1.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index.html">Home Demo 01</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-2.html">
+                                                <img src="user/assets/images/demo-img/h-2.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-2.html">Home Demo 02</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-3.html">
+                                                <img src="user/assets/images/demo-img/h-3.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-3.html">Home Demo 03</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-4.html">
+                                                <img src="user/assets/images/demo-img/h-4.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-4.html">Home Demo 04</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-5.html">
+                                                <img src="user/assets/images/demo-img/h-5.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-5.html">Home Demo 05</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-6.html">
+                                                <img src="user/assets/images/demo-img/h-6.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-6.html">Home Demo 06</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-7.html">
+                                                <img src="user/assets/images/demo-img/h-7.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-7.html">Home Demo 07</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-8.html">
+                                                <img src="user/assets/images/demo-img/h-8.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-8.html">Home Demo 08</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="discover-more-btn">
+                                <a href="#">Discover More</a>
+                            </div>
+                        </div>
+                        <div id="view-demo-2" class="tab-pane">
+                            <div class="row">
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-9.html">
+                                                <img src="user/assets/images/demo-img/h-9.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-9.html">Home Demo 09</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-10.html">
+                                                <img src="user/assets/images/demo-img/h-10.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-10.html">Home Demo 10</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-11.html">
+                                                <img src="user/assets/images/demo-img/h-11.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-11.html">Home Demo 11</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-12.html">
+                                                <img src="user/assets/images/demo-img/h-12.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-12.html">Home Demo 12</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-13.html">
+                                                <img src="user/assets/images/demo-img/h-13.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-13.html">Home Demo 13</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-14.html">
+                                                <img src="user/assets/images/demo-img/h-14.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-14.html">Home Demo 14</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-15.html">
+                                                <img src="user/assets/images/demo-img/h-15.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-15.html">Home Demo 15</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-16.html">
+                                                <img src="user/assets/images/demo-img/h-16.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-16.html">Home Demo 16</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="discover-more-btn">
+                                <a href="#">Discover More</a>
+                            </div>
+                        </div>
+                        <div id="view-demo-3" class="tab-pane">
+                            <div class="row">
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-17.html">
+                                                <img src="user/assets/images/demo-img/h-17.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-17.html">Home Demo 17</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-18.html">
+                                                <img src="user/assets/images/demo-img/h-18.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-18.html">Home Demo 18</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 col-sm-6">
+                                    <div class="demo-item mb-40">
+                                        <div class="demo-item-img">
+                                            <a href="index-19.html">
+                                                <img src="user/assets/images/demo-img/h-19.jpg" alt="demo-img">
+                                                <span>View Demo</span>
+                                            </a>
+                                        </div>
+                                        <div class="demo-item-content">
+                                            <h4><a href="index-19.html">Home Demo 19</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="discover-more-btn">
+                                <a href="#">Discover More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All JS is here
+============================================ -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    async function logout() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, log out!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axios.post('/logout');
+                    Swal.fire({
+                        title: "Signed Out!",
+                        text: "You have been logged out.",
+                        icon: "success"
+                    });
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000); 
+                } catch (error) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "An error occurred while logging out.",
+                        icon: "error"
+                    });
+                }
+            }
+        });
+    }
+</script>
+
+    <!-- Modernizer JS -->
+    <script src="user/assets/js/vendor/modernizr-3.11.7.min.js"></script>
+    <!-- jquery -->
+    <script src="user/assets/js/vendor/jquery-v3.6.0.min.js"></script>
+    <!-- Popper JS -->
+    <script src="user/assets/js/vendor/popper.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="user/assets/js/vendor/bootstrap.min.js"></script>
+    <script src="user/assets/js/plugins/owl-carousel.js"></script>
+    <script src="user/assets/js/plugins/slick.js"></script>
+    <script src="user/assets/js/plugins/jarallax.min.js"></script>
+    <script src="user/assets/js/plugins/countdown.js"></script>
+    <script src="user/assets/js/plugins/magnific-popup.js"></script>
+    <script src="user/assets/js/plugins/instafeed.js"></script>
+    <script src="user/assets/js/plugins/tilt.js"></script>
+    <script src="user/assets/js/plugins/images-loaded.js"></script>
+    <script src="user/assets/js/plugins/isotope.js"></script>
+    <script src="user/assets/js/plugins/scrolloverflow-fullpage.js"></script>
+    <script src="user/assets/js/plugins/fullpage.js"></script>
+    <script src="user/assets/js/plugins/jquery-ui.js"></script>
+    <script src="user/assets/js/plugins/jquery-ui-touch-punch.js"></script>
+    <script src="user/assets/js/plugins/easyzoom.js"></script>
+    <script src="user/assets/js/plugins/resizesensor.js"></script>
+    <script src="user/assets/js/plugins/sticky-sidebar.js"></script>
+    <script src="user/assets/js/plugins/scrollup.js"></script>
+    <script src="user/assets/js/plugins/select2.min.js"></script>
+    <script src="user/assets/js/plugins/cookie.js"></script>
+    <script src="user/assets/js/plugins/bpopup.js"></script>
+    <script src="user/assets/js/plugins/wow.js"></script>
+    <script src="user/assets/js/plugins/ajax-mail.js"></script>
+    <!-- Main JS -->
+    <script src="user/assets/js/main.js"></script>
+
+</body>
+
+
+<!-- Mirrored from htmldemo.net/toro/toro/my-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 11:04:56 GMT -->
+</html>

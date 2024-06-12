@@ -1,0 +1,74 @@
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap");
+
+html {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  font-family: "Lato", sans-serif;
+}
+
+section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100vw;
+  min-width: 350px;
+  height: 55vh;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  
+}
+svg {
+  margin: 16px 0;
+}
+title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+p {
+  color: #a3a3a3;
+  font-size: 14px;
+  width: 200px;
+  margin-top: .5px;
+}
+input {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #d2d2d2;
+  margin: 0 10px;
+  
+}
+
+input:focus {
+  border-bottom: 1.5px solid deepskyblue;
+  outline: none;
+}
+
+button {
+  width: 250px;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #33cdff;
+  color: white;
+  cursor: pointer;
+}
+
+.btnot :hover{
+  background-color: black;
+  color: white;
+}
