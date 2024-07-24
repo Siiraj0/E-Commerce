@@ -1,18 +1,197 @@
-<%- include('../layouts/user/userHeader.ejs') %>
+<!doctype html>
+<html class="no-js" lang="en">
 
-<%- include('../layouts/user/nav.ejs') %>
+
+<!-- Mirrored from htmldemo.net/toro/toro/wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 11:04:57 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Toro - Minimal eCommerce HTML Template</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="user/assets/images/favicon.png">
+
+    <!-- All CSS is here
+	============================================ -->
+
+       <!-- Bootstrap CSS -->
+       <link rel="stylesheet" href="/user/assets/css/vendor/bootstrap.min.css" />
+       <!-- Icon Font CSS -->
+       <!-- <link rel="stylesheet" href="/user/assets/css/vendor/font-awesome.css"> -->
+       <link rel="stylesheet" href="/user/assets/css/vendor/dlicon.css" />
+       <!-- Others CSS -->
+       <link rel="stylesheet" href="/user/assets/css/plugins/owl-carousel.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/slick.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/magnific-popup.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/jarallax.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/easyzoom.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/animate.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/fullpage.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/jquery-ui.css" />
+       <link rel="stylesheet" href="/user/assets/css/plugins/select2.min.css" />
+       <link rel="stylesheet" href="/user/assets/css/style.css" />
+       <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+       />
+       <link
+         href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+         rel="stylesheet"
+       />
+     </head>
+   
+
 <body>
-    
+
     <div class="main-wrapper">
-        
-        <%- include('../layouts/user/mobilesection.ejs') %>
-        
+        <header class="header-area section-padding-1">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-xl-2 col-lg-2">
+                        <div class="logo logo-width">
+                            <a href="index.html">
+                                <img src="user/assets/images/logo/logo.png" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 d-flex justify-content-center position-static">
+                        <div class="main-menu menu-lh-1 main-menu-padding-1">
+                            <nav>
+                                <ul>
+                                    <li class="position-static"><a class="active" href="/">Home </a>
+                                        <div class="mega-menu-style-1">
+                                           
+                                        </div>
+                                    </li>
+                                    <li><a href="#">Pages</a>
+                                      
+                                    </li>
+                                    <li><a href="/shop">Shop </a>
+                                        
+                                    </li>
+                                    <li><a href="shop-collection-1.html">Collections </a>
+                                       
+                                    </li>
+                                    <li><a href="blog.html">Blog </a>
+                                       
+                                    </li>
+                                    <li><a href="shop-instagram.html">Instagram Shop </a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2">
+                        <div class="header-right-wrap header-right-flex">
+                            <div class="same-style header-wishlist">
+                                <a href="<%= locals.user? '/wishlist' : '/login' %>"><i class="far fa-heart"></i></a>
+                            </div>
+                            <div class="same-style cart-wrap">
+                                <a href="#" class="cart-active">
+                                    <i class="dlicon shopping_bag-20"></i>
+                                    <span class="count-style">02</span>
+                                </a>
+                            </div>
+                            <div class="same-style header-search">
+                                <a class="search-active" href="#">
+                                    <i class="dlicon ui-1_zoom"></i>
+                                </a>
+                            </div>
+                            <div class="same-style header-off-canvas">
+                                <a href="<%= locals.user? '/myaccount' : '/login' %> ">
+                                    <!-- <i class="far fa-user-plus" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i> -->
+                                    <i class="far fa-user" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="header-small-mobile section-padding-1">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <div class="mobile-logo logo-width">
+                            <a href="index.html">
+                                <img alt="" src="user/assets/images/logo/logo.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mobile-header-right-wrap">
+                            <div class="header-right-wrap header-right-flex">
+                                <div class="same-style cart-wrap">
+                                    <a href="#" class="cart-active">
+                                        <i class="dlicon shopping_bag-20"></i>
+                                        <span class="count-style">02</span>
+                                    </a>
+                                </div>
+                                <div class="same-style header-off-canvas">
+                                    <a class="header-aside-button" href="#">
+                                        <i class="dlicon ui-3_menu-left"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- search start -->
-        
-        <%- include('../layouts/user/searchstart.ejs') %>
+        <div class="search-content-wrap main-search-active">
+            <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
+            <div class="search-content">
+                <p>Start typing and press Enter to search</p>
+                <form class="search-form" action="#">
+                    <input type="text" placeholder="Search">
+                    <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
+                </form>
+            </div>
+        </div>
         <!-- mini cart start -->
-        <%- include('../layouts/user/minicart.ejs') %>
-       
+        <div class="sidebar-cart-active">
+            <div class="sidebar-cart-all">
+                <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
+                <div class="cart-content">
+                    <h3>Shopping Cart</h3>
+                    <ul>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="user/assets/images/cart/cart-1.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Bejewelled velvet sandals</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="user/assets/images/cart/cart-2.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Contrast faux fur jacket</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="cart-total">
+                        <h4>Subtotal: <span>$170.00</span></h4>
+                    </div>
+                    <div class="cart-checkout-btn">
+                        <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
+                        <a class="no-mrg btn-hover cart-btn-style" href="/checkout">checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- aside start -->
         <div class="header-aside-active">
             <div class="header-aside-wrap">
@@ -205,162 +384,81 @@
                 </div>
             </div>
         </div>
-        <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-2">
+        <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
             <div class="container-fluid">
                 <div class="breadcrumb-content text-center">
                     <div class="breadcrumb-title">
-                        <h2>Shop</h2>
+                        <h2>Wishlist</h2>
                     </div>
                     <ul>
                         <li>
-                            <a href="/">Home  </a>
+                            <a href="index.html">Home 01 </a>
                         </li>
                         <li><span> &gt; </span></li>
-                        <li class="active"> shop </li>
+                        <li class="active"> Wishlist </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="shop-area pt-70 pb-100">
+        <div class="wishlist-main-area pt-100 pb-100">
             <div class="container">
-                <div class="shop-top-bar">
-                    <div class="shop-top-bar-left">
-                        <div class="shop-top-show">
-                            <span>Showing 1–12 of 39 results</span>
-                        </div>
-                        <div class="shop-page-list">
-                            <ul>
-                                <li>Show</li>
-                                <li class="active"><a href="#">12</a></li>
-                                <li><a href="#">15</a></li>
-                                <li><a href="#">30</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="shop-top-bar-right">
-                        <div class="shop-tab nav">
-                            <a href="#shop-1" class="active" data-bs-toggle="tab"><i class="dlicon ui-2_grid-45"></i></a>
-                            <a href="#shop-2" data-bs-toggle="tab"><i class="dlicon design_bullet-list-69"></i></a>
-                        </div>
-                        <div class="shop-filter ml-50">
-                            <a class="shop-filter-active" href="#">Filters <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></a>
-                        </div>
-                        <div class="shop-short-by ml-50">
-                            <span>Sort by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
-                            <ul id="sort-options">
-                                <li class="active"><a href="#">Default sorting</a></li>
-                                <li><a href="#">Sort by popularity</a></li>
-                                <li><a href="#">Sort by latest</a></li>
-                                <li><a href="/shop?filter=lowToHigh">Sort by price: low to high</a></li>
-                                <li><a href="/shop?filter=highToLow">Sort by price: high to low</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-filter-wrapper">
-                    <div class="row">
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Price</h5>
-                                <div class="price-filter">
-                                    <ul>
-                                        <li><a href="#">$0.00 - $20.00</a></li>
-                                        <li><a href="#">$20.00 - $40.00</a></li>
-                                        <li><a href="#">$30.00 - $50.00</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Size</h5>
-                                <div class="product-size">
-                                    <ul>
-                                        <li><a href="#">Full Size</a></li>
-                                        <li><a href="#">L</a></li>
-                                        <li><a href="#">M</a></li>
-                                        <li><a href="#">S</a></li>
-                                        <li><a href="#">XL</a></li>
-                                        <li><a href="#">XXL</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Color</h5>
-                                <div class="product-color">
-                                    <ul>
-                                        <li><a href="#">Blue</a></li>
-                                        <li><a href="#">Brown</a></li>
-                                        <li><a href="#">Green</a></li>
-                                        <li><a href="#"> Pink</a></li>
-                                        <li><a href="#">Violet</a></li>
-                                        <li><a href="#"> White</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Brands</h5>
-                                <div class="product-brands">
-                                    <ul>
-                                        <li><a href="#">Airi</a></li>
-                                        <li><a href="#">Draven</a></li>
-                                        <li><a href="#">Mango</a></li>
-                                        <li><a href="#"> Valentino</a></li>
-                                        <li><a href="#">Zara </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-content jump-3 pt-30">
-                    <div id="shop-1" class="tab-pane active">
-                        <div class="row">
-                            <% productData.forEach(product => { %>
-                                <div class="col-lg-4 col-md-6 col-sm-6">
-                                    <div class="product-wrap mb-50">
-                                        <div class="product-img default-overlay mb-25">
-                                            <a href="/product/<%= product._id %>">
-                                                <img class="default-img" src="<%= product.image[0] %>" alt="">
-                                                <img class="hover-img" src="<%= product.image[0] %>" alt="">
-                                            </a>
-                                            <div class="product-action product-action-position-1">
-                                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-2 title-font-width-400 text-center">
-                                            <h3><a href="product-details.html"><%= product.name %></a></h3>
-                                            <div class="product-price">
-                                                <span class="new-price">₹<%= product.price %></span>
-                                            </div>
-                                        </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="table-content table-responsive wishlist-table-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>Product</th>
+                                                    <th>Stock Status</th>
+                                                    <th> Price</th>
+                                                    <th class="wishlist-cart-none"><span>Add to cart</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% if(wishlist  && wishlist.length!==0){ %>
+                                                
+                                                    <% wishlist.products?.forEach((e,i) => { %>
+                                                <tr>
+                                                    <td class="wishlist-remove">
+                                                        <a href="#"><i class="dlicon ui-1_simple-remove"></i></a>
+                                                    </td>
+                                                    <td class="wishlist-img">
+                                                        <a href="#"><img style="width: 5rem; height: 5rem;  border-radius: 50%;" src="<%=e.productId.image[0]  %>" alt=""></a>
+                                                    </td>
+                                                    <td class="wishlist-name">
+                                                        <a href="#"></a>
+                                                    </td>
+                                                    <td class="wishlist-stock">
+                                                <% console.log(e.productId.stock); %>
+                                                        <span><% if(e.productId.stock > 0){ %>
+                                                        <h4>In stock</h4>
+                                                      <%  }else{%>
+                                                       <h4>Out of Stock</h4>
+                                                     <% } %></span>
+                                                    </td>
+                                                    <td class="wishlist-price"><span class="amount"><%= e.productId.price   %></span></td>
+                                                    <td class="wishlist-cart">
+                                                        <a onclick="addcart('<%=e.productId._id %>')">Add to cart</a>
+                                                    </td>
+                                                    <% }); %>
+                                                    <% }else{ %>
+                                                      <p>nothing..</p>
+                                                        <% } %>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            <% }); %>
-                        </div>
+                            </div>
+                        </form>
                     </div>
-                    <div id="shop-2" class="tab-pane">
-                        <!-- Shop-2 content remains unchanged -->
-                    </div>
-                    <!-- pagination -->
-                    <%- include('../layouts/user/userPagination.ejs') %>
                 </div>
             </div>
         </div>
-
-      
-      
         <footer class="footer-area section-padding-1 border-top-3">
             <div class="container-fluid">
                 <div class="footer-top pt-100 pb-60">
@@ -433,147 +531,54 @@
                 </div>
             </div>
         </footer>
+        
        
-       
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span class="dlicon ui-1_simple-remove" aria-hidden="true"></span></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row g-0">
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="quickview-slider-active owl-carousel">
-                                    <a class="img-popup" href="user/assets/images/product/quickview-1.jpg"><img src="user/assets/images/product/quickview-1.jpg" alt=""><span>sold uot</span></a>
-                                    <a class="img-popup" href="user/assets/images/product/quickview-2.jpg"><img src="user/assets/images/product/quickview-2.jpg" alt=""><span>sold uot</span></a>
-                                </div>
-                                <!-- Thumbnail Large Image End -->
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <div class="product-details-content">
-                                    <div class="pro-dec-next-prev">
-                                        <a class="prev" href="#"><i class="dlicon arrows-1_tail-left"></i></a>
-                                        <a class="next" href="#"><i class="dlicon arrows-1_tail-right"></i></a>
-                                    </div>
-                                    <h2 class="uppercase">Quilted parka with hood</h2>
-                                    <h3>$49.00</h3>
-                                    <div class="product-details-peragraph">
-                                        <p>Donec accumsan auctor iaculis. Sed suscipit arcu ligula, at egestas magna molestie a. Proin ac ex maximus, ultrices justo eget, sodales orci. Aliquam libero ac turpis pharetra, in vehicula scelerisque. Vestibulum ut sem laoreet, feugiat tellus at, hendrerit arcu.</p>
-                                    </div>
-                                    <div class="product-details-action-wrap">
-                                        <div class="product-details-quality">
-                                            <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                                            </div>
-                                        </div>
-                                        <div class="product-details-cart">
-                                            <a title="Add to cart" href="#">Add to cart</a>
-                                        </div>
-                                        <div class="product-details-wishlist">
-                                            <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
-                                        </div>
-                                        <div class="product-details-compare">
-                                            <a title="Add to compare" href="#"><i class="dlicon arrows-4_compare"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-details-info">
-                                        <a href="#"><i class="dlicon location_pin"></i>Store availability</a>
-                                        <a href="#"><i class="dlicon envir_car"></i>Delivery and return</a>
-                                        <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
-                                    </div>
-                                    <div class="product-details-meta">
-                                        <span>SKU: REF. LA-140</span>
-                                        <span>Categories: <a href="#">Fashions</a>, <a href="#">Main 01</a>, <a href="#">Main 02</a></span>
-                                        <span>Tags: <a href="#">Blazer</a>, <a href="#">chair</a>, <a href="#">Coat</a>, <a href="#">dress</a>, <a href="#">light</a>, <a href="#">Living</a>, <a href="#">Main 01</a></span>
-                                    </div>
-                                    <div class="social-icon-style-3">
-                                        <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
-                                        <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                                        <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
-                                        <a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
-                                        <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal end -->
     </div>
 
-    <!-- All JS is here 
+    <!-- All JS is here
 ============================================ -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-const pagination = document.getElementById('pagination');
-const content = document.getElementById('content');
-let currentPage = 1;
-const limit = 10; // Adjust based on your requirements
 
-async function fetchData(page) {
-// Replace with your actual API endpoint and parameters
-const response = await fetch(`/items?page=${page}&limit=${limit}`);
-const data = await response.json();
-return data;
-}
-
-function renderData(data) {
-// Clear the content div
-content.innerHTML = '';
-
-// Render the data (Adjust based on your data structure)
-data.forEach(item => {
-    const div = document.createElement('div');
-    div.textContent = item.name;
-    content.appendChild(div);
+async function addcart(id){
+  const {data}= await axios.post(`/addtocart`,{id})
+   if(data.msg=='no user'){
+    window.location.href="/login"
+    
+   }else{
+    const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  }
 });
-}
-
-function updatePagination(newPage) {
-currentPage = newPage;
-
-// Remove the active class from all pagination links
-const links = pagination.querySelectorAll('a');
-links.forEach(link => link.classList.remove('active'));
-
-// Add the active class to the current page link
-const activeLink = pagination.querySelector(`a[data-page="${currentPage}"]`);
-if (activeLink) {
-    activeLink.classList.add('active');
-}
-
-// Fetch and render the new page data
-fetchData(currentPage).then(renderData);
-}
-
-pagination.addEventListener('click', function (event) {
-event.preventDefault();
-const target = event.target.closest('a');
-if (!target) return;
-
-const page = target.getAttribute('data-page');
-if (page === 'next') {
-    updatePagination(currentPage + 1);
-} else {
-    updatePagination(parseInt(page));
-}
+Toast.fire({
+  icon: "success",
+  title: "Signed in successfully"
 });
 
-// Initial load
-fetchData(currentPage).then(renderData);
-});
+   }
+   window.location.reload()
+}
 
+
+
+
+        async function wishlistUpdate(proID, qt) {
+        try {
+            await axios.post('/wishlistupdate', { productId: proID, count: qt });
+        } catch (error) {
+            console.error('Error updating wishlist:', error);
+        }
+    }
 </script>
-
-    <!-- CSS -->
-     
-   
-
     <!-- Modernizer JS -->
     <script src="user/assets/js/vendor/modernizr-3.11.7.min.js"></script>
     <!-- jquery -->
@@ -610,5 +615,5 @@ fetchData(currentPage).then(renderData);
 </body>
 
 
-<!-- Mirrored from htmldemo.net/toro/toro/shop-3-col.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 11:04:30 GMT -->
+<!-- Mirrored from htmldemo.net/toro/toro/wishlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 11:04:57 GMT -->
 </html>

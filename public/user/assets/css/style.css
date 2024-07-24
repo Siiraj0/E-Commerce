@@ -6150,6 +6150,13 @@ textarea:focus {
           align-items: center;
 }
 
+.EachaddressDiv{
+  border: 1px;
+  border-style: solid;
+  border-color: #BDBDBD;
+  border-radius: 3px;
+}
+
 .menu-icon span a {
   display: inline-block;
   border: 2px solid #262626;

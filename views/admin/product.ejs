@@ -49,109 +49,118 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row mb-2">
-                                            <div class="col-sm-4">
-                                                <div class="search-box me-2 mb-2 d-inline-block">
+                                        <div class="row mb-2 align-items-center">
+                                            <div class="col-sm-6 col-md-4">
+                                                <div class="search-box me-2 mb-2 d-inline-block w-100">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="Search...">
+                                                        <input type="text" class="form-control" placeholder="Search..." style="width: 100%;">
                                                         <i class="bx bx-search-alt search-icon"></i>
                                                     </div>
                                                 </div>
                                             </div>
-                                                <div class="text-sm-end">
-                                                    <button type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2"><i class="mdi mdi-plus me-1"></i><a style="color: aliceblue;"  href="/admin/addproduct"> Add Products</a></button>
-                                                </div>
-                                            </div><!-- end col-->
+                                            <div class="col-sm-6 col-md-8 text-sm-end">
+                                                <button type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
+                                                    <i class="mdi mdi-plus me-1"></i>
+                                                    <a style="color: aliceblue;" href="/admin/addproduct">Add Products</a>
+                                                </button>
+                                            </div>
                                         </div>
+                                        
+                                        
 
                                         <div class="table-responsive">
                                             <table class="table align-middle table-nowrap">
                                                 <thead>
                                                     <tr>
-                                                        <th>No</th>
-                                                        <th>Name</th>
-                                                        <th>Discription</th>
-                                                        <th style="transform: translate(-4rem);">Price</th>
-                                                        <th  style="transform: translate(-2rem);">Category</th>
-                                                        <th style="transform: translate(-2rem);">image</th>
-                                                        <th style="transform: translate(.5rem);">Stock</th>
+                                                      <th>No</th>
+                                                      <th>Name</th>
+                                                      <th>Description</th>
+                                                      <th>Price</th>
+                                                      <th>Category</th>
+                                                      <th>Image</th>
+                                                      <th>Stock</th>
+                                                      <th>Actions</th>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                     <% productList.forEach((product,i) => {  %>
-                                                        
-                                                    
-                                                    <tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <% productList.forEach((product, i) => { %>
+                                                      <tr>
+                                                        <td><%= i + 1 %></td>
+                                                        <td class="max-width-100"><%= product.name %></td>
                                                         <td>
-                                                            <div class="form-check font-size-16">
-                                                                <input class="form-check-input" type="checkbox" id="customerlistcheck01">
-                                                                <label class="form-check-label" for="customerlistcheck01"></label>
-                                                            </div>
+                                                          <p class="description"><%= product.description %></p>
                                                         </td>
-                                                        <td><%=product.name %></td>
+                                                        <td><%= product.price %></td>
                                                         <td>
-                                                            <p class="description"><%=product.description %></p>
+                                                          <% if (product.category) { %>
+                                                            <%= product.category.name %>
+                                                          <% } %>
                                                         </td>
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        <td style="transform: translate(-4rem);">
-                                                            <%=product.price  %>
-                                                        </td>
-                                                        <td style="transform: translate(-2rem);">
-                                                            <% if (product.category) { %>
-                                                                <%= product.category.name %>
-                                                            <% } %>
-                                                        </td>
-                                                        <td><img style="width: 50px; height: 50px ;transform: translate(-2rem); " src="<%=product.image[0]  %>" alt=""></td>
-                                                        <td style="transform: translate(.5rem);"><%=product.stock  %></td>
-
+                                                        <td><img src="<%= product.image[0] %>" alt="Product Image"></td>
+                                                        <td><%= product.stock %></td>
                                                         <td>
-                                                            <div class="dropdown">
-                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                  <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                          <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                              <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                              <li>
+                                                                <a href="/admin/editproduct/<%= product._id %>" class="dropdown-item">
+                                                                  <i class="mdi mdi-pencil font-size-16 text-success me-1"></i> Edit
                                                                 </a>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                  <li>
-                                                                    <a href="/admin/editproduct/<%= product._id %>" class="dropdown-item">
-                                                                      <i class="mdi mdi-pencil font-size-16 text-success me-1"></i> Edit
-                                                                    </a>
-                                                                  </li>
-                                                                  <li>
-                                                                    <% if(product.isBlocked == false) { %>
-                                                                      <button class="dropdown-item btn btn-danger" onclick="blockProduct('<%= product._id %>',this)">Block</button>
-                                                                    <% } else { %>
-                                                                      <button class="dropdown-item btn btn-success" onclick="blockProduct('<%= product._id %>',this)">Unblock</button>
-                                                                    <% } %>
-                                                                  </li>
-                                                                </ul>
-                                                              </div>
-                                                              
+                                                              </li>
+                                                              <li>
+                                                                <% if (product.isBlocked == false) { %>
+                                                                  <button class="dropdown-item btn btn-danger" onclick="blockProduct('<%= product._id %>', this)">Block</button>
+                                                                <% } else { %>
+                                                                  <button class="dropdown-item btn btn-success" onclick="blockProduct('<%= product._id %>', this)">Unblock</button>
+                                                                <% } %>
+                                                              </li>
+                                                            </ul>
+                                                          </div>
                                                         </td>
-                                                    </tr>
-                                                   
-                                                    <%  }); %>
-                                                </tbody>
+                                                      </tr>
+                                                    <% }); %>
+                                                  </tbody>
                                             </table>
+                                            <style>
+                                                table {
+                                                  width: 100%;
+                                                  border-collapse: collapse;
+                                                }
+                                                th, td {
+                                                  padding: 8px 16px; /* Adjusted padding for a cleaner look */
+                                                }
+                                                th {
+                                                  background-color: #f2f2f2;
+                                                  text-align: left;
+                                                }
+                                                td img {
+                                                  width: 100px; /* Adjust the width as needed */
+                                                  height: 100px; /* Adjust the height as needed */
+                                                  object-fit: cover;
+                                                }
+                                                .description {
+                                                  max-width: 300px; /* Adjust the width as needed */
+                                                  overflow: hidden;
+                                                  text-overflow: ellipsis;
+                                                  white-space: nowrap;
+                                                }
+                                                .max-width-100 {
+                                                  max-width: 150px; /* Adjusted to give more space for name */
+                                                  overflow: hidden;
+                                                  text-overflow: ellipsis;
+                                                  white-space: nowrap;
+                                                }
+                                                .dropdown-menu-end {
+                                                  right: 0;
+                                                  left: auto;
+                                                }
+                                              </style>
+                                            
+                                            
                                         </div>
-                                        <ul class="pagination pagination-rounded justify-content-end mb-2">
-                                            <li class="page-item disabled">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                                                    <i class="mdi mdi-chevron-left"></i>
-                                                </a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                                                    <i class="mdi mdi-chevron-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                      <%- include('../layouts/admin/adminPagination.ejs') %>
                                     </div>
                                 </div>
                             </div>

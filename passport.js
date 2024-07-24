@@ -67,7 +67,7 @@ module.exports = {
             const {password,...rest} = req.user._doc;
             req.session.userId = rest;
         } 
-        console.log(req.session.userId);
+     
         res.redirect("/");
     },
 };

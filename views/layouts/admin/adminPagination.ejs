@@ -1,0 +1,19 @@
+<!-- Pagination -->
+<ul class="pagination pagination-rounded justify-content-end mb-2">
+    <% if(currentPage > 1){ %>
+        <li class="page-item disabled">
+            <a href="?page=<%= currentPage - 1 %>">Previous<i class="mdi mdi-chevron-left"></i></a>
+        </li>
+    <% } %>
+
+    <% for(let i = 1; i <= totalPages; i++){ %>
+        <li class="page-item <%= currentPage === i ? 'active' : '' %> "><a class="page-link " href="?page=<%= i %>"><%= i %></a></li>
+    <% } %>
+
+    <% if(currentPage < totalPages){ %>
+        <li class="page-item">
+            <a href="?page=<%= currentPage + 1 %>">Next<i class="mdi mdi-chevron-right"></i></a>
+        </li>
+    <% } %>
+</ul>
+<!--  -->

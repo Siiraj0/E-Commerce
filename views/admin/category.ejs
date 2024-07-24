@@ -157,21 +157,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% findcategorys.forEach(category => { %>
+                        <% findcategorys.forEach((category,i) => { %>
 
                         <tr>
                           <td>
-                            <div class="form-check font-size-16">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                id="customerlistcheck01"
-                              />
-                              <label
-                                class="form-check-label"
-                                for="customerlistcheck01"
-                              ></label>
-                            </div>
+                            <%= i+1 %>
                           </td>
                           <td style="transform: translateX(2.5rem)">
                             <%=category.name %>
@@ -303,9 +293,9 @@
 
   <script>
     function editcategory() {
-      console.log("helloooo");
+     
         const id=document.getElementById('iddd').value
-        console.log("id",id)
+      
       const name = document.getElementById("name");
       const description = document.getElementById("description");
       fetch(`/admin/editcategory/${id}`, {

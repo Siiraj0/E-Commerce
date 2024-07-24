@@ -50,7 +50,7 @@
                 <div class="header-right-wrap header-right-flex">
                     <div class="same-style header-wishlist">
                          
-                        <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                        <a href="<%= locals.user? '/wishlist' : '/login' %>"><i class="far fa-heart"></i></a>
                     </div>
                     <div class="same-style cart-wrap">
                         <a href="#" class="cart-active">
@@ -63,12 +63,7 @@
                             <i class="dlicon ui-1_zoom"></i>
                         </a>
                     </div>
-                    <!-- <div class="same-style header-off-canvas">
-                        <i class="fas fa-sign-in-alt"></i>
-                    </div> -->
-                    <!-- <div class="same-style header-off-canvas">
-                        <i class="fas fa-user-plus"></i>
-                    </div> -->
+                   
                     <div class="same-style header-off-canvas">
                         <a href="<%= locals.user? '/myaccount' : '/login' %> ">
                             <!-- <i class="far fa-user-plus" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i> -->

@@ -7,9 +7,9 @@ const morgan = require("morgan");
 const nocache = require("nocache");
 const session = require("express-session");
 const userroutes = require("./routes/userroutes");
-const usercontoller = require("./controllers/usercontroller");
+// const usercontoller = require("./controllers/usercontroller");
 mongoose.connect("mongodb://127.0.0.1:27017/E-commerce");
-const admincontroller = require("./controllers/admincontroller");
+
 const adminroutes = require("./routes/adminroutes");
 // app.use(morgan('dev'));
 

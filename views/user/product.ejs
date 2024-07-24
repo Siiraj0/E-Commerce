@@ -288,7 +288,7 @@
                                         </div>
                                         <a href="#"> (1 customer review)</a>
                                     </div>
-                                    <h3><%= productData.price%></h3>
+                                    <h3>₹<%= productData.price%></h3>
                                     <div class="product-details-peragraph">
                                         <ul>
                                             <li>Composition: 50% cotton,45% polyester, 5% polyamide.</li>
@@ -299,14 +299,14 @@
                                     <div class="product-details-action-wrap">
                                         <div class="product-details-quality">
                                             <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                                                <input class="cart-plus-minus-box"  type="number" name="qtybutton" value="2">
                                             </div>
                                         </div>
                                         <div class="product-details-cart">
                                             <a title="Add to cart" onclick="addcart('<%=productData._id %>')">Add to cart</a>
                                         </div>
                                         <div class="product-details-wishlist">
-                                            <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
+                                            <a  title="Add to wishlist" onclick="addwishlist('<%=productData._id %>')"><i class="fa fa-heart"></i></a>
                                         </div>
                                         <div class="product-details-compare">
                                             <a title="Add to compare" href="#"><i class="dlicon arrows-4_compare"></i></a>
@@ -847,6 +847,38 @@ Toast.fire({
 
    }
 }
+
+
+
+
+
+async function addwishlist(id) {
+  try {
+    const { data } = await axios.post(`/addtowishlist`, { id });
+    if (data.msg === 'no user') {
+      window.location.href = "/login";
+    } else {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Added to wishlist"
+      });
+    }
+  } catch (error) {
+    console.error('Error adding to wishlist:', error);
+  }
+}
+
         // image hovering zoom
         const elem = document.querySelector('.imf');
             let x, y, height, width;

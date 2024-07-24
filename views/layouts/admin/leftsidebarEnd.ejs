@@ -12,7 +12,7 @@
                     </span>
                 </a>
 
-                <a href="index.html" class="logo logo-light">
+                <a href="/admin/index" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="assets/images/logo-sm.svg" alt="" height="22"><span class="logo-txt">Symox</span>
                     </span>
@@ -31,17 +31,12 @@
 
                     <div class="collapse navbar-collapse" id="topnav-menu-content">
                         <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link dropdown-toggle arrow-none" href="/admin/index" id="topnav-dashboard" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class='bx bx-tachometer'></i>
-                                    <span data-key="t-dashboards">Dashboard</span>
-                                </a>
-                            </li>
+                           
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="/admin/user" id="topnav-pages" role="button">
-                                    <i class='bx bx-grid-alt'></i>
+                                    <i class='bx bx-group'></i>
+
                                     <span data-key="t-apps" >Users</span>
                                 </a>
                                 
@@ -50,16 +45,20 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="/admin/category" id="topnav-uielement" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class='bx bxl-bootstrap'></i>
+                                    <i class='bx bx-category'></i>
+
+
                                    <span data-key="t-bootstrap">Category</span> 
                                 </a>
 
                                
                             </li>
+                           
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="/admin/product" id="topnav-pages" role="button">
-                                    <i class='bx bx-grid-alt'></i>
+                                    <i class='bx bx-package'></i>
+
                                     <span data-key="t-apps">Products</span> <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-pages">
@@ -69,49 +68,31 @@
                                     
                                 </div>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="/admin/orders" id="topnav-uielement" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class='bx bx-cart'></i>
+
+                                   <span data-key="t-bootstrap">Orders</span> 
+                                </a>
+
+                               
+                            </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-more" role="button">
-                                <i class='bx bx-file'></i>
-                                    <span data-key="t-pages">Pages</span> <div class="arrow-down"></div>
+                                <a class="nav-link dropdown-toggle arrow-none" href="/admin/coupons" id="topnav-more" role="button">
+                                    <i class="fas fa-ticket-alt"></i>
+
+                                    <span data-key="t-pages">Coupons</span>
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-more">
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-auth"
-                                            role="button">
-                                            <span data-key="t-authentication">Authentication</span> <div class="arrow-down"></div>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="topnav-auth">
-                                            <a href="auth-login.html" class="dropdown-item" data-key="t-login">Login</a>
-                                            <a href="auth-register.html" class="dropdown-item" data-key="t-register">Register</a>
-                                            <a href="auth-recoverpw.html" class="dropdown-item" data-key="t-recover-password">Recover Password</a>
-                                            <a href="auth-lock-screen.html" class="dropdown-item" data-key="t-lock-screen">Lock Screen</a>
-                                            <a href="auth-logout.html" class="dropdown-item" data-key="t-logout">Log Out</a>
-                                            <a href="auth-confirm-mail.html" class="dropdown-item" data-key="t-confirm-mail">Confirm Mail</a>
-                                            <a href="auth-email-verification.html" class="dropdown-item" data-key="t-email-verification">Email Verification</a>
-                                            <a href="auth-two-step-verification.html" class="dropdown-item" data-key="t-two-step-verification">Two Step Verification</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-utility"
-                                            role="button">
-                                            <span data-key="t-utility">Utility</span> <div class="arrow-down"></div>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="topnav-utility">
-                                            <a href="pages-starter.html" class="dropdown-item" data-key="t-starter-page">Starter Page</a>
-                                            <a href="pages-maintenance.html" class="dropdown-item" data-key="t-maintenance">Maintenance</a>
-                                            <a href="pages-comingsoon.html" class="dropdown-item" data-key="t-coming-soon">Coming Soon</a>
-                                            <a href="pages-timeline.html" class="dropdown-item" data-key="t-timeline">Timeline</a>
-                                            <a href="pages-faqs.html" class="dropdown-item" data-key="t-faqs">FAQs</a>
-                                            <a href="pages-pricing.html" class="dropdown-item" data-key="t-pricing">Pricing</a>
-                                            <a href="pages-404.html" class="dropdown-item" data-key="t-error-404">Error 404</a>
-                                            <a href="pages-500.html" class="dropdown-item" data-key="t-error-500">Error 500</a>
-                                        </div>
-                                    </div>
-
-                                    <a href="layouts-vertical.html" class="dropdown-item" data-key="t-vertical">Vertical</a>
-                                </div>
+                         
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="/admin/offers" id="topnav-pages" role="button">
+                                    <i class='bx bx-gift'></i>
+                                    <span data-key="t-apps" >offers</span>
+                                </a>
+                                
                             </li>
 
                         </ul>

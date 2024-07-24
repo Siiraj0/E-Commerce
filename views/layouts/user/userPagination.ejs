@@ -1,0 +1,21 @@
+<div class="pro-pagination-style text-center">
+    <ul>
+        <% if(currentPage > 1){ %>
+            <li>
+                <a href="?page=<%= currentPage - 1 %>"><i class="dlicon arrows-1_tail-left"></i></a>
+            </li>
+        <% } %>
+
+        <% for(let i = 1; i <= totalPages; i++ ){ %>
+            <li>
+                <a class="<%= currentPage === i ? 'active' : '' %>" href="?page=<%= i %>"><%= i %></a>
+            </li>
+        <% } %>
+
+        <% if(currentPage < totalPages){ %>
+            <li>
+                <a href="?page=<%= currentPage + 1 %>"><i class="dlicon arrows-1_tail-right"></i></a>
+            </li>
+        <% } %>
+    </ul>
+</div>

@@ -18,12 +18,12 @@
                         <div class="main-menu menu-lh-1 main-menu-padding-1">
                             <nav>
                                 <ul>
-                                    <li class="position-static"><a class="active" href="/">Home <i class="fa fa-angle-down"></i></a>
+                                    <li class="position-static"><a class="active" href="/">Home </a>
                                         <div class="mega-menu-style-1">
                                             
                                         </div>
                                     </li>
-                                    <li><a href="#">Pages <i class="fa fa-angle-down"></i></a>
+                                    <li><a href="#">Pages </a>
                                         <ul class="sub-menu-width">
                                             <li><a href="about-us.html">About Us</a></li>
                                             <li><a href="contact-us.html">Contact Page</a></li>
@@ -36,14 +36,14 @@
                                     <li><a href="/shop">Shop</a>
                                         
                                     </li>
-                                    <li><a href="shop-collection-1.html">Collections <i class="fa fa-angle-down"></i> </a>
+                                    <li><a href="shop-collection-1.html">Collections  </a>
                                         <ul class="sub-menu-width">
                                             <li><a href="shop-collection-1.html">Shop Collection 01</a></li>
                                             <li><a href="shop-collection-2.html">Shop Collection 02</a></li>
                                             <li><a href="shop-metro.html">Shop Metro Layout</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="blog.html">Blog <i class="fa fa-angle-down"></i></a>
+                                    <li><a href="blog.html">Blog </a>
                                         <ul class="sub-menu-width">
                                             <li><a href="blog.html">Blog Style 01</a></li>
                                             <li><a href="blog-2.html">Blog Style 02</a></li>
@@ -64,7 +64,7 @@
                     <div class="col-xl-2 col-lg-2">
                         <div class="header-right-wrap header-right-flex">
                             <div class="same-style header-wishlist">
-                                <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
+                                <a href="/wishlist"><i class="far fa-heart"></i></a>
                             </div>
                             <div class="same-style cart-wrap">
                                 <a href="#" class="cart-active">
@@ -78,8 +78,10 @@
                                 </a>
                             </div>
                             <div class="same-style header-off-canvas">
-                                <a class="header-aside-button" href="#">
-                                    <i class="dlicon ui-3_menu-left"></i>
+                                <% console.log(locals.user,"anahaj"); %>
+                                <a href="<%= locals.user? '/myaccount' : '/login' %> ">
+                
+                                    <i class="far fa-user" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i>
                                 </a>
                             </div>
                         </div>
@@ -164,8 +166,8 @@
                         <h4>Subtotal: <span>$170.00</span></h4>
                     </div>
                     <div class="cart-checkout-btn">
-                        <a class="btn-hover cart-btn-style" href="cart.html">view cart</a>
-                        <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
+                        <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
+                        <a class="no-mrg btn-hover cart-btn-style" href="/checkout">checkout</a>
                     </div>
                 </div>
             </div>
@@ -185,113 +187,9 @@
                         <div class="mobile-menu-wrap">
                             <!-- mobile menu start -->
                             <div class="mobile-navigation">
-                                <!-- mobile menu navigation start -->
-                                <nav>
-                                    <ul class="mobile-menu">
-                                        <li class="menu-item-has-children"><a href="index.html">Home</a>
-                                            <ul class="dropdown">
-                                                <li class="menu-item-has-children"><a href="#">Demo Group 01</a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="index.html">Home 01</a></li>
-                                                        <li><a href="index-2.html">Home 02</a></li>
-                                                        <li><a href="index-3.html">Home 03</a></li>
-                                                        <li><a href="index-4.html">Home 04</a></li>
-                                                        <li><a href="index-5.html">Home 05</a></li>
-                                                        <li><a href="index-6.html">Home 06</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu-item-has-children"><a href="#">Demo Group 02</a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="index-7.html">Home 07</a></li>
-                                                        <li><a href="index-8.html">Home 08</a></li>
-                                                        <li><a href="index-9.html">Home 09</a></li>
-                                                        <li><a href="index-10.html">Home 10</a></li>
-                                                        <li><a href="index-11.html">Home 11</a></li>
-                                                        <li><a href="index-12.html">Home 12</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu-item-has-children"><a href="#">Demo Group 03</a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="index-13.html">Home 13</a></li>
-                                                        <li><a href="index-14.html">Home 14</a></li>
-                                                        <li><a href="index-15.html">Home 15</a></li>
-                                                        <li><a href="index-16.html">Home 16</a></li>
-                                                        <li><a href="index-17.html">Home 17</a></li>
-                                                        <li><a href="index-18.html">Home 18</a></li>
-                                                        <li><a href="index-19.html">Home 19</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children"><a href="#">Pages</a>
-                                            <ul class="dropdown">
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="contact-us.html">Contact Page</a></li>
-                                                <li><a href="404.html">404 Page</a></li>
-                                                <li><a href="comming-soon.html">Comming Soon 01</a></li>
-                                                <li><a href="comming-soon-2.html">Comming Soon 02</a></li>
-                                                <li><a href="faq.html">FAQ</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children "><a href="shop-fullwide.html">shop</a>
-                                            <ul class="dropdown">
-                                                <li class="menu-item-has-children"><a href="#">Shop Layout</a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="shop-fullwide.html">Shop Fullwidth</a></li>
-                                                        <li><a href="shop-sidebar.html">Shop Sidebar</a></li>
-                                                        <li><a href="shop-metro.html">Shop Metro Layout</a></li>
-                                                        <li><a href="shop-3-col.html">Shop 03 Columns</a></li>
-                                                        <li><a href="shop-2-col.html">Shop 02 Columns</a></li>
-                                                        <li><a href="shop-collection-1.html">Shop Collection 01</a></li>
-                                                        <li><a href="shop-collection-2.html">Shop Collection 02</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu-item-has-children"><a href="#">Product Layout</a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="product-details.html">Single 01</a></li>
-                                                        <li><a href="product-details-2.html">Single 02</a></li>
-                                                        <li><a href="product-details-group.html">Grouped</a></li>
-                                                        <li><a href="product-details-sticky.html">Sticky Info</a></li>
-                                                        <li><a href="product-details-configurable.html">Configurable</a></li>
-                                                        <li><a href="product-details-thumbnail.html">Thumbnail</a></li>
-                                                        <li><a href="product-details-video.html">Video</a></li>
-                                                        <li><a href="product-details-affiliate.html">Affiliate</a></li>
-                                                        <li><a href="product-details-sidebar.html">Sidebar</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="menu-item-has-children"><a href="#">Shop Pages </a>
-                                                    <ul class="dropdown">
-                                                        <li><a href="my-account.html">My Account</a></li>
-                                                        <li><a href="checkout.html">Check Out</a></li>
-                                                        <li><a href="cart.html">Shopping Cart</a></li>
-                                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                                        <li><a href="order-tracking.html">Order Tracking</a></li>
-                                                        <li><a href="compare.html">Compare</a></li>
-                                                        <li><a href="login-register.html">login / register</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children "><a href="shop-collection-1.html">Collection</a>
-                                            <ul class="dropdown">
-                                                <li><a href="shop-collection-1.html">Shop Collection 01</a></li>
-                                                <li><a href="shop-collection-2.html">Shop Collection 02</a></li>
-                                                <li><a href="shop-metro.html">Shop Metro Layout</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children "><a href="blog.html">Blog</a>
-                                            <ul class="dropdown">
-                                                <li><a href="blog.html">Blog Style 01</a></li>
-                                                <li><a href="blog-2.html">Blog Style 02</a></li>
-                                                <li><a href="blog-3.html">Blog Style 03</a></li>
-                                                <li><a href="blog-details.html">Single Post Style 01</a></li>
-                                                <li><a href="blog-details-2.html">Single Post Style 02</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="shop-instagram.html">Instagram Shop </a></li>
-                                    </ul>
-                                </nav>
-                                <!-- mobile menu navigation end -->
+                              
+                                
+                               
                             </div>
                             <!-- mobile menu end -->
                         </div>
@@ -402,7 +300,7 @@
                                                 <% if(cart  && cart.length!==0){ %>
                                                 
                                                     <% cart.products?.forEach((e,i) => { %>
-                                                        <% console.log(e); %>
+                                                        
                                                         <tr id="cartItem_<%= i %>">
                                                             <td class="product-remove">
                                                                 <a onclick="remove('<%= e.productId._id %>', '<%= i %>')" >
@@ -414,18 +312,18 @@
                                                         <a href="#"><img src="<%= e.productId.image[0] %>" alt="" class="small-img"></a>
                                                     </td>
                                                     <td class="product-name" style="transform: translate(2.5rem);"> <a  href="#"><p><%= e.productId.name %></p></a></td>
-                                                    <td class="product-price"><span class="amount"><%= e.productId.price %></span></td>
+                                                    <td class="product-price"><span class="amount">₹<%= e.productId.price %></span></td>
                                                     <td class="cart-quantity">
                                                         <div style="padding: 0 .5rem;" class="product-details-quantity quantity-width-cart">
                                                             <div style="cursor: pointer; display: flex; align-items: center; position: relative;">
                                                                 <i onclick="plus(this, '<%= e.productId.stock %>', '<%= e.productId._id %>')" class="ri-add-line" style="position: absolute; left: 0.2rem;"></i>
-                                                                <input class="cart-plus-minus-box" style="cursor: text; text-align: center;" type="text" name="qtybutton" value="<%= e.count %>">
+                                                                <input class="cart-plus-minus-box" style="cursor: text; text-align: center;" type="text" name="qtybutton" value="<%= e.count %>" data-price="<%= e.productId.price %>">
+
                                                                 <i onclick="minus(this, '<%= e.productId._id %>')" class="ri-subtract-line" style="position: absolute; left: 85%;"></i>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="product-total"><span>$<%= e.productId.price * 2 %></span></td>
-                                                </tr>
+                                                    <td class="product-total"><span>₹<%= e.productId.price * e.count %></span></td>                                                </tr>
                                                 <% }); %>
                                                 <% }else{ %>
                                                   <p>nothing..</p>
@@ -451,13 +349,18 @@
                                         <h4>Cart totals</h4>
                                         <div class="grand-total-content">
                                             <ul>
-                                                <li>Subtotal <span> $87.00</span></li>
-                                                <li>Total <span>$87.00</span> </li>
+                                                <li>Subtotal <span id="cart-subtotal">₹0.00</span></li>
+                                                <li>Total <span id="cart-total">₹0.00</span></li>
                                             </ul>
                                         </div>
+                                        
                                         <div class="grand-btn">
-                                            <a href="#">Proceed to checkout</a>
+                                            <% if( locals.cart.products?.length >  0 ){ %>
+
+                                                <a href="/checkout?total=<span id='cart-total'></span>">Proceed to checkout</a>
+                                                <% } %>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -598,42 +501,63 @@
 </script>
 
 
-
 <script>
- 
- 
     async function plus(e, qt, proID) {
-    const g = e.nextElementSibling;
-    if (qt > Number(g.value)) {
-        g.value = Number(g.value) + 1;
-    } else {
-        g.value = qt;
+        const g = e.nextElementSibling;
+        if (qt > Number(g.value)) {
+            g.value = Number(g.value) + 1;
+        } else {
+            g.value = qt;
+        }
+        updateTotal(e);
+        await cartUpdate(proID, g.value);
     }
-    await cartupdate(proID, g.value);
+    
+    async function minus(e, proID) {
+        const g = e.previousElementSibling;
+        if (Number(g.value) > 1) {
+            g.value = Number(g.value) - 1;
+        }
+        updateTotal(e);
+        await cartUpdate(proID, g.value);
+    }
+    
+    async function cartUpdate(proID, qt) {
+        try {
+            await axios.post('/cartupdate', { productId: proID, count: qt });
+        } catch (error) {
+            console.error('Error updating cart:', error);
+        }
+    }
+    
+    function updateTotal(e) {
+    const row = e.closest('tr');
+    const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value);
+    const price = parseFloat(row.querySelector('.cart-plus-minus-box').dataset.price);
+    const totalElement = row.querySelector('.product-total span');
+    totalElement.textContent = '₹' + (price * quantity).toFixed(2);
+
+    updateCartSummary();
 }
 
-async function minus(e,proID,cnt){
-  
-    const g=e.previousElementSibling
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartSummary();
+});
 
-    if(Number(g.value)>1){
+function updateCartSummary() {
+    let subtotal = 0;
+    document.querySelectorAll('.product-total span').forEach(item => {
+        subtotal += parseFloat(item.textContent.replace('₹', ''));
+    });
 
-        g.value=Number(g.value)-1
-    }
-await cartupdate(proID,g.value)
- }
+    const total = subtotal; // Adjust if there are additional charges or discounts
+    document.getElementById('cart-subtotal').textContent = '₹' + subtotal.toFixed(2);
+    document.getElementById('cart-total').textContent = '₹' + total.toFixed(2);
+}
 
 
- 
- async function cartupdate(proID,qt){
-     
-    await axios.post('/cartupdate',{productId:proID,count:qt})
+    </script>
     
- }
-
-
-</script>
-
 <style>
     .small-img {
     width: 100px;

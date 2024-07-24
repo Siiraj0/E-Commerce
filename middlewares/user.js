@@ -15,6 +15,13 @@ const existUser= (req,res,next)=>{
     }
 }
 
+// const validateUpdateProfile = [
+//     body('name').notEmpty().withMessage('Name is required'),
+//     body('email').isEmail().withMessage('Valid email is required'),
+//     body('mobile').isMobilePhone().withMessage('Valid mobile number is required'),
+//     body('newPwd').optional().isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+//     body('confirmPwd').optional().custom((value, { req }) => value === req.body.newPwd).withMessage('Passwords must match')
+//   ];
 
 
 
@@ -23,5 +30,6 @@ const existUser= (req,res,next)=>{
 
 module.exports={
     userIn,
-    existUser
+    existUser,
+    // validateUpdateProfile,
 }
