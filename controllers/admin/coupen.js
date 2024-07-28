@@ -1,8 +1,10 @@
 const couponModel= require('../../models/coupon')
 
-const loadCoupons=(req,res)=>{
+const loadCoupons = async (req,res)=>{
     try {
-        res.render('admin/coupons')
+        const couponData = await couponModel.find({})
+        
+        res.render('admin/coupons',{couponData})
     } catch (error) {
         console.log(error.messege);
     }
@@ -31,12 +33,10 @@ function generateRandomString() {
 
 const addCoupons = async (req, res) => {
     try {
-        const { couponname, couponDescription, percentage, endDate, minAmount } = req.body;
+        const { couponname, couponDescription, percentage, endDate, minAmount, count } = req.body;
 
-        // Log the received body
-        console.log('Request body:', req.body);
 
-        if (!couponname || !couponDescription || !percentage || !endDate || !minAmount) {
+        if (!couponname || !couponDescription || !percentage || !endDate || !minAmount || !count) {
             console.log('Validation error: Missing required fields');
             return res.status(400).send("All fields are required");
         }
@@ -55,6 +55,13 @@ const addCoupons = async (req, res) => {
             return res.status(400).send("Invalid minimum amount value");
         }
 
+        // Ensure count is a number and greater than 0
+        const countNum = parseInt(count, 10);
+        if (isNaN(countNum) || countNum <= 0) {
+            console.log('Validation error: Invalid count value');
+            return res.status(400).send("Invalid count value");
+        }
+
         // Ensure endDate is a valid date
         const endDateObj = new Date(endDate);
         if (isNaN(endDateObj.getTime())) {
@@ -63,7 +70,7 @@ const addCoupons = async (req, res) => {
         }
 
         const couponCode = generateRandomString();
-        console.log('Generated coupon code:', couponCode);
+        
 
         const addedCoupon = await couponModel.create({
             couponName: couponname,
@@ -71,6 +78,7 @@ const addCoupons = async (req, res) => {
             couponDescription: couponDescription,
             percentage: percentageNum,
             minAmount: minAmountNum,
+            count: countNum,
             startDate: new Date(),
             endDate: endDateObj
         });
@@ -90,9 +98,91 @@ const addCoupons = async (req, res) => {
     }
 };
 
+const saveEditCoupon = async (req, res) => {
+    try {
+
+        const {
+            couponId,
+            couponName,
+            couponPercentage,
+            couponDescription,
+            couponMinAmount,
+            couponExpiryDate,
+            couponCount
+        } = req.body;
+
+     
+        const saved = await couponModel.findOneAndUpdate(
+            { _id: couponId },
+            {
+                $set: {
+                    couponName,
+        
+                    percentage: couponPercentage,
+                    couponDescription,
+                    minAmount: couponMinAmount,
+                    endDate: couponExpiryDate,
+                    count: couponCount
+                }
+            }
+        );
+
+        res.json({ success: true });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+
+const editdata = async (req, res) => {
+    try {
+        const idd = req.body.id;
+        const findingCoupon = await couponModel.findOne({_id: idd});
+        res.json({
+            couponName: findingCoupon.couponName,
+            couponCode: findingCoupon.couponCode,
+            couponDescription: findingCoupon.couponDescription,
+            percentage: findingCoupon.percentage,
+            minAmount: findingCoupon.minAmount,
+            endDate: findingCoupon.endDate,
+            count: findingCoupon.count  // New line
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({error: "Server error"});
+    }
+}
+
+
+const validateCoupon = async(req, res) =>{
+    try{
+        const {couponCode} = req.body
+        const foundCoupon = await coupon.findOne({couponCode : couponCode})
+        // console.log(foundCoupon);
+
+        if(foundCoupon){
+            const valid = foundCoupon.endDate > new Date();
+            if(valid){
+                res.json({success:true})
+            }else{
+                res.json({expired:true})
+            }
+
+        } else {
+            res.json({notFound:true})
+        }
+    }catch(error){
+        console.log(error.message);
+    }
+}
 
 
 module.exports={
     loadCoupons,
     addCoupons,
+    saveEditCoupon,
+    editdata,
+    validateCoupon,
+    
 }

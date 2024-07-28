@@ -35,8 +35,12 @@ adminRoute.get('/coupons', couponController.loadCoupons);
 adminRoute.get('/offers', offerController.loadOffers);
 adminRoute.get('/orderdetails/:id',ordersController.orderDetails);
 adminRoute.post('/addCoupons',couponController.addCoupons)
-
-
-
+adminRoute.patch('/saveEditCoupons', couponController.saveEditCoupon)
+adminRoute.post('/editdata', couponController.editdata)
+adminRoute.get('/addOffer', offerController.loadAddOffer)
+adminRoute.post('/addOffer',  offerController.addOffer)
+adminRoute.get('/editOffer/:id', offerController.loadEditOffer)
+adminRoute.post('/editOffer', offerController.editOffer)
+adminRoute.patch('/offerDelete',  offerController.offerDelete)
 
 module.exports = adminRoute;

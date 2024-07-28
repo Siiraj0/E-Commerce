@@ -341,17 +341,7 @@
                             
                             </strong>
                             
-                            <a
-                            data-bs-toggle="modal"
-                            data-bs-target="#edit"
-                            data-id="<%=user._id %>"
-                            data-email="<%=user.email  %>"
-                            data-mobile="<%=user.mobile  %>"
-                           
-                            onclick="edit('<%=locals.user._id %>','<%=locals.user.name %>','<%=locals.user.email %>','<%=locals.user.mobile %>')"
-                            class="btn btn-success"
-                            >Edit</a>
-
+                         
                           </div>
                           
                   </div>
@@ -579,150 +569,133 @@
       </div>
     </div>
 
-    <!-- edituserAddress -->
-
-    <div
-            class="modal fade"
-            id="edit"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog" >
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">
-                    Edit Address
-                  </h1>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <form method="post" action="/editUser/:id" id="myform" >
-                  <div class="modal-body">
-                    <div class="form-floating mb-3">
-                      <input
-                        required
-                        type="text"
-                        name="name"
-                        class="form-control"
-                        id="name" 
-                        placeholder="namegfhkjample.com"
-                      />
-                      <label for="name">Name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                      <input
-                        required
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        id="email"
-                        placeholder="namegdfd.com"
-                        value="nee aaarraaaadaa"  
-                      />
-                      <label for="Email">Email</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                      <input
-                        required
-                        type="number"
-                        name="mobile"
-                        class="form-control"
-                        id="mobile"
-                        placeholder="namegdfd.com"
-                        
-                      />
-                      <label for="Mobile">Mobile</label>
-                    </div>
-                  </div>
-                  <input type="hidden" id="iddd">
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="submit"
-                      onclick="editUser()"
-                      class="btn btn-primary"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
 
     <!-- add adress modal -->
     <div class="modal" id="addAddress" tabindex="-1">
-        <div class="modal-dialog">
+      <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">New Address</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                    <form action="/addAddress" method="post" onsubmit="return validateForm()">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name :</label>
-                            <input type="text" class="form-control" id="nameId"
-                                name="name" placeholder="Enter Name">
-                                <p id="nameError" class="text-danger "></p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="mobile" class="form-label">Mobile :</label>
-                            <input type="number" class="form-control" id="mobileId"
-                                name="mobile" placeholder="Enter Mobile number">
-                                <p id="mobileError" class="text-danger "></p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="pincode" class="form-label">Pincode :</label>
-                            <input type="number" class="form-control" id="pincodeId"
-                                name="pincode" placeholder="Enter Pincode">
-                                <p id="pincodeError" class="text-danger "></p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="state" class="form-label">State :</label>
-                            <input type="text" class="form-control" id="stateId"
-                                name="state" placeholder="Enter State">
-                                <p id="stateError" class="text-danger "></p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="street" class="form-label">Address :</label>
-                            <input type="text" class="form-control" id="streetId"
-                                name="streetAddress" placeholder="eg. House No, Street, Area">
-                                <p id="streetError" class="text-danger "></p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="locality" class="form-label">Locality/ Town :</label>
-                            <input type="text" class="form-control" id="localityId"
-                                name="locality" placeholder="Enter Locality">
-                                <p id="localityError" class="text-danger "></p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="city" class="form-label">City/ District :</label>
-                            <input type="text" class="form-control" id="cityId"
-                                name="city" placeholder="Enter City">
-                                <p id="cityError" class="text-danger "></p>
-                        </div>
-                        <p id="adEmptyError" class="text-danger"></p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit"  class="btn btn-primary">Save changes</button>
-            </div>
-            </form>
+              <div class="modal-header">
+                  <h4 class="modal-title">New Address</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-4">
+                  <form action="/addAddress" method="post" onsubmit="return validateForm()">
+                      <div class="mb-3">
+                          <label for="name" class="form-label">Name :</label>
+                          <input type="text" class="form-control" id="nameId" name="name" placeholder="Enter Name">
+                          <p id="nameError" class="text-danger"></p>
+                      </div>
+                      <div class="mb-3">
+                          <label for="mobile" class="form-label">Mobile :</label>
+                          <input type="number" class="form-control" id="mobileId" name="mobile" placeholder="Enter Mobile number">
+                          <p id="mobileError" class="text-danger"></p>
+                      </div>
+                      <div class="mb-3">
+                          <label for="pincode" class="form-label">Pincode :</label>
+                          <input type="number" class="form-control" id="pincodeId" name="pincode" placeholder="Enter Pincode">
+                          <p id="pincodeError" class="text-danger"></p>
+                      </div>
+                      <div class="mb-3">
+                          <label for="state" class="form-label">State :</label>
+                          <input type="text" class="form-control" id="stateId" name="state" placeholder="Enter State">
+                          <p id="stateError" class="text-danger"></p>
+                      </div>
+                      <div class="mb-3">
+                          <label for="street" class="form-label">Address :</label>
+                          <input type="text" class="form-control" id="streetId" name="streetAddress" placeholder="eg. House No, Street, Area">
+                          <p id="streetError" class="text-danger"></p>
+                      </div>
+                      <div class="mb-3">
+                          <label for="locality" class="form-label">Locality/ Town :</label>
+                          <input type="text" class="form-control" id="localityId" name="locality" placeholder="Enter Locality">
+                          <p id="localityError" class="text-danger"></p>
+                      </div>
+                      <div class="mb-3">
+                          <label for="city" class="form-label">City/ District :</label>
+                          <input type="text" class="form-control" id="cityId" name="city" placeholder="Enter City">
+                          <p id="cityError" class="text-danger"></p>
+                      </div>
+                      <p id="adEmptyError" class="text-danger"></p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+                  </form>
+              </div>
           </div>
-        </div>
-  </div>
+      </div>
+  </div>
+  
+
+<!-- add address modal end  -->
+
+<!-- editAddress modal start -->
+
+<div class="modal" id="editAddressModal" tabindex="-1">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Edit Address</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+              <input type="hidden" id="addressId" name="addressId" value="">
+              <div class="mb-3">
+                  <label for="editNameId" class="form-label">Name :</label>
+                  <input type="text" class="form-control" id="editNameId" name="name" placeholder="Enter Name">
+                  <p id="editNameError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                  <label for="editMobileId" class="form-label">Mobile :</label>
+                  <input type="number" class="form-control" id="editMobileId" name="mobile" placeholder="Enter Mobile number">
+                  <p id="editMobileError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                  <label for="editPincodeId" class="form-label">Pincode :</label>
+                  <input type="number" class="form-control" id="editPincodeId" name="pincode" placeholder="Enter Pincode">
+                  <p id="editPincodeError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                  <label for="editStateId" class="form-label">State :</label>
+                  <input type="text" class="form-control" id="editStateId" name="state" placeholder="Enter State">
+                  <p id="editStateError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                  <label for="editStreetId" class="form-label">Address :</label>
+                  <input type="text" class="form-control" id="editStreetId" name="streetAddress" placeholder="eg. House No, Street, Area">
+                  <p id="editStreetError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                  <label for="editLocalityId" class="form-label">Locality/ Town :</label>
+                  <input type="text" class="form-control" id="editLocalityId" name="locality" placeholder="Enter Locality">
+                  <p id="editLocalityError" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                  <label for="editCityId" class="form-label">City/ District :</label>
+                  <input type="text" class="form-control" id="editCityId" name="city" placeholder="Enter City">
+                  <p id="editCityError" class="text-danger"></p>
+              </div>
+              <p id="editAdEmptyError" class="text-danger"></p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="saveEdit()">Save changes</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- editAddress modal end  -->
+
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     
@@ -996,7 +969,111 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script> 1111 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script> 
+
+<script>
+
+async function editAddress(id) {
+  const name = document.getElementById('editNameId');
+  const mobile = document.getElementById('editMobileId');
+  const pincode = document.getElementById('editPincodeId');
+  const state = document.getElementById('editStateId');
+  const streetAddress = document.getElementById('editStreetId');
+  const locality = document.getElementById('editLocalityId');
+  const city = document.getElementById('editCityId');
+  const addressId = document.getElementById('addressId');
+
+  try {
+    const response = await axios.post('/editAddress', { id });
+    const data = response.data;
+
+    if (data) {
+      name.value = data.name;
+      mobile.value = data.mobile;
+      pincode.value = data.pincode;
+      state.value = data.state;
+      streetAddress.value = data.streetAddress;
+      locality.value = data.locality;
+      city.value = data.city;
+      addressId.value = id;  // Set the value of hidden input field
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+
+async function saveEdit() {
+  const addressId = document.getElementById('addressId').value;
+  const name = document.getElementById('editNameId').value;
+  const mobile = document.getElementById('editMobileId').value;
+  const pincode = document.getElementById('editPincodeId').value;
+  const state = document.getElementById('editStateId').value;
+  const streetAddress = document.getElementById('editStreetId').value;
+  const locality = document.getElementById('editLocalityId').value;
+  const city = document.getElementById('editCityId').value;
+
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Want to make changes?",
+    icon: "warning",
+    confirmButtonText: "Yes",
+    confirmButtonColor: "#3085d6",
+    showCancelButton: true,
+    cancelButtonColor: "#d33"
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const response = await axios.patch('/saveEdit', {
+          addressId,
+          name,
+          mobile,
+          pincode,
+          state,
+          streetAddress,
+          locality,
+          city
+        });
+
+        if (response.data.loginRequired) {
+          window.location.href = '/login';
+        } else if (response.data.error) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: response.data.error,
+            showConfirmButton: false,
+            timer: 2000
+          });
+        } else if (response.data.success) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Address Edited!",
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+            window.location.reload();
+          });
+        } else {
+          console.error("Unexpected response from server:", response.data);
+        }
+      } catch (error) {
+        console.error("Error occurred while editing address:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while editing the address.',
+        });
+      }
+    }
+  });
+}
+
+</script>
+
+
 <script>
   function razor(){
 

@@ -62,6 +62,13 @@ userRoute.post("/wishlistupdate", wishlistController.wishlistupdate);
 userRoute.post("/updateprofile", auth.userIn, myaccountController.updateProfile);
 userRoute.post("/addWallet",  myaccountController.addWallet);
 userRoute.post("/razors",  myaccountController.razorPay);
+userRoute.post("/editAddress",  myaccountController.editAddress);
+userRoute.patch("/saveEdit",  myaccountController.saveEdit);
+userRoute.post('/loadEditAddress', checkoutController.loadEditAddress)
+userRoute.patch('/saveEditAddress', checkoutController.saveEditAddress)
+userRoute.patch('/removeAddress', checkoutController.removeAddress)
+userRoute.post('/couponFetch', checkoutController.couponFetch)
+userRoute.post('/couponSubmit', checkoutController.couponSubmit)
 
 
 //Login With Google

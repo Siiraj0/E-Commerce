@@ -1,0 +1,469 @@
+<%- include('../layouts/admin/adminHeaders.ejs') %>
+    <body data-layout="horizontal" data-topbar="dark">
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+        
+            <!-- header -->
+           
+            <%- include('../layouts/admin/pageTopbar.ejs') %>
+
+            <!-- ========== Left Sidebar Start ========== -->   
+            
+            <%- include('../layouts/admin/verticalMenu.ejs') %>
+
+            <!-- Left Sidebar End -->
+           
+            <%- include('../layouts/admin/leftsidebarEnd.ejs') %>
+    
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0">Add Offer</h4>
+
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="/admin/products">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="/admin/offers">Offers</a></li>
+                                            <li class="breadcrumb-item active">Add Offer</li>
+                                        </ol>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="addproduct-accordion" class="custom-accordion">
+                                    <div class="card">
+                                        <div id="addproduct-billinginfo-collapse" class="collapse show">
+                                            <div class="p-4 border-top">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="productname">Offer Title :</label>
+                                                        <input type="text" class="form-control" placeholder="Enter name" value="<%= offerDetails.name %>" id="titleId">
+                                                        <p id="titleError" class="text-danger"></p>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="price">Percentage:</label>
+                                                                <input type="number" min="0" max="99" class="form-control" value="<%= offerDetails.percentage %>" placeholder="Enter percentage" id="percentageId">
+                                                                <p id="percentageError" class="text-danger"></p>
+                                                            </div>
+                                                        </div>
+
+                                                        <% 
+                                                            const startDateFormatted = new Date(offerDetails.startDate).toISOString().split('T')[0];
+                                                            const endDateFormatted = new Date(offerDetails.endDate).toISOString().split('T')[0];
+                                                        %>
+
+                                                         <div class="col-md-3">
+                                                            <div class="mb-3">
+                                                                <div>
+                                                                    <label class="form-label">Start Date:</label>
+                                                                </div>
+                                                                <div>
+                                                                    <input type="date" class="form-control" value="<%= startDateFormatted %>" id="startDateId">
+                                                                    <p id="startDateError" class="text-danger"></p>
+                                                                </div>
+                                                            </div>                                                              
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="mb-3">
+                                                                <div>
+                                                                    <label class="form-label">End Date:</label>
+                                                                </div>
+                                                                <div>
+                                                                    <input type="date" class="form-control" value="<%= endDateFormatted %>" id="endDateId">
+                                                                    <p id="endDateError" class="text-danger"></p>
+                                                                </div>
+                                                            </div>                                                              
+                                                        </div>
+                                                    </div>
+
+                                                    <% if(offerDetails.category){ %>
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            <div class="mb-3">
+                                                                <label for="category" class="form-label">Category:</label>
+                                                                <input type="radio" name="choose" id="categoryRadio" checked>
+                                                            </div>
+                                                            <p id="catOrPro" class="text-danger"></p>
+                                                        </div>
+                                                    </div>
+                                                    <% }else{ %>
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            <div class="mb-3">
+                                                                <label for="product" class="form-label">Product:</label>
+                                                                <input type="radio" name="choose" id="productRadio" checked>
+                                                            </div>
+                                                        </div>
+                                                        <p id="catOrPro" class="text-danger"></p>
+                                                    </div>
+                                                    <% } %>
+
+                                                    <% if(offerDetails.category){ %>
+                                                    <div id="categoryAccordion" class="accordion" >
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="headingOne">
+                                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    Choose a Category
+                                                                </button>
+                                                            </h2>
+                                                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#categoryAccordion">
+                                                                <div class="accordion-body">
+                                                                    <!-- Category content here -->
+                                                                    <select class="form-select" id="categorySelect">
+                                                                        <option value="<%= offerDetails.category._id %>" selected><%= offerDetails.category.name %></option>
+                                                                        <% categories.forEach(category=>{ %>
+                                                                            <% if(!category.isBlocked){ %>
+                                                                            <option value="<%= category._id %>"><%= category.name  %></option>
+                                                                            <% } %>
+                                                                        <% }) %>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% }else{ %>
+                                                    <div id="productAccordion" class="accordion" >
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="headingTwo">
+                                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                                    Choose a Product
+                                                                </button>
+                                                            </h2>
+                                                            <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#productAccordion">
+                                                                <div class="accordion-body">
+                                                                    <select class="form-select" id="productSelect">
+                                                                        <option value="<%= offerDetails.product._id %>" selected><%= offerDetails.product.name %></option>
+                                                                        <% products.forEach(product=>{ %>
+                                                                            <% if(!product.isBlocked){ %>
+                                                                            <option value="<%= product._id %>"><%= product.name  %></option>
+                                                                            <% } %>
+                                                                        <% }) %>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+
+                                                    <div class="row mt-3">
+                                                        <p id="emptyError" class="text-danger"></p>
+                                                        <div class="col text-end me-3">
+                                                            <input id="offerId" type="text" hidden value="<%= offerDetails._id %>">
+                                                            <button onclick="editOffer()" class="btn btn-success"><i class="mdi mdi-plus"></i> Edit Offer</button>
+                                                        </div> <!-- end col -->
+                                                    </div> 
+                                            </div>
+                                            
+                                        
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        <!-- end row -->
+
+                        <!-- end row-->
+                        
+
+                    </div> <!-- container-fluid -->
+                </div>
+                <!-- End Page-content -->
+                
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <script>document.write(new Date().getFullYear())</script> &copy; Symox.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="https://themesbrand.com/" target="_blank" class="text-reset">Themesbrand</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <!-- end main content-->
+
+        </div>
+        <!-- END layout-wrapper -->
+
+        
+
+        <div class="right-bar">
+            <div data-simplebar class="h-100">
+                <div class="rightbar-title d-flex align-items-center bg-primary p-3">
+
+                    <h5 class="m-0 me-2 text-white">Settings</h5>
+
+                    <a href="javascript:void(0);" class="right-bar-toggle-close ms-auto">
+                        <i class="mdi mdi-close noti-icon"></i>
+                    </a>
+                </div>
+
+                <!-- Settings -->
+                <hr class="m-0" />
+
+                <div class="p-4">
+                    <h6 class="mb-3">Choose Layout</h6>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout"
+                            id="layout-vertical" value="vertical">
+                        <label class="form-check-label" for="layout-vertical">Vertical</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout"
+                            id="layout-horizontal" value="horizontal">
+                        <label class="form-check-label" for="layout-horizontal">Horizontal</label>
+                    </div>
+
+                    <h6 class="mt-4 mb-3 pt-2">Theme Mode</h6>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-mode"
+                            id="layout-mode-light" value="light">
+                        <label class="form-check-label" for="layout-mode-light">Light</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-mode"
+                            id="layout-mode-dark" value="dark">
+                        <label class="form-check-label" for="layout-mode-dark">Dark</label>
+                    </div>
+
+                    <h6 class="mt-4 mb-3">Layout Width</h6>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-width"
+                            id="layout-width-fluid" value="fluid" onchange="document.body.setAttribute('data-layout-size', 'fluid')">
+                        <label class="form-check-label" for="layout-width-fluid">Fluid</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-width"
+                            id="layout-width-boxed" value="boxed" onchange="document.body.setAttribute('data-layout-size', 'boxed')">
+                        <label class="form-check-label" for="layout-width-boxed">Boxed</label>
+                    </div>
+
+                    <h6 class="mt-4 mb-3">Layout Position</h6>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-position"
+                            id="layout-position-fixed" value="fixed" onchange="document.body.setAttribute('data-layout-scrollable', 'false')">
+                        <label class="form-check-label" for="layout-position-fixed">Fixed</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-position"
+                            id="layout-position-scrollable" value="scrollable" onchange="document.body.setAttribute('data-layout-scrollable', 'true')">
+                        <label class="form-check-label" for="layout-position-scrollable">Scrollable</label>
+                    </div>
+
+                    <h6 class="mt-4 mb-3">Topbar Color</h6>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="topbar-color"
+                            id="topbar-color-light" value="light" onchange="document.body.setAttribute('data-topbar', 'light')">
+                        <label class="form-check-label" for="topbar-color-light">Light</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="topbar-color"
+                            id="topbar-color-dark" value="dark" onchange="document.body.setAttribute('data-topbar', 'dark')">
+                        <label class="form-check-label" for="topbar-color-dark">Dark</label>
+                    </div>
+
+                    <div id="sidebar-setting">
+                        <h6 class="mt-4 mb-3 sidebar-setting">Sidebar Size</h6>
+
+                        <div class="form-check sidebar-setting">
+                            <input class="form-check-input" type="radio" name="sidebar-size"
+                                id="sidebar-size-default" value="default" onchange="document.body.setAttribute('data-sidebar-size', 'lg')">
+                            <label class="form-check-label" for="sidebar-size-default">Default</label>
+                        </div>
+                        <div class="form-check sidebar-setting">
+                            <input class="form-check-input" type="radio" name="sidebar-size"
+                                id="sidebar-size-compact" value="compact" onchange="document.body.setAttribute('data-sidebar-size', 'md')">
+                            <label class="form-check-label" for="sidebar-size-compact">Compact</label>
+                        </div>
+                        <div class="form-check sidebar-setting">
+                            <input class="form-check-input" type="radio" name="sidebar-size"
+                                id="sidebar-size-small" value="small" onchange="document.body.setAttribute('data-sidebar-size', 'sm')">
+                            <label class="form-check-label" for="sidebar-size-small">Small (Icon View)</label>
+                        </div>
+
+                        <h6 class="mt-4 mb-3 sidebar-setting">Sidebar Color</h6>
+
+                        <div class="form-check sidebar-setting">
+                            <input class="form-check-input" type="radio" name="sidebar-color"
+                                id="sidebar-color-light" value="light" onchange="document.body.setAttribute('data-sidebar', 'light')">
+                            <label class="form-check-label" for="sidebar-color-light">Light</label>
+                        </div>
+                        <div class="form-check sidebar-setting">
+                            <input class="form-check-input" type="radio" name="sidebar-color"
+                                id="sidebar-color-dark" value="dark" onchange="document.body.setAttribute('data-sidebar', 'dark')">
+                            <label class="form-check-label" for="sidebar-color-dark">Dark</label>
+                        </div>
+                        <div class="form-check sidebar-setting">
+                            <input class="form-check-input" type="radio" name="sidebar-color"
+                                id="sidebar-color-brand" value="brand" onchange="document.body.setAttribute('data-sidebar', 'brand')">
+                            <label class="form-check-label" for="sidebar-color-brand">Brand</label>
+                        </div>
+                    </div>
+
+                    <h6 class="mt-4 mb-3">Direction</h6>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-direction"
+                            id="layout-direction-ltr" value="ltr">
+                        <label class="form-check-label" for="layout-direction-ltr">LTR</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="layout-direction"
+                            id="layout-direction-rtl" value="rtl">
+                        <label class="form-check-label" for="layout-direction-rtl">RTL</label>
+                    </div>
+                </div>
+
+            </div> <!-- end slimscroll-menu-->
+        </div>
+        <!-- /Right-bar -->
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+        <!-- JAVASCRIPT -->
+    
+        <!-- SweetAlert CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <!-- Axios CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <script>
+
+            async function editOffer() {
+
+                const offerId = document.getElementById('offerId').value
+                const title = document.getElementById('titleId').value
+                const percentage = document.getElementById('percentageId').value
+                const startDate = document.getElementById('startDateId').value
+                const endDate = document.getElementById('endDateId').value
+
+                document.getElementById('titleError').innerHTML='';
+                document.getElementById('percentageError').innerHTML='';
+                document.getElementById('startDateError').innerHTML='';
+                document.getElementById('endDateError').innerHTML='';
+                document.getElementById('catOrPro').innerHTML='';
+                document.getElementById('emptyError').innerHTML = '';
+
+                if (title === '' && percentage === '' && startDate === '' && endDate === '') {
+                    document.getElementById('emptyError').innerHTML = 'Please fill the fields.';
+                    return false;
+                }
+
+                if (title.charAt(0) === ' ') {
+                    document.getElementById('titleError').innerHTML = 'Enter Offer title';
+                    return false;
+                } else if(/\d/.test(title)) {
+                    document.getElementById('titleError').innerHTML = 'Offer title cannot be a number';
+                    return false;
+                }
+
+                if (percentage === '') {
+                    document.getElementById('percentageError').innerHTML = 'Please enter percentage';
+                    return false;
+                } else if(isNaN(percentage) || parseFloat(percentage) < 1){
+                    document.getElementById('percentageError').innerHTML = 'Entere number greater than 1';
+                    return false;
+                } else if(percentage > 99){
+                    document.getElementById('percentageError').innerHTML = 'Enter number below 99'
+                    return false;
+                }
+
+                if (startDate === '') {
+                    document.getElementById('startDateError').innerHTML = 'Please select Start Date';
+                    return false;
+                }
+
+                if (endDate === '') {
+                    document.getElementById('endDateError').innerHTML = 'Please select End Date';
+                    return false;
+                }
+
+                let offerDetails = { offerId ,title, percentage, startDate, endDate}
+
+                const categoryRadio = document.getElementById('categoryRadio');
+                const productRadio = document.getElementById('productRadio');
+
+                if (categoryRadio && categoryRadio.checked) {
+                    const category = document.getElementById('categorySelect').value;
+                    offerDetails.category = category;
+                } else if (productRadio && productRadio.checked) {
+                    const product = document.getElementById('productSelect').value;
+                    offerDetails.productt = product;
+                } else {
+                    document.getElementById('catOrPro').innerHTML = 'Please select either a category or a product.';
+                    return false;
+                }
+
+
+                document.getElementById('titleError').innerHTML='';
+                document.getElementById('percentageError').innerHTML='';
+                document.getElementById('startDateError').innerHTML='';
+                document.getElementById('endDateError').innerHTML='';
+                document.getElementById('catOrPro').innerHTML='';
+                document.getElementById('emptyError').innerHTML = '';
+
+                const response = await axios.post('/admin/editOffer',{offerDetails})
+
+                if (response.data.loginRequired) {
+                    window.location.href = '/admin/login';
+                }else{
+                    if(response.data.alreadyExist){
+                        document.getElementById('titleError').innerHTML = 'Already exists';
+                    }else if(response.data.success){
+                        window.location.href = '/admin/offers'
+                    }
+                }
+
+            }
+
+        </script>
+
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/metismenujs/metismenujs.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/feather-icons/feather.min.js"></script>
+
+        <!-- choices js -->
+        <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+
+        <!-- dropzone plugin -->
+        <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+
+         <!-- init js -->
+         <script src="assets/js/pages/ecommerce-choices.init.js"></script>
+
+        <script src="assets/js/app.js"></script>
+
+    </body>
+
+<!-- Mirrored from themesdesign.in/symox-laravel/layouts/ecommerce-add-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Feb 2024 16:07:04 GMT -->
+</html>

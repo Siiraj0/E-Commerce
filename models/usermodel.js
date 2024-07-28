@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const coupon = require('./coupon')
 
 const userSchema=new mongoose.Schema({
     name:{
@@ -30,6 +31,7 @@ const userSchema=new mongoose.Schema({
     googleId:{
         type:String
     }
+
 
 
 })

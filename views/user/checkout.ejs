@@ -115,7 +115,7 @@
             <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
             <div class="search-content">
                 <p>Start typing and press Enter to search</p>
-                <form class="search-form" action="#">
+                <form class="search-form" >
                     <input type="text" placeholder="Search">
                     <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
                 </form>
@@ -378,12 +378,21 @@
                     <p class="cart-page-title">Have a coupon? <a class="checkout-click" href="#">Click here to enter your code</a></p>
                     <div class="checkout-login-info">
                         <p>If you have a coupon code, please apply it below.</p>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <input type="submit" value="Apply Coupon">
-                        </form>
+                        <div id="couponForm" class="coupon-form">
+                            <div class="coupon-input-container">
+                                <input type="text" id="couponCode" placeholder="Coupon code" class="coupon-input">
+                                <button type="button" id="applyCouponBtn" onclick="applyCoupon()" class="coupon-btn">Apply Coupon</button>
+                                <button type="button" id="removeCouponBtn" onclick="removeCoupon()" class="coupon-btn">Remove Coupon</button>
+                            </div>
+                            <button type="button" id="showCoupons" onclick="showCoupons()" class="coupon-btn coupon-show">Show Coupons</button>
+                        </div>
+                        
                     </div>
                 </div>
+                
+                
+                
+                
                 <div class="checkout-wrap">
                     <div class="row">
                         <div class="col-lg-7" >
@@ -395,29 +404,35 @@
                                     <form action="/placeOrder" method="post" id="myForm">
                                         <input hidden type="text" id="payment" name="paymentMethod" value="">
                                         <input hidden type="text" id="totalprice" name="orderAmount" value="">
-                                <% locals.addresses.forEach((address,index) => { %>
-
-                                  
-                                    <div class="checkout-addressDiv mb-2">
-                                        <div style="display: flex; flex-direction: row-reverse;">
-                                            <div class="">
-                                            <input type="radio" class="paymntRadioBox" name="addressSelected" id='addresId<%= index %>' value="<%= address._id%>">
-                                        </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <h5 class="fw-semibold"><%= address.name %></h5>
-                                            <p>
-                                                <%= address.streetAddress %>, <%= address.locality %><br>
-                                                <%= address.city %>, <%= address.state %> - <%= address.pincode %><br>
-                                                Mobile : <span class="fw-semibold "><%= address.mobile %></span><br></p>
-                                                <div class="">
-                                                    <button class="btn btn-light checkout-editAdd-btn" data-bs-toggle="modal" data-bs-target="#editAddressModal" onclick="editAddress('<%= address._id %>')">Edit</button>
-                                                    <button class="btn btn-light checkout-editAdd-btn" onclick="removeAddress('<%= address._id %>')">Remove</button>
+                                        <input hidden type="text" id="couponDiscountInput" name="couponDiscount" value="">
+                                        <% locals.addresses.forEach((address, index) => { %>
+                                            <div class="checkout-addressDiv mb-2">
+                                                <div style="display: flex; flex-direction: row-reverse;">
+                                                    <div class="">
+                                                        <input type="radio" class="paymntRadioBox" name="addressSelected" id='addresId<%= index %>' value="<%= address._id %>">
+                                                    </div>
                                                 </div>
-                                        </div>
-                                    </div>
-                                <% }); %>
-                            </form>
+                                                <div class="mb-3">
+                                                    <h5 class="fw-semibold"><%= address.name %></h5>
+                                                    <p>
+                                                        <%= address.streetAddress %>, <%= address.locality %><br>
+                                                        <%= address.city %>, <%= address.state %> - <%= address.pincode %><br>
+                                                        Mobile : <span class="fw-semibold "><%= address.mobile %></span><br>
+                                                    </p>
+                                                    <div class="">
+                                                        <button class="btn btn-light checkout-editAdd-btn" data-bs-toggle="modal" data-bs-target="#editAddressModal" onclick="editAddress('<%= address._id %>')">Edit</button>
+                                                        <button class="btn btn-light checkout-editAdd-btn" onclick="removeAddress('<%= address._id %>')">Remove</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    </form>
+                                    
+                                  
+                                    
+                                    
+                                    
+                                    
                                 <% } %>
                                 <div class="checkout-addNew-Add">
                                     <div class="text-center ">
@@ -430,12 +445,7 @@
                             <div class="your-order-area">
                                 <h3>Your order</h3>
                 
-                                 <!-- Declaring a global varible for storing total -->
-                                 <% let ProductTotal = 0; %>
-                                 <% let Total = 0;%>
-                                 <% let GrandTotal = 0;%>
-                                 <% let discount = 0; %>
-                             <!---->
+                                
                 
                                 <div class="your-order-wrap gray-bg-4">
                                     <div class="your-order-info-wrap">
@@ -456,17 +466,21 @@
                                         <%  }); %>
                                         <div class="your-order-info order-subtotal">
                                             <ul>
-                                                
-                                                    <li>Subtotal <span id="product-subtotal">₹0.00</span></li>
-                                                   
+                                                <li>Subtotal <span id="product-subtotal">₹0.00</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info coupon-discount">
+                                            <ul>
+                                                <li>Coupon Discount <span id="couponDiscount">₹0.00</span></li>
                                             </ul>
                                         </div>
                                         <div class="your-order-info order-total">
                                             <ul>
-                                               
                                                 <li>Total <span id="product-total">₹0.00</span></li>
                                             </ul>
                                         </div>
+                                        
+                                        <input type="hidden" id="totalprice" value="0.00">
                                     </div>
                                     <div class="payment-method">
                                       
@@ -706,300 +720,108 @@
                 <li><a href="#"><i class="dlicon ui-1_email-85"></i></a></li>
             </ul>
         </div>
-        <div class="view-demo-area">
-            <a class="view-demo-btn-active" href="#">More Demos</a>
-            <div class="view-demo-aside-active">
-                <div class="view-demo-wrap">
-                    <div class="view-demo-tab-list nav">
-                        <a class="active" href="#view-demo-1" data-bs-toggle="tab">
-                            Demo Group 01
-                        </a>
-                        <a href="#view-demo-2" data-bs-toggle="tab">
-                            Demo Group 02
-                        </a>
-                        <a href="#view-demo-3" data-bs-toggle="tab">
-                            Demo Group 03
-                        </a>
-                    </div>
-                    <div class="tab-content jump-2">
-                        <div id="view-demo-1" class="tab-pane active">
-                            <div class="row">
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index.html">
-                                                <img src="user/assets/images/demo-img/h-1.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index.html">Home Demo 01</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-2.html">
-                                                <img src="user/assets/images/demo-img/h-2.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-2.html">Home Demo 02</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-3.html">
-                                                <img src="user/assets/images/demo-img/h-3.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-3.html">Home Demo 03</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-4.html">
-                                                <img src="user/assets/images/demo-img/h-4.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-4.html">Home Demo 04</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-5.html">
-                                                <img src="user/assets/images/demo-img/h-5.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-5.html">Home Demo 05</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-6.html">
-                                                <img src="user/assets/images/demo-img/h-6.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-6.html">Home Demo 06</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-7.html">
-                                                <img src="user/assets/images/demo-img/h-7.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-7.html">Home Demo 07</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-8.html">
-                                                <img src="user/assets/images/demo-img/h-8.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-8.html">Home Demo 08</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="discover-more-btn">
-                                <a href="#">Discover More</a>
-                            </div>
-                        </div>
-                        <div id="view-demo-2" class="tab-pane">
-                            <div class="row">
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-9.html">
-                                                <img src="user/assets/images/demo-img/h-9.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-9.html">Home Demo 09</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-10.html">
-                                                <img src="user/assets/images/demo-img/h-10.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-10.html">Home Demo 10</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-11.html">
-                                                <img src="user/assets/images/demo-img/h-11.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-11.html">Home Demo 11</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-12.html">
-                                                <img src="user/assets/images/demo-img/h-12.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-12.html">Home Demo 12</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-13.html">
-                                                <img src="user/assets/images/demo-img/h-13.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-13.html">Home Demo 13</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-14.html">
-                                                <img src="user/assets/images/demo-img/h-14.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-14.html">Home Demo 14</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-15.html">
-                                                <img src="user/assets/images/demo-img/h-15.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-15.html">Home Demo 15</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-16.html">
-                                                <img src="user/assets/images/demo-img/h-16.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-16.html">Home Demo 16</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="discover-more-btn">
-                                <a href="#">Discover More</a>
-                            </div>
-                        </div>
-                        <div id="view-demo-3" class="tab-pane">
-                            <div class="row">
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-17.html">
-                                                <img src="user/assets/images/demo-img/h-17.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-17.html">Home Demo 17</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-18.html">
-                                                <img src="user/assets/images/demo-img/h-18.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-18.html">Home Demo 18</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12 col-sm-6">
-                                    <div class="demo-item mb-40">
-                                        <div class="demo-item-img">
-                                            <a href="index-19.html">
-                                                <img src="user/assets/images/demo-img/h-19.jpg" alt="demo-img">
-                                                <span>View Demo</span>
-                                            </a>
-                                        </div>
-                                        <div class="demo-item-content">
-                                            <h4><a href="index-19.html">Home Demo 19</a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="discover-more-btn">
-                                <a href="#">Discover More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    
     </div>
 
+
+            <!-- SweetAlert2 CSS -->
+
+    <style>
+        /* Container styles */
+.coupon-form {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    gap: 10px; /* Space between elements */
+}
+
+/* Container for input and buttons in the same line */
+.coupon-input-container {
+    width: 80%;
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between input and buttons */
+}
+
+/* Input styles */
+.coupon-input {
+    flex: 1; /* Allow input to expand and fill available space */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Button styles */
+.coupon-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff; /* Example button color */
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.coupon-btn:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Show Coupons button styles */
+.coupon-show {
+    background-color: black; /* Custom color for "Show Coupons" button */
+}
+
+.coupon-show:hover {
+    background-color: #333; /* Darker color on hover */
+}
+
+    </style>
+            
+
+            <style>
+                .swal2-popup {
+                    width: 80% !important;
+                    max-width: none !important;
+                }
+                .swal2-html-container {
+                    max-height: 400px;
+                    overflow-y: auto;
+                    width: 100%;
+                }
+                .swal2-html-container table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .swal2-html-container th, .swal2-html-container td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                }
+                .swal2-html-container th {
+                    background-color: #f2f2f2;
+                    text-align: left;
+                }
+                .copy-btn {
+                    margin-left: 10px;
+                    cursor: pointer;
+                }
+                .copy-btn img {
+                    width: 20px;
+                    height: 20px;
+                }
+            </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- All JS is here
 ============================================ -->
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+
 
 
 <script>
@@ -1081,214 +903,167 @@
 
         
 
+        async function editAddress(addressId) {
+            try{
+                document.getElementById('addresId').dataset.addresId=addressId
+                const name = document.getElementById('editAdNameId')
+                const mobile = document.getElementById('editMobileId')
+                const pincode = document.getElementById('editPincodeId')
+                const state = document.getElementById('editStateId')
+                const streetAddress = document.getElementById('editStreetId')
+                const locality = document.getElementById('editLocalityId')
+                const city = document.getElementById('editCityId')
+
+                const response = await axios.post('/loadEditAddress',{addressId})
+                const data = response.data
+                console.log(data);
+                if(data){
+                    name.value = response.data.findAddress.name
+                    mobile.value = response.data.findAddress.mobile
+                    pincode.value = response.data.findAddress.pincode
+                    state.value = response.data.findAddress.state
+                    streetAddress.value = response.data.findAddress.streetAddress
+                    locality.value = response.data.findAddress.locality
+                    city.value = response.data.findAddress.city
+                }
+            }catch(error){
+                console.log(error.message);
+            }
+        }
 
 
-        // async function saveEditAddress() {
-        //     const addressId=document.getElementById('addresId').dataset.addresId
-        //     const name = document.getElementById('editAdNameId').value.trim()
-        //     const mobile = document.getElementById('editMobileId').value.trim()
-        //     const pincode = document.getElementById('editPincodeId').value.trim()
-        //     const state = document.getElementById('editStateId').value.trim()
-        //     const streetAddress = document.getElementById('editStreetId').value.trim()
-        //     const locality = document.getElementById('editLocalityId').value.trim()
-        //     const city = document.getElementById('editCityId').value.trim()
+         async function saveEditAddress() {
+            const addressId=document.getElementById('addresId').dataset.addresId
+            const name = document.getElementById('editAdNameId').value.trim()
+            const mobile = document.getElementById('editMobileId').value.trim()
+            const pincode = document.getElementById('editPincodeId').value.trim()
+            const state = document.getElementById('editStateId').value.trim()
+            const streetAddress = document.getElementById('editStreetId').value.trim()
+            const locality = document.getElementById('editLocalityId').value.trim()
+            const city = document.getElementById('editCityId').value.trim()
 
-        //     document.getElementById('editNameError').innerHTML = '';
-        //     document.getElementById('editMobileError').innerHTML = '';
-        //     document.getElementById('editPincodeError').innerHTML = '';
-        //     document.getElementById('editStateError').innerHTML = '';
-        //     document.getElementById('editStreetAddressError').innerHTML = '';
-        //     document.getElementById('editLocalityError').innerHTML = '';
-        //     document.getElementById('editCityError').innerHTML = '';
+            document.getElementById('editNameError').innerHTML = '';
+            document.getElementById('editMobileError').innerHTML = '';
+            document.getElementById('editPincodeError').innerHTML = '';
+            document.getElementById('editStateError').innerHTML = '';
+            document.getElementById('editStreetAddressError').innerHTML = '';
+            document.getElementById('editLocalityError').innerHTML = '';
+            document.getElementById('editCityError').innerHTML = '';
 
-        //     if(name === '' && mobile === '' && pincode === '' && state === '' && streetAddress === '' && locality === '' && city === ''){
-        //         document.getElementById('editEmptyError').innerHTML = 'Please fill all the fields';
-        //         return false
-        //     } 
+            if(name === '' && mobile === '' && pincode === '' && state === '' && streetAddress === '' && locality === '' && city === ''){
+                document.getElementById('editEmptyError').innerHTML = 'Please fill all the fields';
+                return false
+            } 
 
-        //     if(name === '' || /\d/.test(name) || /[^\w\s]/.test(name)){
-        //         document.getElementById('editNameError').innerHTML = 'Please enter a name';
-        //         return false
-        //     } 
+            if(name === '' || /\d/.test(name) || /[^\w\s]/.test(name)){
+                document.getElementById('editNameError').innerHTML = 'Please enter a name';
+                return false
+            } 
 
-        //     if (mobile === '') {
-        //         document.getElementById("editMobileError").innerHTML = 'Please enter your Mobile Number';
-        //         return false;
-        //     } else if(mobile.length < 10){
-        //         document.getElementById("editMobileError").innerHTML = 'Phone must be at least 10 numbers';
-        //         return false
-        //     }
+            if (mobile === '') {
+                document.getElementById("editMobileError").innerHTML = 'Please enter your Mobile Number';
+                return false;
+            } else if(mobile.length < 10){
+                document.getElementById("editMobileError").innerHTML = 'Phone must be at least 10 numbers';
+                return false
+            }
 
-        //     if (pincode === '') {
-        //         document.getElementById("editPincodeError").innerHTML = 'Please enter your Pincode';
-        //         return false;
-        //     }
+            if (pincode === '') {
+                document.getElementById("editPincodeError").innerHTML = 'Please enter your Pincode';
+                return false;
+            }
 
-        //     if (state === '') {
-        //         document.getElementById("editStateError").innerHTML = 'Please enter your state';
-        //         return false;
-        //     }
+            if (state === '') {
+                document.getElementById("editStateError").innerHTML = 'Please enter your state';
+                return false;
+            }
 
-        //     if (streetAddress === '') {
-        //         document.getElementById("editStreetAddressError").innerHTML = 'Please enter your street Address';
-        //         return false;
-        //     }
+            if (streetAddress === '') {
+                document.getElementById("editStreetAddressError").innerHTML = 'Please enter your street Address';
+                return false;
+            }
 
-        //     if (locality === '') {
-        //         document.getElementById("editLocalityError").innerHTML = 'Please enter your locality';
-        //         return false;
-        //     }
+            if (locality === '') {
+                document.getElementById("editLocalityError").innerHTML = 'Please enter your locality';
+                return false;
+            }
 
-        //     if (city === '') {
-        //         document.getElementById("editCityError").innerHTML = 'Please enter your city';
-        //         return false;
-        //     }
+            if (city === '') {
+                document.getElementById("editCityError").innerHTML = 'Please enter your city';
+                return false;
+            }
 
-        //     const result = await Swal.fire({
-        //         title: "Are you sure?",
-        //         text: "Make changes in this address",
-        //         icon: "warning",
-        //         showCancelButton: true,
-        //         confirmButtonColor: "#3085d6",
-        //         cancelButtonColor: "#d33",
-        //         confirmButtonText: "Confirm"
-        //     })
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "Make changes in this address",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirm"
+            })
 
-        //     if(result.isConfirmed){
-        //         try{
+            if(result.isConfirmed){
+                try{
             
-        //             const response = await axios.patch('/saveEditAddress', { addressId, name: name, mobile: mobile, pincode: pincode,
-        //             state: state, streetAddress: streetAddress, locality: locality,city: city});
+                    const response = await axios.patch('/saveEditAddress', { addressId, name: name, mobile: mobile, pincode: pincode,
+                    state: state, streetAddress: streetAddress, locality: locality,city: city});
                         
-        //             if(response.data.loginRequired){
-        //                 window.location.href = '/login'
-        //             }else{
-        //                 if (response.data.success) {
-        //                     const closeEdit = document.getElementById('closeEdit')
-        //                     closeEdit.click()
-        //                     Swal.fire({
-        //                         position: "center",
-        //                         icon: "success",
-        //                         title: "Address Edited!",
-        //                         showConfirmButton: false,
-        //                         timer: 1500
-        //                     }).then((result)=>{
-        //                         $('#shippingArea').load('/checkout #shippingArea');
-        //                     })
-        //                 }
-        //             }
-        //         }catch(error){
-        //             console.log(error.message);
-        //         }
-        //     }
-        // }
+                    if(response.data.loginRequired){
+                        window.location.href = '/login'
+                    }else{
+                        if (response.data.success) {
+                            const closeEdit = document.getElementById('closeEdit')
+                            closeEdit.click()
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Address Edited!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((result)=>{
+                                $('#shippingArea').load('/checkout #shippingArea');
+                            })
+                        }
+                    }
+                }catch(error){
+                    console.log(error.message);
+                }
+            }
+        }
 
-        // async function removeAddress(addressId) {
-        //     const result = await Swal.fire({
-        //         title: "Are you sure?",
-        //         text: "Remove this Address",
-        //         icon: "warning",
-        //         showCancelButton: true,
-        //         confirmButtonColor: "#3085d6",
-        //         cancelButtonColor: "#d33",
-        //         confirmButtonText: "Delete"
-        //     })
-        //     if(result.isConfirmed){
-        //         try{
-        //             const response = await axios.patch('/removeAddress',{addressId})
+        async function removeAddress(addressId) {
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "Remove this Address",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Delete"
+            })
+            if(result.isConfirmed){
+                try{
+                    const response = await axios.patch('/removeAddress',{addressId})
 
-        //             if(response.data.loginRequired){
-        //                 window.location.href = '/login'
-        //             }else{
-        //                 if(response.data.success){
-        //                     $('#shippingArea').load('/checkout #shippingArea');
-        //                 }
-        //             }
+                    if(response.data.loginRequired){
+                        window.location.href = '/login'
+                    }else{
+                        if(response.data.success){
+                            $('#shippingArea').load('/checkout #shippingArea');
+                        }
+                    }
 
-        //         }catch(error){
-        //             console.log(error.message);
-        //         }
-        //     }
-        // }
+                }catch(error){
+                    console.log(error.message);
+                }
+            }
+        }
 
 
 </script>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-<script>
-function placeorder(){
-   
-    // let addresId = document.getElementById(`addresId${id}`).value
-    let checkedRadio = document.querySelector('input[name="addressSelected"]:checked');
-    // let checkedRadio = document.querySelector(`input[name="${name}"]:checked`);
-    if (checkedRadio) {
-      // Get the value of the checked radio button
-      let addressId = checkedRadio.value;
-
-      
-      // Get the payment method
-      let method = document.getElementById('paymentMethod').value;
-      
-      // Log the results (or handle them as needed)
-
-      console.log(method, 'method');
-      console.log(addressId, 'addressId');
-
-      let payment = document.getElementById("payment")
-      payment.value = method
-
-     const form= document.getElementById("myForm");
-     if(method=="COD"){
-         form.submit()
-
-     }else{
-
-        const totalprice= document.getElementById('totalprice')
-    
-
-        fetch('/razor', {
-                            method: 'POST',
-                            headers: { 'Content-type': 'application/json' },
-                            body: JSON.stringify({ amount:totalprice.value })
-                        }).then(res => res.json()).then(data => {
-                            if (data.succes) {
-
-                                let options = {
-                                    "key": `${data.key_id}`,
-                                    "amount": `${data.amount}`,
-                                    "currency": "INR",
-                                    "name": "molla",
-                                    "order_id": `${data.order_id}`,
-                                    "handler": function (response) {
-                                        form.submit();
-                                        
-                                    },
-                                    "profile": {
-                                        "name": `${data.name}`,
-                                        "email": `${data.email}`
-                                    }
-                                }
-                                
-                                let razorpayObject = new Razorpay(options);
-                                razorpayObject.on('payment.failed', (response) => {
-                                    alert('payment failed');
-                                });
-                                razorpayObject.open();
-                            }
-                        })
-
-
-     }
-
-      // Additional logic to place the order can be added here
-    } else {
-      alert('Please select an address.');
-    }
-  
-}
-
-</script>
 
 
 
@@ -1300,10 +1075,7 @@ function placeorder(){
     }
 });
 </script>
-
-
 <script>
-    // Function to calculate subtotal and total
     function calculateTotal() {
         var subtotal = 0;
 
@@ -1324,20 +1096,146 @@ function placeorder(){
             subtotalElement.innerText = '₹' + subtotal.toFixed(2);
         }
 
-        const totalprice= document.getElementById('totalprice')
-        totalprice.value=subtotal.toFixed(2)
-        // Calculate total
-        var total = subtotal; // Assuming no taxes or additional costs for now
+        // Initially apply discount as 0
+        applyDiscount(0);
+    }
 
-        // Update total display
-        var totalElement = document.getElementById('product-total');
+    function applyDiscount(discountPercentage) {
+        const subtotalElement = document.getElementById('product-subtotal');
+        const subtotal = parseFloat(subtotalElement.innerText.replace('₹', ''));
+        const discountAmount = (subtotal * discountPercentage) / 100;
+        const total = subtotal - discountAmount;
+
+        const totalElement = document.getElementById('product-total');
         if (totalElement) {
             totalElement.innerText = '₹' + total.toFixed(2);
         }
+
+        const couponDiscountElement = document.getElementById('couponDiscount');
+        if (couponDiscountElement) {
+            couponDiscountElement.innerText = '₹' + discountAmount.toFixed(2);
+        }
+
+        const totalpriceElement = document.getElementById('totalprice');
+        if (totalpriceElement) {
+            totalpriceElement.value = Math.round(total); // Round to nearest integer
+        }
+
+        const couponDiscountInput = document.getElementById('couponDiscountInput');
+        if (couponDiscountInput) {
+            couponDiscountInput.value = discountAmount.toFixed(2);
+        }
+    }
+
+    async function applyCoupon() {
+        const couponCode = document.getElementById('couponCode').value;
+        console.log('Applying coupon:', couponCode);
+
+        try {
+            const response = await axios.post('/couponSubmit', { couponCode });
+            const discountPercentage = response.data;
+            console.log('Coupon response:', discountPercentage);
+
+            // Apply the discount
+            if (discountPercentage) {
+                applyDiscount(discountPercentage);
+            } else {
+                console.error('Invalid discount percentage');
+                applyDiscount(0);
+            }
+        } catch (error) {
+            console.error('Error applying coupon:', error);
+            applyDiscount(0);
+        }
+    }
+
+    function removeCoupon() {
+        document.getElementById('couponCode').value = '';
+        applyDiscount(0);
+    }
+
+    async function showCoupons() {
+        const totalPriceElement = document.getElementById('product-total');
+        const totalAmount = totalPriceElement ? totalPriceElement.innerText.replace('₹', '') : '0';
+
+        try {
+            const response = await axios.post('/couponFetch', { money: totalAmount });
+            const coupons = response.data;
+            console.log('Available coupons:', coupons);
+
+            let tableRows = coupons.map(coupon => `
+                <tr>
+                    <td>${coupon.couponCode} 
+                        <span class="copy-btn" onclick="copyToClipboard('${coupon.couponCode}')">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/copy.png" alt="Copy">
+                        </span>
+                    </td>
+                    <td>${coupon.couponName}</td>
+                    <td>${coupon.couponDescription}</td>
+                    <td>${coupon.percentage}%</td>
+                    <td>${coupon.minAmount}</td>
+                    <td>${new Date(coupon.startDate).toLocaleDateString()} - ${new Date(coupon.endDate).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
+
+            Swal.fire({
+                title: 'Coupon Details',
+                html: `
+                    <table border="1" cellpadding="10">
+                        <thead>
+                            <tr>
+                                <th>Coupon Code</th>
+                                <th>Coupon Name</th>
+                                <th>Description</th>
+                                <th>Discount Percentage</th>
+                                <th>Minimum Amount</th>
+                                <th>Validity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                `,
+                confirmButtonText: 'Close'
+            });
+        } catch (error) {
+            console.error('Error fetching coupons:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong while fetching the coupons.',
+            });
+        }
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Copied!',
+                    text: `Coupon code "${text}" has been copied to clipboard.`,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to copy coupon code.',
+                });
+            });
     }
 
     // Call calculateTotal initially (on page load, for example)
     calculateTotal();
+</script>
+
+
+
 </script>
 
 
@@ -1375,6 +1273,7 @@ function placeorder(){
     <script src="user/assets/js/plugins/ajax-mail.js"></script>
     <!-- Main JS -->
     <script src="user/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

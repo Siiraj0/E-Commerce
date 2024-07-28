@@ -21,7 +21,7 @@ const myaccount = async (req, res) => {
         .populate("products.productId");
         const walletData=await walletModel.findOne({ userId: userId})
       const userData = await usermodel.findOne({ _id: req.session.userId });
-      console.log(userData+'user data for test')
+     
       const addresses = await addressModel.find({ userId: userId });
       const orders = await orderModel.find({ userId: userId }).populate("products.productId").populate("userId");
      
@@ -122,7 +122,7 @@ const myaccount = async (req, res) => {
       console.log(req.session.userId, 'lllllll');
       const userId = req.session.userId;
       const user = await usermodel.findById(userId);
-      console.log(user, 'usersssssssssssssssss');
+
       
       if (!user) {
         return res.status(404).json({ msg: 'User not found' });
@@ -167,30 +167,28 @@ const addWallet = async (req,res)=>{
 
 const razorPay = async (req, res) => {
   try {
-      
       const user = await userModel.findOne({ _id: req.session.userId });
-      const amount = req.body.amount * 100;
+      const amount = req.body.amount * 100; // Amount in paise for Razorpay
       const options = {
           amount,
           currency: "INR",
-          receipt: 'sirajkp752@gmail.com'
+          receipt: 'receipt_order_74394'
       };
-     console.log('Creating order with options:', options,user);
-     
+      console.log('Creating order with options:', options, user);
+      
       instance.orders.create(options, (err, order) => {
           if (!err) {
+              console.log('Order created successfully:', order);
               res.send({
                   success: true,
                   msg: 'ORDER created',
                   order_id: order.id,
                   amount,
-                  key_id:  process.env.RAZORPAY_IDKEY,
+                  key_id: process.env.RAZORPAY_IDKEY,
                   name: user.name,
                   email: user.email
               });
-              
           } else {
-              console.log('shkjfdhsfhlasdfhas;dkfhsdfjhasfkjhskjfhksjdfhksdfkjsfjk')
               console.error("Error creating order:", err);
               res.status(500).send({ success: false, msg: "Failed to create order" });
           }
@@ -203,6 +201,58 @@ const razorPay = async (req, res) => {
 
 
 
+const editAddress = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const addressData = await addressModel.findOne({ _id: id });
+
+    if (addressData) {
+      res.json({
+        name: addressData.name,
+        mobile: addressData.mobile,
+        pincode: addressData.pincode,
+        state: addressData.state,
+        streetAddress: addressData.streetAddress,
+        locality: addressData.locality,
+        city: addressData.city
+      });
+    } else {
+      res.status(404).json({ message: 'Address not found' });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const saveEdit = async (req,res)=>{
+  try {
+    const {addressId,
+      name,
+      mobile,
+      pincode,
+      state,
+      streetAddress,
+      locality,
+      city} = req.body;
+
+      const saved = await addressModel.findByIdAndUpdate({_id:addressId},{
+        $set:{
+          name,
+          mobile,
+          pincode,
+          state,
+          streetAddress,
+          locality,
+          city
+        }
+      })
+      res.json({success:true})
+   
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
   module.exports={
     myaccount,
@@ -213,4 +263,6 @@ const razorPay = async (req, res) => {
     updateProfile,
     addWallet,
     razorPay,
+    editAddress,
+    saveEdit
   }

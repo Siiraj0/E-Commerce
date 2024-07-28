@@ -1,20 +1,31 @@
 const productModel = require('../../models/productmodel');
 const categorymodel = require("../../models/categorymodel");
+const offerModel = require('../../models/offermodel');
 
 const productPage = async (req, res) => {
-    try {
+  try {
       const limit = 5;
-      const page = parseInt(req.query.page) || 1
+      const page = parseInt(req.query.page) || 1;
       const skip = (page - 1) * limit;
       const totalProsCount = await productModel.countDocuments();
       const totalPages = Math.ceil(totalProsCount / limit);
 
-      const productList = await productModel.find({}).populate('category').skip(skip).limit(limit).sort({_id:-1});
-      res.render("admin/product",{ productList ,totalPages, currentPage :page});
-    } catch (error) {
-      console.log(error.messege);
-    }
-  };
+      const productList = await productModel.find({})
+          .populate('category')
+          .populate({
+              path: 'offer',
+              match: { endDate: { $gte: new Date() }, startDate: { $lte: new Date() } }
+          })
+          .skip(skip)
+          .limit(limit)
+          .sort({ _id: -1 });
+
+      res.render("admin/product", { productList, totalPages, currentPage: page });
+  } catch (error) {
+      console.log(error.message);
+  }
+};
+
 
   const addProductpage =async (req, res) => {
     try {

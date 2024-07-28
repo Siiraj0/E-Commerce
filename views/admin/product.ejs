@@ -69,60 +69,80 @@
                                         
 
                                         <div class="table-responsive">
-                                            <table class="table align-middle table-nowrap">
-                                                <thead>
+                                          <table class="table align-middle table-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Name</th>
+                                                    <th>Offer (%)</th>
+                                                    <th>Description</th>
+                                                    <th>Price</th>
+                                                    <th>Category</th>
+                                                    <th>Image</th>
+                                                    <th>Stock</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% productList.forEach((product, i) => { %>
                                                     <tr>
-                                                      <th>No</th>
-                                                      <th>Name</th>
-                                                      <th>Description</th>
-                                                      <th>Price</th>
-                                                      <th>Category</th>
-                                                      <th>Image</th>
-                                                      <th>Stock</th>
-                                                      <th>Actions</th>
-                                                    </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                    <% productList.forEach((product, i) => { %>
-                                                      <tr>
                                                         <td><%= i + 1 %></td>
                                                         <td class="max-width-100"><%= product.name %></td>
                                                         <td>
-                                                          <p class="description"><%= product.description %></p>
+                                                            <% if (product.offer) { %>
+                                                                <span style="font-size: smaller;"><%= product.offer.percentage %> %</span>
+                                                            <% } else { %>
+                                                                <span style="font-size: smaller;">N/A</span>
+                                                            <% } %>
                                                         </td>
-                                                        <td><%= product.price %></td>
                                                         <td>
-                                                          <% if (product.category) { %>
-                                                            <%= product.category.name %>
-                                                          <% } %>
+                                                            <p class="description"><%= product.description %></p>
+                                                        </td>
+                                                        <td>
+                                                            <% if (product.offer) { %>
+                                                                <div style="display: flex; flex-direction: column;">
+                                                                    <span style="text-decoration: line-through;">₹<%= Math.round(product.price) %></span>
+                                                                    <span>₹<%= Math.round(product.price - (product.price * product.offer.percentage / 100)) %></span>
+                                                                </div>
+                                                            <% } else { %>
+                                                                <span>₹<%= Math.round(product.price) %></span>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (product.category) { %>
+                                                                <%= product.category.name %>
+                                                            <% } %>
                                                         </td>
                                                         <td><img src="<%= product.image[0] %>" alt="Product Image"></td>
                                                         <td><%= product.stock %></td>
                                                         <td>
-                                                          <div class="dropdown">
-                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                              <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                              <li>
-                                                                <a href="/admin/editproduct/<%= product._id %>" class="dropdown-item">
-                                                                  <i class="mdi mdi-pencil font-size-16 text-success me-1"></i> Edit
+                                                            <div class="dropdown">
+                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                 </a>
-                                                              </li>
-                                                              <li>
-                                                                <% if (product.isBlocked == false) { %>
-                                                                  <button class="dropdown-item btn btn-danger" onclick="blockProduct('<%= product._id %>', this)">Block</button>
-                                                                <% } else { %>
-                                                                  <button class="dropdown-item btn btn-success" onclick="blockProduct('<%= product._id %>', this)">Unblock</button>
-                                                                <% } %>
-                                                              </li>
-                                                            </ul>
-                                                          </div>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li>
+                                                                        <a href="/admin/editproduct/<%= product._id %>" class="dropdown-item">
+                                                                            <i class="mdi mdi-pencil font-size-16 text-success me-1"></i> Edit
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <% if (product.isBlocked == false) { %>
+                                                                            <button class="dropdown-item btn btn-danger" onclick="blockProduct('<%= product._id %>', this)">Block</button>
+                                                                        <% } else { %>
+                                                                            <button class="dropdown-item btn btn-success" onclick="blockProduct('<%= product._id %>', this)">Unblock</button>
+                                                                        <% } %>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
                                                         </td>
-                                                      </tr>
-                                                    <% }); %>
-                                                  </tbody>
-                                            </table>
+                                                    </tr>
+                                                <% }); %>
+                                            </tbody>
+                                        </table>
+                                        
+                                        
+                                        
                                             <style>
                                                 table {
                                                   width: 100%;

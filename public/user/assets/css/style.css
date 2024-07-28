@@ -30076,6 +30076,18 @@ h3.cart-page-title {
   font-size: 16px;
 }
 
+.your-order-area .your-order-wrap .your-order-info.coupon-discount {
+  padding: 15px 0 10px;
+}
+
+.your-order-area .your-order-wrap .your-order-info.coupon-discount ul li {
+  font-size: 16px;
+}
+
+.your-order-area .your-order-wrap .your-order-info.coupon-discount ul li span {
+  font-size: 16px;
+}
+
 .your-order-area .your-order-wrap .your-order-info.order-total {
   padding: 15px 0 10px;
 }

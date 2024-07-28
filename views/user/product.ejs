@@ -274,62 +274,71 @@
                             <div class="product-details-col-72">
                                 <div class="product-details-content p-dec-content-edit">
                                     <div class="pro-dec-next-prev">
-                                        <a class="prev" href="#"><i class="dlicon arrows-1_tail-left"></i></a>
-                                        <a class="next" href="#"><i class="dlicon arrows-1_tail-right"></i></a>
+                                      <a class="prev" href="#"><i class="dlicon arrows-1_tail-left"></i></a>
+                                      <a class="next" href="#"><i class="dlicon arrows-1_tail-right"></i></a>
                                     </div>
                                     <h2 class="uppercase"><%= productData.name %></h2>
                                     <div class="product-details-ratting-wrap">
-                                        <div class="product-details-ratting">
-                                            <i class="yellow fa fa-star"></i>
-                                            <i class="yellow fa fa-star"></i>
-                                            <i class="yellow fa fa-star"></i>
-                                            <i class="yellow fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <a href="#"> (1 customer review)</a>
+                                      <div class="product-details-ratting">
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                      </div>
+                                      <a href="#"> (1 customer review)</a>
                                     </div>
-                                    <h3>₹<%= productData.price%></h3>
+                                    <% if (productData.offer) { %>
+                                      <div class="product-details-price">
+                                        <h3 style="margin: 0; text-decoration: line-through;">₹<%= Math.floor(productData.price) %></h3>
+                                        <h3 style="margin: 0;">₹<%= Math.floor(productData.offerPrice) %></h3>
+                                        <span class="discount" style="font-size: 1.5em; margin-left: 10px; color: red; display: block;">(<%= Math.floor(productData.offer.percentage) %>% OFF)</span>
+                                      </div>
+                                    <% } else { %>
+                                      <h3>₹<%= Math.floor(productData.price) %></h3>
+                                    <% } %>
                                     <div class="product-details-peragraph">
-                                        <ul>
-                                            <li>Composition: 50% cotton,45% polyester, 5% polyamide.</li>
-                                            <li>Filling: 100% polyester.</li>
-                                            <li>Hood fur: 64% acrylic,23% modacrylic,13% polyester</li>
-                                        </ul>
+                                      <ul>
+                                        <li>Composition: 50% cotton,45% polyester, 5% polyamide.</li>
+                                        <li>Filling: 100% polyester.</li>
+                                        <li>Hood fur: 64% acrylic,23% modacrylic,13% polyester</li>
+                                      </ul>
                                     </div>
                                     <div class="product-details-action-wrap">
-                                        <div class="product-details-quality">
-                                            <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box"  type="number" name="qtybutton" value="2">
-                                            </div>
+                                      <div class="product-details-quality">
+                                        <div class="cart-plus-minus">
+                                          <input class="cart-plus-minus-box" type="number" name="qtybutton" value="1">
                                         </div>
-                                        <div class="product-details-cart">
-                                            <a title="Add to cart" onclick="addcart('<%=productData._id %>')">Add to cart</a>
-                                        </div>
-                                        <div class="product-details-wishlist">
-                                            <a  title="Add to wishlist" onclick="addwishlist('<%=productData._id %>')"><i class="fa fa-heart"></i></a>
-                                        </div>
-                                        <div class="product-details-compare">
-                                            <a title="Add to compare" href="#"><i class="dlicon arrows-4_compare"></i></a>
-                                        </div>
+                                      </div>
+                                      <div class="product-details-cart">
+                                        <a title="Add to cart" onclick="addcart('<%=productData._id %>')">Add to cart</a>
+                                      </div>
+                                      <div class="product-details-wishlist">
+                                        <a title="Add to wishlist" onclick="addwishlist('<%=productData._id %>')"><i class="fa fa-heart"></i></a>
+                                      </div>
+                                      <div class="product-details-compare">
+                                        <a title="Add to compare" href="#"><i class="dlicon arrows-4_compare"></i></a>
+                                      </div>
                                     </div>
                                     <div class="product-details-info">
-                                        <a href="#"><i class="dlicon location_pin"></i>Store availability</a>
-                                        <a href="#"><i class="dlicon envir_car"></i>Delivery and return</a>
-                                        <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
+                                      <a href="#"><i class="dlicon location_pin"></i>Store availability</a>
+                                      <a href="#"><i class="dlicon envir_car"></i>Delivery and return</a>
+                                      <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
                                     </div>
                                     <div class="product-details-meta">
-                                        <span>SKU: REF. LA-140</span>
-                                        <span>Categories: <a href="#">Fashions</a>, <a href="#">Main 01</a>, <a href="#">Main 02</a></span>
-                                        <span>Tags: <a href="#">Blazer</a>, <a href="#">chair</a>, <a href="#">Coat</a>, <a href="#">dress</a>, <a href="#">light</a>, <a href="#">Living</a>, <a href="#">Main 01</a></span>
+                                      <span>SKU: REF. LA-140</span>
+                                      <span>Categories: <a href="#">Fashions</a>, <a href="#">Main 01</a>, <a href="#">Main 02</a></span>
+                                      <span>Tags: <a href="#">Blazer</a>, <a href="#">chair</a>, <a href="#">Coat</a>, <a href="#">dress</a>, <a href="#">light</a>, <a href="#">Living</a>, <a href="#">Main 01</a></span>
                                     </div>
                                     <div class="social-icon-style-3">
-                                        <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
-                                        <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                                        <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
-                                        <a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
-                                        <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
+                                      <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                                      <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                                      <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                                      <a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
+                                      <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
                                     </div>
-                                </div>
+                                  </div>
+                                  
                             </div>
                             
                         </div>
@@ -804,10 +813,7 @@
                                         <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
                                         <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
                                         <a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
-                                        <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+                                        <a class="google"></a>
                         </div>
                     </div>
                 </div>

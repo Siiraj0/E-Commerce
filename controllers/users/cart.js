@@ -1,12 +1,23 @@
 const cartModel = require("../../models/cartmodel");
-const wishlistModal=require("../../models/wishlistmodel")
+const wishlistModel = require("../../models/wishlistmodel");
+const Product = require("../../models/productmodel"); // Assuming you have a Product model
+
 const cartpage = async (req, res) => {
   try {
     const cart = await cartModel
       .findOne({ userId: req.session.userId })
       .populate("products.productId");
    
-    const countProduct = 0;
+    if (cart) {
+      cart.products = cart.products.map(item => {
+        if (item.productId.offer) {
+          item.productId.offerPrice = item.productId.price * (1 - item.productId.offer.percentage / 100);
+        }
+        return item;
+      });
+    }
+
+    const countProduct = cart ? cart.products.length : 0;
     res.render("user/cart", { cart, countProduct, user: req.session.userId });
   } catch (error) {
     console.log(error.message);
@@ -16,27 +27,36 @@ const cartpage = async (req, res) => {
 const addtocart = async (req, res) => {
   try {
     if (!req.session.userId) {
-      return res.send({ msg: "no user" }).status(201);
+      return res.status(401).send({ msg: "no user" });
     }
 
-   const wish= await wishlistModal.findOneAndUpdate({userId:req.session.userId},{$pull:{products:{productId:req.body.id}}},{new:true});
-   console.log(wish);
+    await wishlistModel.findOneAndUpdate(
+      { userId: req.session.userId },
+      { $pull: { products: { productId: req.body.id } } },
+      { new: true }
+    );
+
     const userid = await cartModel.findOne({
       userId: req.session.userId,
       products: { $elemMatch: { productId: req.body.id } },
     });
 
     if (!userid) {
+      const product = await Product.findById(req.body.id); // Assuming you have a Product model to fetch product details
       const pro = {
         productId: req.body.id,
         count: 1,
       };
-      const addcart = await cartModel.findOneAndUpdate(
+
+      if (product.offer) {
+        pro.offerPrice = product.price * (1 - product.offer.percentage / 100);
+      }
+
+      await cartModel.findOneAndUpdate(
         { userId: req.session.userId },
         { $push: { products: pro } },
         { upsert: true, new: true }
       );
-   
       res.send({ msg: "success" });
     } else {
       await cartModel.findOneAndUpdate(
@@ -53,11 +73,19 @@ const addtocart = async (req, res) => {
 const cartupdate = async (req, res) => {
   try {
     const userId = req.session.userId || req.body.userId;
-    
+    const product = await Product.findById(req.body.productId); // Assuming you have a Product model to fetch product details
+
+    let updateFields = {
+      "products.$.count": req.body.count
+    };
+
+    if (product.offer) {
+      updateFields["products.$.offerPrice"] = product.price * (1 - product.offer.percentage / 100);
+    }
+
     const upcart = await cartModel.findOneAndUpdate(
       { userId, "products.productId": req.body.productId },
-      { $set: { "products.$.count": req.body.count } },
-      { "products.$": 1 },
+      { $set: updateFields },
       { new: true }
     );
 
@@ -73,7 +101,7 @@ const cartupdate = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    const userId = req.session.userId._id;
+    const userId = req.session.userId;
     const productIdToRemove = req.body.id;
     const updatedCart = await cartModel.findOneAndUpdate(
       { userId: userId },
@@ -91,11 +119,9 @@ const remove = async (req, res) => {
   }
 };
 
-
 module.exports = {
   cartpage,
   addtocart,
   cartupdate,
   remove,
- 
 };

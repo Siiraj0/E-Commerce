@@ -2,46 +2,68 @@ const productModel = require("../../models/productmodel");
 
 const shopPage = async (req, res) => {
   try {
-    const limit = 6;
-    const page = parseInt(req.query.page) || 1
-    const skip =(page - 1)*limit;
-    const totalProsCount = await productModel.countDocuments();
-    const totalPages = Math.ceil(totalProsCount / limit)
-    const filter=req.query.filter;
-    let filterObj={}
-    switch(filter){
+    const limit = 6; // Number of products per page
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * limit;
+    const filter = req.query.filter;
+    let filterObj = {};
+
+    switch (filter) {
       case "lowToHigh":
-       
-        filterObj.price=-1;
+        filterObj.price = 1;
         break;
-        case "highToLow":
-          filterObj.price=1;
-          break;
+      case "highToLow":
+        filterObj.price = -1;
+        break;
       default:
         break;
     }
-    const productData = await productModel.find({ isBlocked: false }).populate('category').skip(skip).limit(limit).sort(filterObj);
-    console.log(filterObj);
-    const countProduct = await productModel.countDocuments({ isBlocked: false });
-    res.render("user/shop", { productData, countProduct, user: req.session.userId ,totalPages, currentPage :page});
+
+    // Fetch products and apply filter
+    const products = await productModel.find({ isBlocked: false })
+      .populate({
+        path: 'category',
+        match: { isBlocked: false }
+      })
+      .populate('offer')
+      .sort(filterObj)
+      .skip(skip)
+      .limit(limit);
+
+    // Calculate total products count for pagination
+    const totalProductsCount = await productModel.countDocuments({ isBlocked: false });
+    const totalPages = Math.ceil(totalProductsCount / limit);
+
+    res.render("user/shop", {
+      filteredProductData: products,
+      totalProductsCount,
+      user: req.session.userId,
+      totalPages,
+      currentPage: page,
+      filter
+    });
   } catch (error) {
     console.log(error.message);
+    res.status(500).send("Internal server error");
   }
 };
+;
+
 
 const productpage = async (req, res) => {
   try {
     const id = req.params.id;
-    const productData = await productModel.findOne({ _id: id });
-    const countProduct = await productModel.countDocuments({ isBlocked: false });
+    const productData = await productModel.findOne({ _id: id }).populate('offer');
 
-    res.render("user/product", { productData, countProduct, user: req.session.userId });
+    res.render("user/product", { productData, user: req.session.userId });
   } catch (error) {
     console.log(error.message);
   }
 };
+
 
 module.exports = {
   shopPage,
   productpage
 };
+

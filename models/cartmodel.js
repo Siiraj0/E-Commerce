@@ -17,7 +17,11 @@ const cartSchema= new mongoose.Schema({
             required: true,
             default: 1,
         }
-    }]
+    }],
+    couponDiscount:{
+        type:Number,
+        default:0,
+    }
 })
 
 module.exports = mongoose.model('cart',cartSchema)

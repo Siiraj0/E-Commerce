@@ -324,32 +324,41 @@
                 <div class="tab-content jump-3 pt-30">
                     <div id="shop-1" class="tab-pane active">
                         <div class="row">
-                            <% productData.forEach(product => { %>
-                                <div class="col-lg-4 col-md-6 col-sm-6">
-                                    <div class="product-wrap mb-50">
-                                        <div class="product-img default-overlay mb-25">
-                                            <a href="/product/<%= product._id %>">
-                                                <img class="default-img" src="<%= product.image[0] %>" alt="">
-                                                <img class="hover-img" src="<%= product.image[0] %>" alt="">
-                                            </a>
-                                            <div class="product-action product-action-position-1">
-                                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-2 title-font-width-400 text-center">
-                                            <h3><a href="product-details.html"><%= product.name %></a></h3>
-                                            <div class="product-price">
-                                                <span class="new-price">₹<%= product.price %></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                          <% filteredProductData.forEach(product => { %>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                              <div class="product-wrap mb-50">
+                                <div class="product-img default-overlay mb-25">
+                                  <a href="/product/<%= product._id %>">
+                                    <img class="default-img" src="<%= product.image[0] %>" alt="">
+                                    <img class="hover-img" src="<%= product.image[0] %>" alt="">
+                                  </a>
+                                  <div class="product-action product-action-position-1">
+                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
+                                    <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
+                                    <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
+                                    <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
+                                  </div>
                                 </div>
-                            <% }); %>
+                                <div class="product-content-2 title-font-width-400 text-center">
+                                  <h3><a href="/product/<%= product._id %>"><%= product.name %></a></h3>
+                                  <div class="product-price">
+                                    <% if (product.offer) { %>
+                                      <span class="new-price">₹<%= Math.floor(product.offerPrice) %></span>
+                                      <span class="old-price">₹<%= Math.floor(product.price) %></span>
+                                      <span class="discount" style="color: red;">(<%= Math.floor(product.offer.percentage) %>% OFF)</span>
+                                    <% } else { %>
+                                      <span class="new-price">₹<%= Math.floor(product.price) %></span>
+                                    <% } %>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          <% }); %>
                         </div>
-                    </div>
+                    
+                    
+                    
+                    
                     <div id="shop-2" class="tab-pane">
                         <!-- Shop-2 content remains unchanged -->
                     </div>
