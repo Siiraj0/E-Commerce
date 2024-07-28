@@ -8,7 +8,8 @@ const addressModel = require("../../models/addressmodel");
 const orderModel = require("../../models/ordermodel")
 const bcrypt = require('bcrypt');
 const walletModel = require("../../models/walletmodel");
-const instance = require('../../config/razorpay')
+const instance = require('../../config/razorpay');
+const offermodel = require("../../models/offermodel");
 require('dotenv').config()
 
 const myaccount = async (req, res) => {
@@ -89,23 +90,7 @@ const myaccount = async (req, res) => {
     }
   };
 
-  const loadOrderDetails = async (req, res) => {
-    try {
-      const orderId = req.params.id;
-      const orders = await ordermodel
-        .findById(orderId)
-        .populate("products.productId");
-  
-      const userId = req.session.user_id;
-      const cartItems = await cartmodel
-        .findOne({ userId: userId })
-        .populate("products.productId");
-  
-      res.render("users/orderDetails", { orders, cartItems });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+ 
 
 
   const logout = (req, res) => {
@@ -254,15 +239,58 @@ const saveEdit = async (req,res)=>{
   }
 }
 
+
+
+const orderDetails = async (req, res) => {
+  try {
+      const id = req.params.id;
+
+      // Fetch the order with populated product details
+      const order = await orderModel.findById(id)
+          .populate('userId')
+          .populate('products.productId');
+
+      // Check if the order was found
+      if (!order) {
+          return res.status(404).render('error', { message: 'Order not found' });
+      }
+
+      // Calculate the tracking percentage based on the order status
+      const getTrackingPercentage = (status) => {
+          switch (status) {
+              case 'Pending':
+                  return 33; // 1/3
+              case 'Shipped':
+                  return 66; // 2/3
+              case 'Delivered':
+                  return 100; // Complete
+              default:
+                  return 0; // Default
+          }
+      };
+
+      res.render('user/orderDetails', { 
+          order, 
+          getTrackingPercentage 
+      });
+  } catch (error) {
+      console.error('Error fetching order details:', error.message);
+      res.status(500).render('error', { message: 'Internal Server Error' });
+  }
+};
+
+
+
+
   module.exports={
     myaccount,
     editUser,
     addAddress,
-    loadOrderDetails,
     logout,
     updateProfile,
     addWallet,
     razorPay,
     editAddress,
-    saveEdit
+    saveEdit,
+    orderDetails,
   }

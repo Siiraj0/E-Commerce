@@ -459,9 +459,17 @@
                                
                                         <div class="your-order-middle">
                                             
-                                            <ul>        
-                                                <li class="product-total"><%= product.productId.name %> x <%= product.count %> <span>₹<%=product.productId.price * product.count %></span></li>
+                                            <ul>
+                                                <li class="product-total">
+                                                    <%= product.productId.name %> x <%= product.count %> 
+                                                    <span>
+                                                        ₹<%= product.productId.offer ? 
+                                                             Math.floor(product.productId.offerPrice * product.count) :
+                                                             Math.floor(product.productId.price * product.count) %>
+                                                    </span>
+                                                </li>
                                             </ul>
+                                            
                                         </div>
                                         <%  }); %>
                                         <div class="your-order-info order-subtotal">
@@ -825,6 +833,7 @@
 
 
 <script>
+ 
        async function addNewAddress(){
         
             const name = document.getElementById('nameId').value.trim()
@@ -1079,6 +1088,9 @@
     function calculateTotal() {
         var subtotal = 0;
 
+
+
+        const orderAmount= document.getElementById('totalprice')
         // Iterate over each product in your list
         var productElements = document.querySelectorAll('.product-total');
         productElements.forEach(function(productElement) {
@@ -1088,8 +1100,10 @@
 
             // Add to subtotal
             subtotal += price;
+
         });
 
+        orderAmount.value = subtotal.toFixed(2) 
         // Update subtotal display
         var subtotalElement = document.getElementById('product-subtotal');
         if (subtotalElement) {
@@ -1228,6 +1242,74 @@
                     text: 'Failed to copy coupon code.',
                 });
             });
+    }
+
+    function placeorder() {
+        let checkedRadio = document.querySelector('input[name="addressSelected"]:checked');
+        if (checkedRadio) {
+            let addressId = checkedRadio.value;
+    
+            let method = document.getElementById('paymentMethod').value;
+            console.log(method, 'method');
+            console.log(addressId, 'addressId');
+    
+            let payment = document.getElementById("payment");
+            payment.value = method;
+    
+            const totalprice = document.getElementById('totalprice').value;
+            const couponDiscountElement = document.getElementById('couponDiscount');
+            const couponDiscount = couponDiscountElement ? couponDiscountElement.innerText.replace('₹', '') : '0';
+            const couponDiscountInput = document.getElementById('couponDiscountInput');
+            couponDiscountInput.value = parseFloat(couponDiscount).toFixed(2); // Ensure it's a number
+    
+            const form = document.getElementById("myForm");
+            if (method === "COD") {
+                form.submit();
+            } else {
+                fetch('/razors', {
+                    method: 'POST',
+                    headers: { 'Content-type': 'application/json' },
+                    body: JSON.stringify({ amount: totalprice })
+                })
+                .then(res => {
+                    console.log('Fetch response status:', res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('Data received from server:', data);
+                    if (data.success) {
+                        let options = {
+                            "key": data.key_id,
+                            "amount": data.amount,
+                            "currency": "INR",
+                            "name": "TORO",
+                            "order_id": data.order_id,
+                            "handler": function (response) {
+                                form.submit();
+                            },
+                            "prefill": {
+                                "name": data.name,
+                                "email": data.email
+                            }
+                        };
+    
+                        let razorpayObject = new Razorpay(options);
+                        razorpayObject.on('payment.failed', (response) => {
+                            alert('Payment failed');
+                        });
+                        razorpayObject.open();
+                    } else {
+                        alert('Failed to initiate payment');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error initiating payment:', error);
+                    alert('Error initiating payment');
+                });
+            }
+        } else {
+            alert('Please select an address.');
+        }
     }
 
     // Call calculateTotal initially (on page load, for example)

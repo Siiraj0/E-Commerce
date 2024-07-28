@@ -285,53 +285,63 @@
                             <div class="row">
                                 <div class="col-lg-8">
                                     <div class="table-content table-responsive cart-table-content">
+                                        
                                         <table>
                                             <thead>
                                                 <tr>
                                                     <th></th>
                                                     <th></th>
                                                     <th>Product</th>
-                                                    <th> Price</th>
+                                                    <th>Price</th>
                                                     <th>Quantity</th>
-                                                    <th>total</th>
+                                                    <th>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <% if(cart  && cart.length!==0){ %>
-                                                
-                                                    <% cart.products?.forEach((e,i) => { %>
-                                                        
+                                                <% if(cart && cart.products.length > 0) { %>
+                                                    <% cart.products.forEach((e, i) => { %>
                                                         <tr id="cartItem_<%= i %>">
                                                             <td class="product-remove">
-                                                                <a onclick="remove('<%= e.productId._id %>', '<%= i %>')" >
+                                                                <a onclick="remove('<%= e.productId._id %>', '<%= i %>')">
                                                                     <i class="dlicon ui-1_simple-remove"></i>
                                                                 </a>
                                                             </td>
-                                                            
-                                                    <td class="product-img">
-                                                        <a href="#"><img src="<%= e.productId.image[0] %>" alt="" class="small-img"></a>
-                                                    </td>
-                                                    <td class="product-name" style="transform: translate(2.5rem);"> <a  href="#"><p><%= e.productId.name %></p></a></td>
-                                                    <td class="product-price"><span class="amount">₹<%= e.productId.price %></span></td>
-                                                    <td class="cart-quantity">
-                                                        <div style="padding: 0 .5rem;" class="product-details-quantity quantity-width-cart">
-                                                            <div style="cursor: pointer; display: flex; align-items: center; position: relative;">
-                                                                <i onclick="plus(this, '<%= e.productId.stock %>', '<%= e.productId._id %>')" class="ri-add-line" style="position: absolute; left: 0.2rem;"></i>
-                                                                <input class="cart-plus-minus-box" style="cursor: text; text-align: center;" type="text" name="qtybutton" value="<%= e.count %>" data-price="<%= e.productId.price %>">
-
-                                                                <i onclick="minus(this, '<%= e.productId._id %>')" class="ri-subtract-line" style="position: absolute; left: 85%;"></i>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-total"><span>₹<%= e.productId.price * e.count %></span></td>                                                </tr>
-                                                <% }); %>
-                                                <% }else{ %>
-                                                  <p>nothing..</p>
-                                                    <% } %>
+                                                            <td class="product-img">
+                                                                <a href="#"><img src="<%= e.productId.image[0] %>" alt="" class="small-img"></a>
+                                                            </td>
+                                                            <td class="product-name" style="transform: translate(2.5rem);">
+                                                                <a href="#"><p><%= e.productId.name %></p></a>
+                                                            </td>
+                                                            <td class="product-price">
+                                                                <span class="amount">
+                                                                    ₹<%= e.productId.offer ? Math.floor(e.productId.offerPrice) : Math.floor(e.productId.price) %>
+                                                                    <% if(e.productId.offer) { %>
+                                                                        <span class="original-price" style="text-decoration: line-through; color: grey;">
+                                                                            ₹<%= e.productId.price %>
+                                                                        </span>
+                                                                    <% } %>
+                                                                </span>
+                                                            </td>
+                                                            <td class="cart-quantity">
+                                                                <div style="padding: 0 .5rem;" class="product-details-quantity quantity-width-cart">
+                                                                    <div style="cursor: pointer; display: flex; align-items: center; position: relative;">
+                                                                        <i onclick="plus(this, '<%= e.productId.stock %>', '<%= e.productId._id %>')" class="ri-add-line" style="position: absolute; left: 0.2rem;"></i>
+                                                                        <input class="cart-plus-minus-box" style="cursor: text; text-align: center;" type="text" name="qtybutton" value="<%= e.count %>" data-price="<%= e.productId.offer ? e.productId.offerPrice : e.productId.price %>">
+                                                                        <i onclick="minus(this, '<%= e.productId._id %>')" class="ri-subtract-line" style="position: absolute; left: 85%;"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="product-total">
+                                                                <span>₹<%= (e.productId.offer ? Math.floor(e.productId.offerPrice) : Math.floor(e.productId.price) * e.count) %></span>
+                                                            </td>
+                                                        </tr>
+                                                    <% }); %>
+                                                <% } else { %>
+                                                    <p>Nothing in the cart</p>
+                                                <% } %>
                                             </tbody>
-                                            
-                                            
                                         </table>
+                                        
                                     </div>
                                     <div class="cart-shiping-update-wrapper">
                                         <div class="discount-code">
@@ -352,14 +362,12 @@
                                                 <li>Total <span id="cart-total">₹0.00</span></li>
                                             </ul>
                                         </div>
-                                        
+                                    
                                         <div class="grand-btn">
-                                            <% if( locals.cart.products?.length >  0 ){ %>
-
+                                            <% if(locals.cart.products?.length > 0) { %>
                                                 <a href="/checkout?total=<span id='cart-total'></span>">Proceed to checkout</a>
-                                                <% } %>
+                                            <% } %>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -499,7 +507,6 @@
 
 </script>
 
-
 <script>
     async function plus(e, qt, proID) {
         const g = e.nextElementSibling;
@@ -511,7 +518,7 @@
         updateTotal(e);
         await cartUpdate(proID, g.value);
     }
-    
+
     async function minus(e, proID) {
         const g = e.previousElementSibling;
         if (Number(g.value) > 1) {
@@ -520,7 +527,7 @@
         updateTotal(e);
         await cartUpdate(proID, g.value);
     }
-    
+
     async function cartUpdate(proID, qt) {
         try {
             await axios.post('/cartupdate', { productId: proID, count: qt });
@@ -528,35 +535,33 @@
             console.error('Error updating cart:', error);
         }
     }
-    
+
     function updateTotal(e) {
-    const row = e.closest('tr');
-    const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value);
-    const price = parseFloat(row.querySelector('.cart-plus-minus-box').dataset.price);
-    const totalElement = row.querySelector('.product-total span');
-    totalElement.textContent = '₹' + (price * quantity).toFixed(2);
+        const row = e.closest('tr');
+        const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value, 10);
+        const price = parseInt(row.querySelector('.cart-plus-minus-box').dataset.price, 10);
+        const totalElement = row.querySelector('.product-total span');
+        totalElement.textContent = '₹' + (price * quantity).toFixed(2);
 
-    updateCartSummary();
-}
+        updateCartSummary();
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-    updateCartSummary();
-});
-
-function updateCartSummary() {
-    let subtotal = 0;
-    document.querySelectorAll('.product-total span').forEach(item => {
-        subtotal += parseFloat(item.textContent.replace('₹', ''));
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCartSummary();
     });
 
-    const total = subtotal; // Adjust if there are additional charges or discounts
-    document.getElementById('cart-subtotal').textContent = '₹' + subtotal.toFixed(2);
-    document.getElementById('cart-total').textContent = '₹' + total.toFixed(2);
-}
+    function updateCartSummary() {
+        let subtotal = 0;
+        document.querySelectorAll('.product-total span').forEach(item => {
+            subtotal += parseInt(item.textContent.replace('₹', ''), 10);
+        });
 
+        const total = subtotal; // Adjust if there are additional charges or discounts
+        document.getElementById('cart-subtotal').textContent = '₹' + subtotal.toFixed(2);
+        document.getElementById('cart-total').textContent = '₹' + total.toFixed(2);
+    }
+</script>
 
-    </script>
-    
 <style>
     .small-img {
     width: 100px;

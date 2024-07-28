@@ -1,0 +1,617 @@
+<%- include('../layouts/user/userHeader.ejs') %>
+<body>
+  <div class="m ain-wrapper">
+    <header class="header-area section-padding-1">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-xl-2 col-lg-2">
+            <div class="logo logo-width">
+              <a href="index.html">
+                <img src="user/assets/images/logo/logo.png" alt="logo" />
+              </a>
+            </div>
+          </div>
+          <div
+            class="col-xl-8 col-lg-8 d-flex justify-content-center position-static"
+          >
+            <div class="main-menu menu-lh-1 main-menu-padding-1">
+              <nav>
+                <ul>
+                  <li class="position-static">
+                    <a href="/">Home </a>
+                    <div class="mega-menu-style-1"></div>
+                  </li>
+                  <li>
+                    <a href="#">Pages </a>
+                    <ul class="sub-menu-width">
+                      <li><a href="about-us.html">About Us</a></li>
+                      <li><a href="contact-us.html">Contact Page</a></li>
+                      <li><a href="404.html">404 Page</a></li>
+                      <li><a href="comming-soon.html">Comming Soon 01</a></li>
+                      <li><a href="comming-soon-2.html">Comming Soon 02</a></li>
+                      <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="/shop">Shop </a>
+                  </li>
+                  <li>
+                    <a href="shop-collection-1.html"
+                      >Collections 
+                    </a>
+                    <ul class="sub-menu-width">
+                      <li>
+                        <a href="shop-collection-1.html">Shop Collection 01</a>
+                      </li>
+                      <li>
+                        <a href="shop-collection-2.html">Shop Collection 02</a>
+                      </li>
+                      <li><a href="shop-metro.html">Shop Metro Layout</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="blog.html"
+                      >Blog </a>
+                   
+                  </li>
+                  <li><a href="shop-instagram.html">Instagram Shop </a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-2">
+            <div class="header-right-wrap header-right-flex">
+              <div class="same-style header-wishlist">
+                <a href="/wishlist"><i class="far fa-heart"></i></a>
+              </div>
+              <div class="same-style cart-wrap">
+                <a href="#" class="cart-active">
+                  <i class="dlicon shopping_bag-20"></i>
+                  <span class="count-style">02</span>
+                </a>
+              </div>
+              <div class="same-style header-search">
+                <a class="search-active" href="#">
+                  <i class="dlicon ui-1_zoom"></i>
+                </a>
+              </div>
+              <div class="same-style header-off-canvas">
+                <a href="<%= locals.user? '/myaccount' : '/login' %> ">
+                  <!-- <i class="far fa-user-plus" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i> -->
+                  <i
+                    class="far fa-user"
+                    style="font-size: 20px; color: black"
+                    onmouseover="this.style.color='red'"
+                    onmouseout="this.style.color='black'"
+                  ></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="header-small-mobile section-padding-1">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-6">
+            <div class="mobile-logo logo-width">
+              <a href="index.html">
+                <img alt="" src="user/assets/images/logo/logo.png" />
+              </a>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="mobile-header-right-wrap">
+              <div class="header-right-wrap header-right-flex">
+                <div class="same-style cart-wrap">
+                  <a href="#" class="cart-active">
+                    <i class="dlicon shopping_bag-20"></i>
+                    <span class="count-style">02</span>
+                  </a>
+                </div>
+                <div class="same-style header-off-canvas">
+                  <a class="header-aside-button" href="#">
+                    <i class="dlicon ui-3_menu-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- search start -->
+    <div class="search-content-wrap main-search-active">
+      <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
+      <div class="search-content">
+        <p>Start typing and press Enter to search</p>
+        <form class="search-form" action="#">
+          <input type="text" placeholder="Search" />
+          <button class="button-search">
+            <i class="dlicon ui-1_zoom"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- mini cart start -->
+    <div class="sidebar-cart-active">
+      <div class="sidebar-cart-all">
+        <a class="cart-close" href="#"
+          ><i class="dlicon ui-1_simple-remove"></i
+        ></a>
+        <div class="cart-content">
+          <h3>Shopping Cart</h3>
+          <ul>
+            <li class="single-product-cart">
+              <div class="cart-img">
+                <a href="#"
+                  ><img src="user/assets/images/cart/cart-1.jpg" alt=""
+                /></a>
+              </div>
+              <div class="cart-title">
+                <h4><a href="#">Bejewelled velvet sandals</a></h4>
+                <span> 1 × $49.00 </span>
+              </div>
+              <div class="cart-delete">
+                <a href="#">×</a>
+              </div>
+            </li>
+            <li class="single-product-cart">
+              <div class="cart-img">
+                <a href="#"
+                  ><img src="user/assets/images/cart/cart-2.jpg" alt=""
+                /></a>
+              </div>
+              <div class="cart-title">
+                <h4><a href="#">Contrast faux fur jacket</a></h4>
+                <span> 1 × $49.00 </span>
+              </div>
+              <div class="cart-delete">
+                <a href="#">×</a>
+              </div>
+            </li>
+          </ul>
+          <div class="cart-total">
+            <h4>Subtotal: <span>$170.00</span></h4>
+          </div>
+          <div class="cart-checkout-btn">
+            <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
+            <a class="no-mrg btn-hover cart-btn-style" href="/checkout"
+               >checkout</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- aside start -->
+    <div class="header-aside-active">
+      <div class="header-aside-wrap">
+        <a class="aside-close"><i class="dlicon ui-1_simple-remove"></i></a>
+        <div class="header-aside-content">
+          <div class="mobile-menu-area">
+            <div class="mobile-search">
+              <form class="search-form" action="#">
+                <input type="text" placeholder="Search entire store…" />
+                <button class="button-search">
+                  <i class="dlicon ui-1_zoom"></i>
+                </button>
+              </form>
+            </div>
+            <div class="mobile-menu-wrap">
+              <!-- mobile menu start -->
+              <div class="mobile-navigation">
+                <!-- mobile menu navigation start -->
+                <nav>
+                  <ul class="mobile-menu">
+                    <li class="menu-item-has-children">
+                      <a href="/">Home</a>
+                      
+                    </li>
+                    <li class="menu-item-has-children">
+                      <a href="#">Pages</a>
+                   
+                    </li>
+                    <li class="menu-item-has-children">
+                      <a href="/shop">shop</a>
+                     
+                    </li>
+                    <li class="menu-item-has-children">
+                      <a href="shop-collection-1.html">Collection</a>
+                      
+                    </li>
+                    <li class="menu-item-has-children">
+                      <a href="blog.html">Blog</a>
+                     
+                    </li>
+                    <li><a href="shop-instagram.html">Instagram Shop </a></li>
+                  </ul>
+                </nav>
+                <!-- mobile menu navigation end -->
+              </div>
+              <!-- mobile menu end -->
+            </div>
+            <div class="mobile-curr-lang-wrap">
+             
+             
+              <div class="single-mobile-curr-lang">
+                <a class="mobile-account-active" href="#"
+                  >My Account <i class="fa fa-angle-down"></i
+                ></a>
+                <div class="lang-curr-dropdown account-dropdown-active">
+                  <ul>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Creat Account</a></li>
+                    <li><a href="<%= locals.user? '/myaccount' : '/login' %>">My Account</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <img src="user/assets/images/icon-img/payments.png" alt="payment" />
+          <p>
+            Pellentesque mollis nec orci id tincidunt. Sed mollis risus eu nisi
+            aliquet, sit amet fermentum justo dapibus.
+          </p>
+          <div class="aside-contact-info">
+            <ul>
+              <li>
+                <i class="dlicon ui-2_time-clock"></i>Monday - Friday: 9:00 -
+                19:00
+              </li>
+              <li><i class="dlicon ui-1_email-84"></i>Info@la-studioweb.com</li>
+              <li><i class="dlicon tech-2_rotate"></i>(+55) 254. 254. 254</li>
+              <li>
+                <i class="dlicon ui-1_home-minimal"></i>Helios Tower 75 Tam
+                Trinh Hoang - Ha Noi - Viet Nam
+              </li>
+            </ul>
+          </div>
+          <div class="social-icon-style mb-25">
+            <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+            <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+            <a class="google-plus" href="#"
+              ><i class="fa fa-google-plus"></i
+            ></a>
+            <a class="behance" href="#"><i class="fa fa-behance"></i></a>
+          </div>
+          <div class="copyright">
+            <p>
+              © 2021 <a href="https://hasthemes.com/">Toro.</a> All rights
+              reserved
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+      <div class="container-fluid">
+        <div class="breadcrumb-content text-center">
+          <div class="breadcrumb-title">
+            <h2>My Account</h2>
+          </div>
+          <ul>
+            <li>
+              <a href="index.html">Home 01 </a>
+            </li>
+            <li><span> &gt; </span></li>
+            <li class="active">My Account</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <h1>Order Details</h1>
+        <div class="order-info">
+            <p><strong>Order ID:</strong> <%= order._id %></p>
+            <p><strong>Order Date:</strong> <%= order.orderDate.toDateString() %></p>
+            <p><strong>Coupon Discount:</strong> ₹<%= order.couponDiscount %></p>
+            <p><strong>Payment Method:</strong> <%= order.payment %></p>
+            <p><strong>Total Amount:</strong> ₹<%= order.orderAmount %></p>
+            <p><strong>Deliver To:</strong> <%= order.deliveryAddress.name %></p>
+        </div>
+
+        <div class="order-products">
+            <% order.products.forEach((e) => { %>
+                <div class="product-box">
+                    <img src="<%= e.productId.image[0] %>" alt="Product Image" class="product-image">
+                    <div class="product-details">
+                        <p class="product-name"><%= e.productId.name %></p>
+                        <p class="product-price">₹<%= e.totalPrice %></p>
+                        <% if (e.productId.offerPercentage) { %>
+                            <p class="offer-percentage"><%= e.productId.offerPercentage %>% off</p>
+                        <% } %>
+                    </div>
+                    <% if (!e.cancelled) { %>
+                        <button class="cancel-button" type="button" onclick="cancelOrder('<%= order._id %>', '<%= e._id %>')">Cancel Order</button>
+                    <% } else { %>
+                        <p>Cancelled</p>
+                    <% } %>
+                </div>
+            <% }); %>
+        </div>
+
+        <div class="tracking-line">
+            <div class="<%= order.products.every(p => p.orderStatus !== 'Pending') ? 'active' : '' %>"></div>
+            <div class="<%= order.products.some(p => p.orderStatus === 'Shipped') ? 'active' : '' %>"></div>
+            <div class="<%= order.products.some(p => p.orderStatus === 'Delivered') ? 'active' : '' %>"></div>
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <span>Order Placed</span>
+            <span style="margin: 0 10px;">></span>
+            <span>Shipped</span>
+            <span style="margin: 0 10px;">></span>
+            <span>Delivered</span>
+        </div>
+    </div>
+
+    <script>
+        function cancelOrder(orderId, productId) {
+            // Logic for cancelling the order
+            alert('Order ' + orderId + ', Product ' + productId + ' has been cancelled.');
+            // You can replace this with an AJAX call to your server to handle the cancellation
+        }
+    </script>
+</body>
+  </div>
+  
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .order-info {
+        margin-bottom: 20px;
+    }
+    .order-info p {
+        margin: 5px 0;
+    }
+    .product-box {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+    .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-right: 15px;
+    }
+    .product-details {
+        flex: 1;
+    }
+    .product-name {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+    .product-price {
+        font-size: 14px;
+        color: #777;
+        margin: 5px 0;
+    }
+    .offer-percentage {
+        font-size: 14px;
+        color: #ff5722;
+    }
+    .cancel-button {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+    .cancel-button:hover {
+        background-color: #d32f2f;
+    }
+    .tracking-line {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .tracking-line div {
+        flex: 1;
+        height: 10px;
+        border: 1px solid #ddd;
+        position: relative;
+    }
+    .tracking-line div::after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 20px;
+        height: 20px;
+        background-color: #4caf50;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+    .tracking-line .active {
+        background-color: #4caf50;
+    }
+</style>
+<!-- editAddress modal end  -->
+
+</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    
+    <footer class="footer-area section-padding-1 border-top-3">
+      <div class="container-fluid">
+        <div class="footer-top pt-100 pb-60">
+          <div class="row">
+            <div class="footer-column footer-width-24">
+              <div class="footer-widget footer-about mb-30">
+                <a href="index.html">
+                  <img src="user/assets/images/logo/logo.png" alt="logo" />
+                </a>
+                <p>
+                  Lorem ipsum dolor sit amet, magna habemus ius ad, qui minimum
+                  voluptar
+                </p>
+                <div class="social-icon-style-2 social-icon-hm4">
+                  <a class="facebook" href="#"
+                    ><i class="fa fa-facebook"></i
+                  ></a>
+                  <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                  <a class="youtube" href="#"><i class="fa fa-youtube"></i></a>
+                  <a class="dribbble" href="#"
+                    ><i class="fa fa-dribbble"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+            <div class="footer-column footer-width-12">
+              <div class="footer-widget footer-info-list-2 mb-30">
+                <h3 class="footer-title">Company Link</h3>
+                <ul>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Help Center</a></li>
+                  <li><a href="#">Our Team</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">The Blog</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-column footer-width-14">
+              <div class="footer-widget footer-info-list-2 mb-30">
+                <h3 class="footer-title">Userful Link</h3>
+                <ul>
+                  <li><a href="#">Guides & Articles</a></li>
+                  <li><a href="#">Customer Reviews</a></li>
+                  <li><a href="#">Coupon Codes</a></li>
+                  <li><a href="#">Military Discount</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-column footer-width-19">
+              <div
+                class="footer-widget footer-info-list-2 footer-contect mb-30"
+              >
+                <h3 class="footer-title">Contact info</h3>
+                <ul>
+                  <li>
+                    <i class="dlicon ui-2_time-clock"></i> Monday - Friday: 9:00
+                    - 19:00
+                  </li>
+                  <li><i class="dlicon ui-1_email-83"></i> info@example.com</li>
+                  <li><i class="dlicon tech-2_rotate"></i> (+612) 2531 5600</li>
+                  <li>
+                    <i class="dlicon ui-1_home-simple"></i> PO Box 1622 Colins
+                    Street West Victoria 8077 Australia
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="footer-column footer-width-29 mb-30">
+              <div class="contact-page-map">
+                <div id="contact-map">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.838709675939!2d144.95320007668528!3d-37.817246734238516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4dd5a05d97%3A0x3e64f855a564844d!2s121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1670477011653!5m2!1sen!2sus"
+                    style="border: 0; width: 100%; height: 100%"
+                    allowfullscreen=""
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-botoom">
+          <div class="row">
+            <div class="col-12">
+              <div class="copyright-2 text-center">
+                <p>
+                  © 2021 <a href="https://hasthemes.com/">Toro.</a> All rights
+                  reserved.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+   
+  </div>
+
+
+<!-- All css here -->
+
+
+
+  <!-- All JS is here
+============================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+
+    <!-- Modernizer JS -->
+    <script src="user/assets/js/vendor/modernizr-3.11.7.min.js"></script>
+    <!-- jquery -->
+    <script src="user/assets/js/vendor/jquery-v3.6.0.min.js"></script>
+    <!-- Popper JS -->
+    <script src="user/assets/js/vendor/popper.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="user/assets/js/vendor/bootstrap.min.js"></script>
+    <script src="user/assets/js/plugins/owl-carousel.js"></script>
+    <script src="user/assets/js/plugins/slick.js"></script>
+    <script src="user/assets/js/plugins/jarallax.min.js"></script>
+    <script src="user/assets/js/plugins/countdown.js"></script>
+    <script src="user/assets/js/plugins/magnific-popup.js"></script>
+    <script src="user/assets/js/plugins/instafeed.js"></script>
+    <script src="user/assets/js/plugins/tilt.js"></script>
+    <script src="user/assets/js/plugins/images-loaded.js"></script>
+    <script src="user/assets/js/plugins/isotope.js"></script>
+    <script src="user/assets/js/plugins/scrolloverflow-fullpage.js"></script>
+    <script src="user/assets/js/plugins/fullpage.js"></script>
+    <script src="user/assets/js/plugins/jquery-ui.js"></script>
+    <script src="user/assets/js/plugins/jquery-ui-touch-punch.js"></script>
+    <script src="user/assets/js/plugins/easyzoom.js"></script>
+    <script src="user/assets/js/plugins/resizesensor.js"></script>
+    <script src="user/assets/js/plugins/sticky-sidebar.js"></script>
+    <script src="user/assets/js/plugins/scrollup.js"></script>
+    <script src="user/assets/js/plugins/select2.min.js"></script>
+    <script src="user/assets/js/plugins/cookie.js"></script>
+    <script src="user/assets/js/plugins/bpopup.js"></script>
+    <script src="user/assets/js/plugins/wow.js"></script>
+    <script src="user/assets/js/plugins/ajax-mail.js"></script>
+    <!-- Main JS -->
+    <script src="user/assets/js/main.js"></script>
+
+</body>
+
+<!-- Mirrored from htmldemo.net/toro/toro/my-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 11:04:56 GMT -->
+</html>

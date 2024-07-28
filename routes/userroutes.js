@@ -47,7 +47,6 @@ userRoute.post("/remove", cartController.remove);
 userRoute.get('/checkout',auth.userIn,checkoutController.checkout)
 userRoute.post("/addAddress", myaccountController.addAddress);
 userRoute.post("/editUser/:id", myaccountController.editUser);
-userRoute.get('/orderDetails/:id',myaccountController.loadOrderDetails)
 userRoute.patch('/checkoutAddAddress',checkoutController.checkoutAddAddress)
 userRoute.post('/placeOrder',checkoutController.placeOrder)
 userRoute.get('/shop/lowToHigh',userController.lowToHigh)
@@ -69,6 +68,7 @@ userRoute.patch('/saveEditAddress', checkoutController.saveEditAddress)
 userRoute.patch('/removeAddress', checkoutController.removeAddress)
 userRoute.post('/couponFetch', checkoutController.couponFetch)
 userRoute.post('/couponSubmit', checkoutController.couponSubmit)
+userRoute.get('/orderDetails/:id', myaccountController.orderDetails)
 
 
 //Login With Google

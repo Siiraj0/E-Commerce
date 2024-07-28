@@ -1,17 +1,19 @@
 const cartModel = require("../../models/cartmodel");
 const wishlistModel = require("../../models/wishlistmodel");
-const Product = require("../../models/productmodel"); // Assuming you have a Product model
+const Product = require("../../models/productmodel");
 
 const cartpage = async (req, res) => {
   try {
     const cart = await cartModel
       .findOne({ userId: req.session.userId })
       .populate("products.productId");
-   
+
     if (cart) {
       cart.products = cart.products.map(item => {
         if (item.productId.offer) {
-          item.productId.offerPrice = item.productId.price * (1 - item.productId.offer.percentage / 100);
+          item.productId.offerPrice = Math.floor(item.productId.price * (1 - item.productId.offer.percentage / 100));
+        } else {
+          item.productId.offerPrice = item.productId.price;
         }
         return item;
       });
@@ -42,14 +44,16 @@ const addtocart = async (req, res) => {
     });
 
     if (!userid) {
-      const product = await Product.findById(req.body.id); // Assuming you have a Product model to fetch product details
+      const product = await Product.findById(req.body.id);
       const pro = {
         productId: req.body.id,
         count: 1,
       };
 
       if (product.offer) {
-        pro.offerPrice = product.price * (1 - product.offer.percentage / 100);
+        pro.offerPrice = Math.floor(product.price * (1 - product.offer.percentage / 100));
+      } else {
+        pro.offerPrice = product.price;
       }
 
       await cartModel.findOneAndUpdate(
@@ -73,14 +77,16 @@ const addtocart = async (req, res) => {
 const cartupdate = async (req, res) => {
   try {
     const userId = req.session.userId || req.body.userId;
-    const product = await Product.findById(req.body.productId); // Assuming you have a Product model to fetch product details
+    const product = await Product.findById(req.body.productId);
 
     let updateFields = {
       "products.$.count": req.body.count
     };
 
     if (product.offer) {
-      updateFields["products.$.offerPrice"] = product.price * (1 - product.offer.percentage / 100);
+      updateFields["products.$.offerPrice"] = Math.floor(product.price * (1 - product.offer.percentage / 100));
+    } else {
+      updateFields["products.$.offerPrice"] = product.price;
     }
 
     const upcart = await cartModel.findOneAndUpdate(

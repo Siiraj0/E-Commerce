@@ -70,7 +70,7 @@ const placeOrder = async (req, res) => {
           products: cart.products.map(e => ({
               productId: e.productId._id,
               quantity: e.count,
-              totalPrice: e.count * e.productId.price
+              totalPrice: e.productId.offer ? Math.floor(e.productId.offerPrice) : Math.floor(e.productId.price) * e.count
           })),
           deliveryAddress: address,
           orderAmount: parseFloat(orderAmount), // Ensure it's a number
