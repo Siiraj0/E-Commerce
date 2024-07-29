@@ -79,25 +79,27 @@
                                                         <th>Status</th>
                                                 </thead>
                                                 <tbody>
-                                                    
-                                                  <% //console.log(orders,'kkkkkiiiiiiiiiiiii'); %>
-                                                    <% locals.orders.products.forEach((e,i) => {  %>
-                                                       <% console.log(e); %>
+                                                    <% orders.products.forEach((e, i) => { %>
                                                         <tr>
-                                                            <td><%=i+1 %></td>
-                                                            <td><%=e.productId.name  %></td>
-                                                            <td><img style="width: 3rem; height: 3rem; border-radius: 50%;" src="<%=e.productId.image[0]  %>" alt="" srcset=""></td>
-                                                            <td><%=e.productId.price  %></td>
-                                                            <td><%=e.quantity  %></td>
-                                                          
-                                                            <td><%=e.totalPrice  %></td>
-                                                            <td><%=e.orderStatus  %></td>
+                                                            <td><%= i + 1 %></td>
+                                                            <td><%= e.productId.name %></td>
+                                                            <td><img style="width: 3rem; height: 3rem; border-radius: 50%;" src="<%= e.productId.image[0] %>" alt="" srcset=""></td>
+                                                            <td><%= e.productId.price %></td>
+                                                            <td><%= e.quantity %></td>
+                                                            <td><%= e.totalPrice %></td>
+                                                            <td>
+                                                                <select onchange="updateOrderStatus('<%= e._id %>', this.value)">
+                                                                    <option value="Pending" <%= e.orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                                                    <option value="Shipped" <%= e.orderStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                                                    <option value="Delivered" <%= e.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                                                    <option value="Cancelled" <%= e.orderStatus === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                                                </select>
+                                                            </td>
                                                         </tr>
-                                                        
-                                                        <%}); %> 
-
-                                             
+                                                    <% }); %>
                                                 </tbody>
+                                                
+                                                
                                             </table>
                                         </div>
                                         <ul class="pagination pagination-rounded justify-content-end mb-2">
@@ -163,6 +165,28 @@
         <div class="rightbar-overlay"></div>
 
         <!-- JAVASCRIPT -->
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+          async  function updateOrderStatus(orderId, newStatus) {
+             await axios.post('/admin/updateOrderStatus', {
+                    orderId: orderId,
+                    newStatus: newStatus
+                })
+                .then(response => {
+                    if (response.data.success) {
+                        alert('Order status updated successfully');
+                    } else {
+                        alert('Failed to update order status: ' + response.data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        </script>
+        
+
         <base href="/admin/">
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/libs/metismenujs/metismenujs.min.js"></script>

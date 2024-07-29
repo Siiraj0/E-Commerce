@@ -42,5 +42,8 @@ adminRoute.post('/addOffer',  offerController.addOffer)
 adminRoute.get('/editOffer/:id', offerController.loadEditOffer)
 adminRoute.post('/editOffer', offerController.editOffer)
 adminRoute.patch('/offerDelete',  offerController.offerDelete)
+adminRoute.get('/salesReport',  ordersController.salesReport)
+adminRoute.post('/updateOrderStatus',  ordersController.updateOrderStatus)
+
 
 module.exports = adminRoute;

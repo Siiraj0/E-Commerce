@@ -68,7 +68,7 @@ userRoute.patch('/saveEditAddress', checkoutController.saveEditAddress)
 userRoute.patch('/removeAddress', checkoutController.removeAddress)
 userRoute.post('/couponFetch', checkoutController.couponFetch)
 userRoute.post('/couponSubmit', checkoutController.couponSubmit)
-userRoute.get('/orderDetails/:id', myaccountController.orderDetails)
+userRoute.get('/orderDetails/:id',auth.userIn, myaccountController.orderDetails)
 
 
 //Login With Google
