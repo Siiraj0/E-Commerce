@@ -85,6 +85,23 @@ const categoryPage = async (req, res) => {
       console.log(error.message);
     }
   }
+
+  const searchCategory = async (req, res) => {
+    try {
+        const searchTerm = req.query.term;
+        const regex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+
+        const categories = await categorymodel.find({
+            name: { $regex: regex }
+        });
+
+        res.json(categories);
+    } catch (error) {
+        console.error('Error searching categories:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+};
+
   
 
   module.exports={
@@ -93,4 +110,5 @@ const categoryPage = async (req, res) => {
     editCategory,
     blockCategory,
     categoryPage,
+    searchCategory
   }

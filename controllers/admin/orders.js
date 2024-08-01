@@ -55,9 +55,38 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+
+
+const searchOrders = async (req, res) => {
+  try {
+      const searchTerm = req.query.term || ''; // Default to empty string if term is not provided
+      const regex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+
+      console.log(`Searching for term: ${searchTerm}`); // Log search term for debugging
+
+      // Find orders that match the search term in user name, order amount, or payment
+      const orders = await orderModel.find({
+          $or: [
+              { 'userId.name': { $regex: regex } },
+              { 'orderAmount': { $regex: regex } },
+              { 'payment': { $regex: regex } },
+              // Add more fields if needed
+          ]
+      }).populate('userId');
+
+      console.log(`Found orders: ${orders.length}`); // Log number of orders found
+
+      res.json(orders);
+  } catch (error) {
+      console.error('Error searching orders:', error.message); // Log detailed error message
+      res.status(500).send({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   loadorders,
   orderDetails,
   salesReport,
   updateOrderStatus,
+  searchOrders,
 };

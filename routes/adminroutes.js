@@ -44,6 +44,12 @@ adminRoute.post('/editOffer', offerController.editOffer)
 adminRoute.patch('/offerDelete',  offerController.offerDelete)
 adminRoute.get('/salesReport',  ordersController.salesReport)
 adminRoute.post('/updateOrderStatus',  ordersController.updateOrderStatus)
+adminRoute.get('/searchUser', userscontoller.searchUser);
+adminRoute.get('/searchProduct', productController.searchProduct);
+adminRoute.get('/searchCategory', categoryController.searchCategory);
+adminRoute.get('/searchOrders', ordersController.searchOrders);
+adminRoute.get('/searchCoupons', couponController.searchCoupons);
+
 
 
 module.exports = adminRoute;

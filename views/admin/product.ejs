@@ -53,10 +53,11 @@
                                             <div class="col-sm-6 col-md-4">
                                                 <div class="search-box me-2 mb-2 d-inline-block w-100">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="Search..." style="width: 100%;">
+                                                        <input type="text" id="searchInput" class="form-control" placeholder="Search products..." style="width: 100%;" oninput="searchProduct()">
                                                         <i class="bx bx-search-alt search-icon"></i>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
                                             <div class="col-sm-6 col-md-8 text-sm-end">
                                                 <button type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
@@ -83,7 +84,7 @@
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody  id="productTableBody">
                                                 <% productList.forEach((product, i) => { %>
                                                     <tr>
                                                         <td><%= i + 1 %></td>
@@ -139,45 +140,12 @@
                                                     </tr>
                                                 <% }); %>
                                             </tbody>
+
                                         </table>
                                         
+                                     
                                         
-                                        
-                                            <style>
-                                                table {
-                                                  width: 100%;
-                                                  border-collapse: collapse;
-                                                }
-                                                th, td {
-                                                  padding: 8px 16px; /* Adjusted padding for a cleaner look */
-                                                }
-                                                th {
-                                                  background-color: #f2f2f2;
-                                                  text-align: left;
-                                                }
-                                                td img {
-                                                  width: 100px; /* Adjust the width as needed */
-                                                  height: 100px; /* Adjust the height as needed */
-                                                  object-fit: cover;
-                                                }
-                                                .description {
-                                                  max-width: 300px; /* Adjust the width as needed */
-                                                  overflow: hidden;
-                                                  text-overflow: ellipsis;
-                                                  white-space: nowrap;
-                                                }
-                                                .max-width-100 {
-                                                  max-width: 150px; /* Adjusted to give more space for name */
-                                                  overflow: hidden;
-                                                  text-overflow: ellipsis;
-                                                  white-space: nowrap;
-                                                }
-                                                .dropdown-menu-end {
-                                                  right: 0;
-                                                  left: auto;
-                                                }
-                                              </style>
-                                            
+                                           
                                             
                                         </div>
                                       <%- include('../layouts/admin/adminPagination.ejs') %>
@@ -226,6 +194,41 @@
 
         <!-- CSS -->
         <style>
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              padding: 8px 16px; /* Adjusted padding for a cleaner look */
+            }
+            th {
+              background-color: #f2f2f2;
+              text-align: left;
+            }
+            td img {
+              width: 100px; /* Adjust the width as needed */
+              height: 100px; /* Adjust the height as needed */
+              object-fit: cover;
+            }
+            .description {
+              max-width: 300px; /* Adjust the width as needed */
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .max-width-100 {
+              max-width: 150px; /* Adjusted to give more space for name */
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .dropdown-menu-end {
+              right: 0;
+              left: auto;
+            }
+          </style>
+        
+        <style>
             .description {
                 white-space: pre-line;
                 word-wrap: break-word;
@@ -233,6 +236,89 @@
             }
         </style>
         <!-- JAVASCRIPT -->
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            let searchTimeout;
+        
+            async function searchProduct() {
+                clearTimeout(searchTimeout);
+                const searchTerm = document.getElementById('searchInput').value;
+        
+                searchTimeout = setTimeout(async () => {
+                    try {
+                        if (searchTerm.trim() === '') {
+                            // When search input is empty, reload the full product list
+                            window.location.href = window.location.pathname; // Redirect to current page to reset search
+                            return;
+                        }
+        
+                        console.log('Searching for:', searchTerm);
+                        const response = await axios.get('/admin/searchProduct', {
+                            params: { term: searchTerm }
+                        });
+        
+                        const products = response.data;
+                        const tableBody = document.getElementById('productTableBody');
+                        tableBody.innerHTML = ''; // Clear previous results
+        
+                        if (products.length > 0) {
+                            products.forEach((product, i) => {
+                                const productRow = document.createElement('tr');
+                                productRow.innerHTML = `
+                                    <td>${i + 1}</td>
+                                    <td class="max-width-100">${product.name}</td>
+                                    <td>${product.offer ? `<span style="font-size: smaller;">${product.offer.percentage} %</span>` : `<span style="font-size: smaller;">N/A</span>`}</td>
+                                    <td><p class="description">${product.description}</p></td>
+                                    <td>
+                                        ${product.offer ? `
+                                            <div style="display: flex; flex-direction: column;">
+                                                <span style="text-decoration: line-through;">₹${Math.round(product.price)}</span>
+                                                <span>₹${Math.round(product.price - (product.price * product.offer.percentage / 100))}</span>
+                                            </div>` 
+                                            : `<span>₹${Math.round(product.price)}</span>`
+                                        }
+                                    </td>
+                                    <td>${product.category ? product.category.name : 'N/A'}</td>
+                                    <td><img src="${product.image[0]}" alt="Product Image"></td>
+                                    <td>${product.stock}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <a href="/admin/editproduct/${product._id}" class="dropdown-item">
+                                                        <i class="mdi mdi-pencil font-size-16 text-success me-1"></i> Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    ${product.isBlocked === false 
+                                                        ? `<button class="dropdown-item btn btn-danger" onclick="blockProduct('${product._id}', this)">Block</button>` 
+                                                        : `<button class="dropdown-item btn btn-success" onclick="blockProduct('${product._id}', this)">Unblock</button>`
+                                                    }
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                `;
+                                tableBody.appendChild(productRow);
+                            });
+                        } else {
+                            tableBody.innerHTML = '<tr><td colspan="9">No products found</td></tr>';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching search results:', error);
+                    }
+                }, 300); // Delay search by 300ms to reduce server requests
+            }
+        </script>
+        
+
+
         <script>
             $(document).ready(function () {
   $('.dropdown-menu a, .dropdown-menu button').on('click', function () {

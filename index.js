@@ -14,7 +14,7 @@ const adminroutes = require("./routes/adminroutes");
 // app.use(morgan('dev'));
 
 app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(nocache());
 
 app.use(express.json());

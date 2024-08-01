@@ -124,7 +124,26 @@ const productPage = async (req, res) => {
     }
   };
 
+  const searchProduct = async (req, res) => {
+    try {
+        const searchTerm = req.query.term;
+        const regex = new RegExp(searchTerm, 'i'); // Case-insensitive search
 
+        const products = await productModel.find({
+            name: { $regex: regex }
+        })
+        .populate('category')
+        .populate({
+            path: 'offer',
+            match: { endDate: { $gte: new Date() }, startDate: { $lte: new Date() } }
+        });
+
+        res.json(products);
+    } catch (error) {
+        console.error('Error searching products:', error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+};
 
   module.exports={
     productPage,
@@ -133,4 +152,5 @@ const productPage = async (req, res) => {
     editProductpage,
     editandupdateProduct,
     blockProduct,
+    searchProduct
   }

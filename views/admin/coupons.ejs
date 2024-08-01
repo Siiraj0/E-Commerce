@@ -49,7 +49,7 @@
                                             <div class="col-sm-4">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="Search...">
+                                                        <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                                                         <i class="bx bx-search-alt search-icon"></i>
                                                     </div>
                                                 </div>
@@ -136,7 +136,7 @@
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="couponsTableBody">
                                                   <% couponData.forEach((e,i) => { %>
                                                     
                                                     
@@ -174,23 +174,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <ul class="pagination pagination-rounded justify-content-end mb-2">
-                                            <li class="page-item disabled">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                                                    <i class="mdi mdi-chevron-left"></i>
-                                                </a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                                                    <i class="mdi mdi-chevron-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <%- include('../layouts/admin/adminPagination.ejs')  %>
                                     </div>
                                 </div>
                             </div>
@@ -381,6 +365,63 @@
         <!-- JAVASCRIPT -->
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            let searchTimeout;
+        
+            async function searchCoupons() {
+                clearTimeout(searchTimeout);
+                const searchTerm = document.getElementById('searchInput').value;
+        
+                searchTimeout = setTimeout(async () => {
+                    try {
+                        if (searchTerm.trim() === '') {
+                            // When search input is empty, reload the full coupon list
+                            window.location.href = window.location.pathname; // Redirect to current page to reset search
+                            return;
+                        }
+        
+                        console.log('Searching for:', searchTerm);
+                        const response = await axios.get('/admin/searchCoupons', {
+                            params: { term: searchTerm }
+                        });
+        
+                        const coupons = response.data;
+                        const tableBody = document.getElementById('couponsTableBody');
+                        tableBody.innerHTML = ''; // Clear previous results
+        
+                        if (coupons.length > 0) {
+                            coupons.forEach((coupon, i) => {
+                                const couponRow = document.createElement('tr');
+                                couponRow.innerHTML = `
+                                    <td>${i + 1}</td>
+                                    <td>${coupon.couponName}</td>
+                                    <td>${coupon.couponCode}</td>
+                                    <td>${coupon.couponDescription}</td>
+                                    <td>${coupon.count}</td>
+                                    <td>${new Date(coupon.startDate).toDateString()}</td>
+                                    <td>${new Date(coupon.endDate).toDateString()}</td>
+                                    <td>
+                                        <div class="d-flex gap-3">
+                                            <a href="javascript:void(0);" onclick="editdata('${coupon._id}')" data-bs-toggle="modal" data-bs-target="#editModal" class="text-success"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                            <a href="javascript:void(0);" class="text-danger"><i class="mdi mdi-delete font-size-18"></i></a>
+                                            <input type="hidden" name="couponid" value="${coupon._id}">
+                                        </div>
+                                    </td>
+                                `;
+                                tableBody.appendChild(couponRow);
+                            });
+                        } else {
+                            tableBody.innerHTML = '<tr><td colspan="8">No coupons found</td></tr>';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching search results:', error);
+                    }
+                }, 300); // Delay search by 300ms to reduce server requests
+            }
+        
+            document.getElementById('searchInput').addEventListener('input', searchCoupons);
+        </script>
+      
 
         <script>
 

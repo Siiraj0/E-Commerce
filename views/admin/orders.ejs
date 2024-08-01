@@ -49,7 +49,7 @@
                                             <div class="col-sm-4">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="Search...">
+                                                        <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                                                         <i class="bx bx-search-alt search-icon"></i>
                                                     </div>
                                                 </div>
@@ -76,27 +76,22 @@
 
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                   
-                                                    
-                                                    
-                                                    <% locals.orders.forEach((e,i) => { %>
-                                                    <tr>
-                                                        <td> <%=i+1 %></td>
-                                                            <td><%=e.userId.name  %></td>
-                                                            <td><%=e.products.length  %></td>
-                                                            <td><%=e.orderAmount  %></td>
-                                                            <td><%=e.orderDate.toString().split(" ").splice(0,4).join(' ')  %></td>
-                                                            <td><%=e.payment  %></td>
-                                                            <td><button class="btn btn-primary btn-sm btn-rounded" style="color: white;">
-                                                                <a href="/admin/orderdetails/<%=e._id  %>" style="color: white;">View All</a>
-                                                            </button>
-                                                            
+                                                <tbody id="orderTableBody">
+                                                    <% orders.forEach((e, i) => { %>
+                                                        <tr>
+                                                            <td><%= i + 1 %></td>
+                                                            <td><%= e.userId.name %></td>
+                                                            <td><%= e.products.length %></td>
+                                                            <td><%= e.orderAmount %></td>
+                                                            <td><%= e.orderDate.toString().split(" ").splice(0, 4).join(' ') %></td>
+                                                            <td><%= e.payment %></td>
+                                                            <td>
+                                                                <button class="btn btn-primary btn-sm btn-rounded" style="color: white;">
+                                                                    <a href="/admin/orderdetails/<%= e._id %>" style="color: white;">View All</a>
+                                                                </button>
+                                                            </td>
                                                         </tr>
-                                                        <% }); %>
-
-                                    
-                                                    
+                                                    <% }); %>
                                                 </tbody>
                                             </table>
                                             
@@ -299,6 +294,64 @@
         <div class="rightbar-overlay"></div>
 
         <!-- JAVASCRIPT -->
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            let searchTimeout;
+        
+            async function searchOrders() {
+                clearTimeout(searchTimeout);
+                const searchTerm = document.getElementById('searchInput').value;
+        
+                searchTimeout = setTimeout(async () => {
+                    try {
+                        if (searchTerm.trim() === '') {
+                            // When search input is empty, reload the full order list
+                            window.location.href = window.location.pathname; // Redirect to current page to reset search
+                            return;
+                        }
+        
+                        console.log('Searching for:', searchTerm);
+                        const response = await axios.get('/admin/searchOrders', {
+                            params: { term: searchTerm }
+                        });
+        
+                        const orders = response.data;
+                        const tableBody = document.getElementById('orderTableBody');
+                        tableBody.innerHTML = ''; // Clear previous results
+        
+                        if (orders.length > 0) {
+                            orders.forEach((order, i) => {
+                                const orderRow = document.createElement('tr');
+                                orderRow.innerHTML = `
+                                    <td>${i + 1}</td>
+                                    <td>${order.userId.name}</td>
+                                    <td>${order.products.length}</td>
+                                    <td>${order.orderAmount}</td>
+                                    <td>${new Date(order.orderDate).toDateString()}</td>
+                                    <td>${order.payment}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm btn-rounded" style="color: white;">
+                                            <a href="/admin/orderdetails/${order._id}" style="color: white;">View All</a>
+                                        </button>
+                                    </td>
+                                `;
+                                tableBody.appendChild(orderRow);
+                            });
+                        } else {
+                            tableBody.innerHTML = '<tr><td colspan="7">No orders found</td></tr>';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching search results:', error);
+                    }
+                }, 300); // Delay search by 300ms to reduce server requests
+            }
+        
+            document.getElementById('searchInput').addEventListener('input', searchOrders);
+        </script>
+        
+
+
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/libs/metismenujs/metismenujs.min.js"></script>
         <script src="assets/libs/simplebar/simplebar.min.js"></script>

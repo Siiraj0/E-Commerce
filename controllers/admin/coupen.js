@@ -2,9 +2,15 @@ const couponModel= require('../../models/coupon')
 
 const loadCoupons = async (req,res)=>{
     try {
+        const limit = 5;
+        const page = parseInt(req.query.page) || 1;
+        const skip = (page - 1) * limit;
+        const totalCouponsCount = await couponModel.countDocuments();
+        const totalPages = Math.ceil(totalCouponsCount / limit)
+
         const couponData = await couponModel.find({})
         
-        res.render('admin/coupons',{couponData})
+        res.render('admin/coupons',{couponData ,totalPages, currentPage: page })
     } catch (error) {
         console.log(error.messege);
     }
@@ -178,11 +184,33 @@ const validateCoupon = async(req, res) =>{
 }
 
 
-module.exports={
+const searchCoupons = async (req, res) => {
+    try {
+        const searchTerm = req.query.term || ''; // Default to empty string if term is not provided
+        const regex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+
+        const coupons = await couponModel.find({
+            $or: [
+                { 'couponName': { $regex: regex } },
+                { 'couponCode': { $regex: regex } },
+                { 'couponDescription': { $regex: regex } },
+                // Add more fields if needed
+            ]
+        });
+
+        res.json(coupons);
+    } catch (error) {
+        console.error('Error searching coupons:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+module.exports = {
     loadCoupons,
     addCoupons,
     saveEditCoupon,
     editdata,
     validateCoupon,
-    
-}
+    searchCoupons
+};
+

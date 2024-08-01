@@ -117,14 +117,15 @@
                     <div class="col-sm-4">
                       <div class="search-box me-2 mb-2 d-inline-block">
                         <div class="position-relative">
-                          <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Search..."
-                          />
-                          <i class="bx bx-search-alt search-icon"></i>
+                            <input
+                                type="text"
+                                id="categorySearchInput"
+                                class="form-control"
+                                placeholder="Search categories..."
+                            />
+                            <i class="bx bx-search-alt search-icon"></i>
                         </div>
-                      </div>
+                    </div>
                     </div>
                     <div class="col-sm-8">
                       <div class="text-sm-end">
@@ -156,7 +157,7 @@
                           <th style="transform: translateX(10rem)">Action</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="categoryTableBody">
                         <% findcategorys.forEach((category,i) => { %>
 
                         <tr>
@@ -289,7 +290,60 @@
 
   <!-- JAVASCRIPT -->
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    let searchCategoryTimeout;
 
+    async function searchCategory() {
+        clearTimeout(searchCategoryTimeout);
+        const searchTerm = document.getElementById('categorySearchInput').value;
+
+        searchCategoryTimeout = setTimeout(async () => {
+            try {
+                console.log('Searching for category:', searchTerm);
+                const response = await axios.get('/admin/searchCategory', {
+                    params: { term: searchTerm }
+                });
+
+                const categories = response.data;
+                const tableBody = document.getElementById('categoryTableBody');
+                tableBody.innerHTML = ''; // Clear previous results
+
+                if (categories.length > 0) {
+                    categories.forEach((category, i) => {
+                        const categoryRow = document.createElement('tr');
+                        categoryRow.innerHTML = `
+                            <td>${i + 1}</td>
+                            <td style="transform: translateX(2.5rem)">${category.name}</td>
+                            <td style="transform: translateX(4rem)">${category.description}</td>
+                            <td style="transform: translate(-1.5rem);" class="text-end">
+                                <a
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit"
+                                    data-id="${category._id}"
+                                    data-des="${category.description}"
+                                    onclick="edit('${category._id}', '${category.name}', this)"
+                                    class="btn btn-success"
+                                >Edit</a>
+                                ${category.isBlocked === false 
+                                    ? `<button class="btn btn-danger" onclick="blockCategory('${category._id}')">Block</button>`
+                                    : `<button class="btn btn-success" onclick="blockCategory('${category._id}')">Unblock</button>`
+                                }
+                            </td>
+                        `;
+                        tableBody.appendChild(categoryRow);
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="4">No categories found</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        }, 300); // Delay search by 300ms to reduce server requests
+    }
+
+    document.getElementById('categorySearchInput').addEventListener('input', searchCategory);
+</script>
 
   <script>
     function editcategory() {

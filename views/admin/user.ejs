@@ -52,10 +52,12 @@
                                             <div class="col-sm-4">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="Search...">
+                                                        <input type="text" id="searchInput" class="form-control" placeholder="Search..." oninput="searchUser()">
                                                         <i class="bx bx-search-alt search-icon"></i>
                                                     </div>
                                                 </div>
+                                             
+                                                  
                                             </div>
                                             <div class="col-sm-8">
                                                
@@ -70,36 +72,28 @@
                                                         <th>Name</th>
                                                         <th>Email</th>
                                                         <th>Phone</th>
-                                                        <th style= "transform: translateX(4.4rem);">Action</th>
+                                                        <th style="transform: translateX(4.4rem);">Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="userTableBody">
                                                     <% userList.forEach((user,i) => { %>
                                                     <tr>
-                                                        <td>
-                                                            <%= i+1 %>
-                                                        </td>
+                                                        <td><%= i+1 %></td>
                                                         <td><%= user.name %></td>
-                                                        <td>
-                                                            <p class="mb-1"><%= user.email %></p>
-                                                        </td>
+                                                        <td><p class="mb-1"><%= user.email %></p></td>
                                                         <td><%= user.mobile %></td>
-                                                        <td style= "transform: translateX(4rem);">
-                                                        <% if(user.isBlocked==false){  %>
-
-                                                            <button class="btn btn-danger" onclick="blockUser('<%=user._id%>')">Block</button>
-
-                                                            
-                                                        <% } else{%>
-                                                            <button class="btn btn-success" onclick="blockUser('<%=user._id%>')">Unblock</button>
-                                                            <% }  %>
-                                                           </td>
+                                                        <td style="transform: translateX(4rem);">
+                                                            <% if(user.isBlocked==false){ %>
+                                                                <button class="btn btn-danger" onclick="blockUser('<%= user._id %>')">Block</button>
+                                                            <% } else { %>
+                                                                <button class="btn btn-success" onclick="blockUser('<%= user._id %>')">Unblock</button>
+                                                            <% } %>
+                                                        </td>
                                                     </tr>
                                                     <% }) %>
                                                 </tbody>
-                                               
-                                                
                                             </table>
+                                            
                                         </div>
                                         <%- include('../layouts/admin/adminPagination.ejs')  %>
                                     </div>
@@ -170,6 +164,51 @@
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+           
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            let searchTimeout;
+        
+            async function searchUser() {
+                clearTimeout(searchTimeout);
+                const searchTerm = document.getElementById('searchInput').value;
+        
+                searchTimeout = setTimeout(async () => {
+                    try {
+                 
+                        const response = await axios.get('/admin/searchUser', {
+                            params: { term: searchTerm }
+                        });
+        
+                        const users = response.data;
+                        const tableBody = document.getElementById('userTableBody');
+                        tableBody.innerHTML = ''; // Clear previous results
+        
+                        if (users.length > 0) {
+                            users.forEach((user, i) => {
+                                const userRow = document.createElement('tr');
+                                userRow.innerHTML = `
+                                    <td>${i + 1}</td>
+                                    <td>${user.name}</td>
+                                    <td><p class="mb-1">${user.email}</p></td>
+                                    <td>${user.mobile}</td>
+                                    <td style="transform: translateX(4rem);">
+                                        ${user.isBlocked === false 
+                                            ? '<button class="btn btn-danger" onclick="blockUser(\'' + user._id + '\')">Block</button>' 
+                                            : '<button class="btn btn-success" onclick="blockUser(\'' + user._id + '\')">Unblock</button>'}
+                                    </td>
+                                `;
+                                tableBody.appendChild(userRow);
+                            });
+                        } else {
+                            tableBody.innerHTML = '<tr><td colspan="5">No users found</td></tr>';
+                        }
+                    } catch (error) {
+                        console.error('Error fetching search results:', error);
+                    }
+                }, 300); // Delay search by 300ms to reduce server requests
+            }
+        </script>
 
        <script>
         function blockUser(userId){

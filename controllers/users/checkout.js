@@ -162,7 +162,7 @@ const couponFetch = async (req, res) => {
 const couponSubmit = async (req, res) => {
   try {
     const couponCode = req.body.couponCode;
-    console.log(couponCode, 'couponCode');
+   
 
     const findCoupon = await couponModel.findOne({ couponCode });
     console.log(findCoupon, 'findCoupon');
