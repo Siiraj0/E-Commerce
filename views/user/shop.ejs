@@ -261,70 +261,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-filter-wrapper">
-                    <div class="row">
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Price</h5>
-                                <div class="price-filter">
-                                    <ul>
-                                        <li><a href="#">$0.00 - $20.00</a></li>
-                                        <li><a href="#">$20.00 - $40.00</a></li>
-                                        <li><a href="#">$30.00 - $50.00</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Size</h5>
-                                <div class="product-size">
-                                    <ul>
-                                        <li><a href="#">Full Size</a></li>
-                                        <li><a href="#">L</a></li>
-                                        <li><a href="#">M</a></li>
-                                        <li><a href="#">S</a></li>
-                                        <li><a href="#">XL</a></li>
-                                        <li><a href="#">XXL</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Color</h5>
-                                <div class="product-color">
-                                    <ul>
-                                        <li><a href="#">Blue</a></li>
-                                        <li><a href="#">Brown</a></li>
-                                        <li><a href="#">Green</a></li>
-                                        <li><a href="#"> Pink</a></li>
-                                        <li><a href="#">Violet</a></li>
-                                        <li><a href="#"> White</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                            <div class="product-filter">
-                                <h5>Brands</h5>
-                                <div class="product-brands">
-                                    <ul>
-                                        <li><a href="#">Airi</a></li>
-                                        <li><a href="#">Draven</a></li>
-                                        <li><a href="#">Mango</a></li>
-                                        <li><a href="#"> Valentino</a></li>
-                                        <li><a href="#">Zara </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="filter-section">
+                    <h4>Filter by Category</h4>
+                    <ul>
+                      <li><a href="/shop?category=WOMENS&filter=<%= filter %>&term=<%= searchTerm %>&page=1" class="<%= category === 'WOMENS' ? 'active' : '' %>">Womens</a></li>
+                      <li><a href="/shop?category=MENS&filter=<%= filter %>&term=<%= searchTerm %>&page=1" class="<%= category === 'MENS' ? 'active' : '' %>">Mens</a></li>
+                      <li><a href="/shop?category=KIDS&filter=<%= filter %>&term=<%= searchTerm %>&page=1" class="<%= category === 'KIDS' ? 'active' : '' %>">Kids</a></li>
+                    </ul>
+                  </div>
+                  
                 <div class="tab-content jump-3 pt-30">
                     <div id="shop-1" class="tab-pane active">
                         <div class="row">

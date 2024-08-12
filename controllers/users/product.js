@@ -2,19 +2,27 @@ const productModel = require("../../models/productmodel");
 
 const shopPage = async (req, res) => {
   try {
-    const limit = 6; // Number of products per page
+    const limit = 6; 
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * limit;
     const filter = req.query.filter;
     const searchTerm = req.query.term;
+    const category = req.query.category; // New: Get the selected category from query
     let filterObj = {};
     let searchObj = { isBlocked: false, stock: { $gt: 0 } }; // Filter out out-of-stock products
 
+    // Add search term to searchObj if provided
     if (searchTerm) {
       const regex = new RegExp(searchTerm, 'i');
       searchObj.name = { $regex: regex };
     }
 
+    // Add category to searchObj if provided
+    if (category) {
+      searchObj.category = category;
+    }
+
+    // Apply sorting filter
     switch (filter) {
       case "lowToHigh":
         filterObj.offerPrice = 1;
@@ -51,13 +59,16 @@ const shopPage = async (req, res) => {
       totalPages,
       currentPage: page,
       filter,
-      searchTerm
+      searchTerm,
+      category // Pass the selected category to the view
     });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal server error");
   }
 };
+
+
 
 
 const productpage = async (req, res) => {
