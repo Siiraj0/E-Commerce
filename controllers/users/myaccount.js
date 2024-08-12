@@ -22,9 +22,10 @@ const myaccount = async (req, res) => {
         .populate("products.productId");
         const walletData=await walletModel.findOne({ userId: userId})
       const userData = await usermodel.findOne({ _id: req.session.userId });
-     
       const addresses = await addressModel.find({ userId: userId });
-      const orders = await orderModel.find({ userId: userId }).populate("products.productId").populate("userId");
+      const orders = await orderModel.find({ userId: userId }).populate("products.productId").populate("userId").sort({_id : -1});
+      const cartCount = await cartmodel.countDocuments({ userId: userId });
+    
      
       if (userData) {
 ;
@@ -34,6 +35,7 @@ const myaccount = async (req, res) => {
           orders,
           walletData,
           cartItems,
+          cartCount,
           user: req.session.userId,
         });
       } else {
@@ -238,23 +240,25 @@ const saveEdit = async (req,res)=>{
     console.log(error.message);
   }
 }
-
+ 
 
 
 const orderDetails = async (req, res) => {
   try {
       const id = req.params.id;
 
+      
       // Fetch the order with populated product details
       const order = await orderModel.findById(id)
-          .populate('userId')
-          .populate('products.productId');
-
+      .populate('userId')
+      .populate('products.productId');
+      
       // Check if the order was found
       if (!order) {
-          return res.status(404).render('error', { message: 'Order not found' });
+        return res.status(404).render('error', { message: 'Order not found' });
       }
-
+      
+      const deliveredProds = order.products.filter(product=> product.orderStatus === 'Delivered')
       // Calculate the tracking percentage based on the order status
       const getTrackingPercentage = (status) => {
           switch (status) {
@@ -271,6 +275,7 @@ const orderDetails = async (req, res) => {
 
       res.render('user/orderDetails', { 
           order, 
+          deliveredProds,
           getTrackingPercentage 
       });
   } catch (error) {
@@ -280,7 +285,113 @@ const orderDetails = async (req, res) => {
 };
 
 
+// Cancel Order
+const cancelOrder = async (req, res) => {
+  const { orderId, productId } = req.body;
 
+  try {
+      // Find the order by ID
+      const order = await orderModel.findById(orderId);
+
+      if (!order) {
+          return res.status(404).json({ message: 'Order not found' });
+      }
+
+      // Find the product in the order
+      const product = order.products.find(p => p._id.toString() === productId);
+
+      if (product) {
+          // Update product status to cancelled
+          product.cancelled = true;
+          product.orderStatus = 'Cancelled';
+          await order.save();
+          return res.json({ message: 'Order cancelled successfully' });
+      }
+
+      return res.status(404).json({ message: 'Product not found in order' });
+  } catch (error) {
+      console.error('Error cancelling order:', error.message);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Return Order
+const returnOrder = async (req, res) => {
+  const { orderId, productId } = req.body;
+
+  try {
+      // Find the order by ID
+      const order = await orderModel.findById(orderId);
+
+      if (!order) {
+          return res.status(404).json({ message: 'Order not found' });
+      }
+
+      // Find the product in the order
+      const product = order.products.find(p => p._id.toString() === productId);
+
+      if (product) {
+          // Update product status to returned
+          product.returned = true;
+          product.orderStatus = "Return Requested";
+          await order.save();
+          return res.json({ message: 'Order returned successfully' });
+      }
+
+      return res.status(404).json({ message: 'Product not found in order' });
+  } catch (error) {
+      console.error('Error returning order:', error.message);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+const returnApprove = async(req, res) => {
+  try{
+      const {productId,orderId,returnReason,userId} = req.body
+
+      const returned = await orderModel.findOneAndUpdate({userId:userId,_id : orderId, 'products.productId' : productId},{
+          $set : { 'products.$.orderStatus' : 'Returned', 'products.$.returned' : true, 'products.$.returnReason' : returnReason }
+      },{new:true})
+
+      if(returned){
+
+          const returnedProduct =returned.products.find((prod)=>prod.productId.toString()==productId)
+
+          if(returnedProduct){
+              const eproduct = await productModel.findOne({_id:productId})
+              let updatedStock = eproduct.quantity + returnedProduct.quantity;
+
+              await productModel.findOneAndUpdate({_id:productId},{$set:{quantity:updatedStock}})
+              await walletModel.findOneAndUpdate({userId:userId},
+                  {$inc:{balance:parseFloat(returnedProduct.totalPrice.toFixed(2))},
+                  $push: {transaction :{amount:parseFloat(returnedProduct.totalPrice.toFixed(2)), creditOrDebit:'credit'}}},
+                  {new : true, upsert:true})
+          }
+          
+      }
+      console.log('Returned');
+      res.json({success:true})
+
+  }catch(error){
+      console.log(error.message);
+  }
+}
+
+
+const loadInvoice =async (req,res)=>{
+  try {
+    const orderId = req.params.id
+    const orderr = await orderModel.findById(orderId).populate('products.productId')
+    const products = orderr.products
+    console.log(products,'productss');
+    console.log(orderr,'orderr');
+    
+    res.render('user/invoice',{orderr,products})
+  } catch (error) {
+    console.log(error.messege);
+    
+  }
+}
 
   module.exports={
     myaccount,
@@ -293,4 +404,9 @@ const orderDetails = async (req, res) => {
     editAddress,
     saveEdit,
     orderDetails,
+    cancelOrder,
+    returnOrder,
+    returnApprove,
+    loadInvoice,
+
   }

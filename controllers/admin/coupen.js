@@ -8,7 +8,7 @@ const loadCoupons = async (req,res)=>{
         const totalCouponsCount = await couponModel.countDocuments();
         const totalPages = Math.ceil(totalCouponsCount / limit)
 
-        const couponData = await couponModel.find({})
+        const couponData = await couponModel.find({}).skip(skip).limit(limit).sort({_id: -1})
         
         res.render('admin/coupons',{couponData ,totalPages, currentPage: page })
     } catch (error) {

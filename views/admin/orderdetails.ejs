@@ -86,7 +86,7 @@
                                                             <td><img style="width: 3rem; height: 3rem; border-radius: 50%;" src="<%= e.productId.image[0] %>" alt="" srcset=""></td>
                                                             <td><%= e.productId.price %></td>
                                                             <td><%= e.quantity %></td>
-                                                            <td><%= e.totalPrice %></td>
+                                                            <td><%= orders.orderAmount %></td>
                                                             <td>
                                                                 <select onchange="updateOrderStatus('<%= e._id %>', this.value)">
                                                                     <option value="Pending" <%= e.orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
@@ -168,22 +168,28 @@
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
-          async  function updateOrderStatus(orderId, newStatus) {
-             await axios.post('/admin/updateOrderStatus', {
-                    orderId: orderId,
-                    newStatus: newStatus
-                })
-                .then(response => {
-                    if (response.data.success) {
-                        alert('Order status updated successfully');
-                    } else {
-                        alert('Failed to update order status: ' + response.data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
+      async function updateOrderStatus(orderId, newStatus) {
+    try {
+        console.log('Updating order status:', orderId, newStatus); // Debug the input values
+
+        const response = await axios.post('/admin/updateOrderStatus', {
+            orderId: orderId,
+            newStatus: newStatus
+        });
+
+        console.log('Response data:', response.data);
+
+        if (response.data.success) {
+            alert('Order status updated successfully');
+        } else {
+            alert('Failed to update order status: ' + response.data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while updating the order status');
+    }
+}
+
         </script>
         
 

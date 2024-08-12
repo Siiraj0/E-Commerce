@@ -284,120 +284,25 @@ const varifynewpass = async (req, res) => {
   }
 };
 
-const lowToHigh = async (req, res) => {
+
+
+
+
+const errorpage = (req,res)=>{
   try {
-    const limit = 8;
-    const page = parseInt(req.query.page) || 1;
-    const skip = (page - 1) * limit;
-    const productsCount = await productmodel.countDocuments({ isBlocked: false });
-    const totalPages = Math.ceil(productsCount / limit);
-
-    const userId = req.session.user_id;
-    const cartItems = await cartmodel.findOne({ userId: userId }).populate('products.productId');
-    const categories = await categorymodel.find({ isBlocked: false });
-
-    const lowtohigh = await productmodel.find({ isBlocked: false }).sort({ price: 1 }).populate('category').skip(skip).limit(limit);
-
-    res.render('user/shop', { showproducts: lowtohigh, cartItems, categories, currentPage: page, totalPages, productsCount });
+    res.render('user/error-404')
   } catch (error) {
-    console.log(error.message);
+    console.log(error.messege);
+    
   }
-};
+}
 
-const HighToLow = async (req, res) => {
-  try {
-    const limit = 8;
-    const page = parseInt(req.query.page) || 1;
-    const skip = (page - 1) * limit;
-    const productsCount = await productmodel.countDocuments({ isBlocked: false });
-    const totalPages = Math.ceil(productsCount / limit);
-
-    const userId = req.session.user_id;
-    const cartItems = await cartmodel.findOne({ userId: userId }).populate('products.productId');
-    const categories = await categorymodel.find({ isBlocked: false });
-
-    const hightolow = await productmodel.find({ isBlocked: false }).sort({ price: -1 }).populate('category').skip(skip).limit(limit);
-
-    res.render('user/shop', { showproducts: hightolow, cartItems, categories, currentPage: page, totalPages, productsCount });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-const popularity = async (req, res) => {
-  try {
-    const limit = 8;
-    const page = parseInt(req.query.page) || 1;
-    const skip = (page - 1) * limit;
-    const productsCount = await productmodel.countDocuments({ isBlocked: false });
-    const totalPages = Math.ceil(productsCount / limit);
-
-    const userId = req.session.user_id;
-    const cartItems = await cartmodel.findOne({ userId: userId }).populate('products.productId');
-    const categories = await categorymodel.find({ isBlocked: false });
-
-    const popularity = await order.aggregate([
-      { $unwind: '$products' },
-      {
-        $group: {
-          _id: '$products.productId',
-          totalCount: { $sum: '$products.quantity' }
-        }
-      },
-      {
-        $lookup: {
-          from: 'products',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'productData'
-        }
-      },
-      { $unwind: '$productData' },
-      { $match: { 'productData.isBlocked': false } },
-      { $sort: { totalCount: -1 } },
-      { $skip: skip },
-      { $limit: limit }
-    ]);
-
-    const popularProds = popularity.map(item => item.productData);
-
-    res.render('user/shop', { showproducts: popularProds, cartItems, categories, currentPage: page, totalPages, productsCount });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-const latest = async (req, res) => {
-  try {
-    const limit = 8;
-    const page = parseInt(req.query.page) || 1;
-    const skip = (page - 1) * limit;
-    const productsCount = await productmodel.countDocuments({ isBlocked: false });
-    const totalPages = Math.ceil(productsCount / limit);
-
-    const userId = req.session.user_id;
-    const cartItems = await cartmodel.findOne({ userId: userId }).populate('products.productId');
-    const categories = await categorymodel.find({ isBlocked: false });
-
-    const showproducts = await productmodel.find({ isBlocked: false }).sort({ createdAt: -1 }).populate('category').skip(skip).limit(limit);
-
-    res.render('user/shop', { showproducts, cartItems, categories, currentPage: page, totalPages, productsCount });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-module.exports = { lowToHigh, HighToLow, popularity, latest };
 
 
 
 module.exports = {
   loginPage,
   registerPage,
-  lowToHigh,
-  HighToLow,
-  popularity,
-  latest,
   getinsignup,
   getinlogin,
   otpPage,
@@ -406,6 +311,7 @@ module.exports = {
   forgetpass,
   updatepass,
   newpass,
+  errorpage,
 
   varifynewpass,
 };

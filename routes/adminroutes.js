@@ -1,55 +1,78 @@
 const express = require("express");
 
-const productController=require('../controllers/admin/product')
-const categoryController=require('../controllers/admin/category')
-const adminController=require('../controllers/admin/adminvalidation')
-const userscontoller=require('../controllers/admin/users')
-const ordersController=require('../controllers/admin/orders')
-const indexController=require('../controllers/admin/indexpage')
-const couponController = require('../controllers/admin/coupen')
-const offerController=require('../controllers/admin/offer')
+// Importing controllers
+const productController = require('../controllers/admin/product');
+const categoryController = require('../controllers/admin/category');
+const adminController = require('../controllers/admin/adminvalidation');
+const usersController = require('../controllers/admin/users');
+const ordersController = require('../controllers/admin/orders');
+const indexController = require('../controllers/admin/indexpage');
+const couponController = require('../controllers/admin/coupen');
+const offerController = require('../controllers/admin/offer');
 
 const adminRoute = express();
 adminRoute.use(express.json());
 adminRoute.use(express.urlencoded({ extended: true }));
+
+// Importing middleware
 const auth = require("../middlewares/admin");
 
+// Admin authentication routes
 adminRoute.get("/login", auth.logout, adminController.adminLogin);
-adminRoute.get("/index", auth.login, indexController.indexPage);
-adminRoute.get("/user", userscontoller.userPage);
-adminRoute.get("/category", categoryController.categoryPage);
-adminRoute.get("/product", productController.productPage);
-adminRoute.get("/addproduct", productController.addProductpage);
-adminRoute.get("/editproduct/:id", productController.editProductpage);
-adminRoute.post("/editproduct/:id", productController.editandupdateProduct);
-adminRoute.post("/addproduct", productController.newProduct);
-adminRoute.get("/addcategory", categoryController.addcategorypage);
-adminRoute.post("/addcategory", categoryController.newcategory);
 adminRoute.post("/login", adminController.getInAdmin);
-adminRoute.post("/blockuser", userscontoller.blockUser);
-adminRoute.post("/editcategory/:id", categoryController.editCategory);
-adminRoute.post("/blockcategory", categoryController.blockCategory);
-adminRoute.post("/blockproduct", productController.blockProduct);
-adminRoute.get("/orders", ordersController.loadorders);
-adminRoute.get('/coupons', couponController.loadCoupons);
-adminRoute.get('/offers', offerController.loadOffers);
-adminRoute.get('/orderdetails/:id',ordersController.orderDetails);
-adminRoute.post('/addCoupons',couponController.addCoupons)
-adminRoute.patch('/saveEditCoupons', couponController.saveEditCoupon)
-adminRoute.post('/editdata', couponController.editdata)
-adminRoute.get('/addOffer', offerController.loadAddOffer)
-adminRoute.post('/addOffer',  offerController.addOffer)
-adminRoute.get('/editOffer/:id', offerController.loadEditOffer)
-adminRoute.post('/editOffer', offerController.editOffer)
-adminRoute.patch('/offerDelete',  offerController.offerDelete)
-adminRoute.get('/salesReport',  ordersController.salesReport)
-adminRoute.post('/updateOrderStatus',  ordersController.updateOrderStatus)
-adminRoute.get('/searchUser', userscontoller.searchUser);
-adminRoute.get('/searchProduct', productController.searchProduct);
-adminRoute.get('/searchCategory', categoryController.searchCategory);
-adminRoute.get('/searchOrders', ordersController.searchOrders);
-adminRoute.get('/searchCoupons', couponController.searchCoupons);
 
+// Index route
+adminRoute.get("/index", auth.login, indexController.indexPage);
+
+// User management routes
+adminRoute.get("/user", auth.login, usersController.userPage);
+adminRoute.post("/blockuser", usersController.blockUser);
+adminRoute.get('/searchUser', auth.login, usersController.searchUser);
+
+// Category management routes
+adminRoute.get("/category", auth.login, categoryController.categoryPage);
+adminRoute.get("/addcategory", auth.login, categoryController.addcategorypage);
+adminRoute.post("/addcategory", auth.login, categoryController.newcategory);
+adminRoute.post("/editcategory/:id", auth.login, categoryController.editCategory);
+adminRoute.post("/blockcategory", categoryController.blockCategory);
+adminRoute.get('/searchCategory', auth.login, categoryController.searchCategory);
+
+// Product management routes
+adminRoute.get("/product", auth.login, productController.productPage);
+adminRoute.get("/addproduct", auth.login, productController.addProductpage);
+adminRoute.post("/addproduct", auth.login, productController.newProduct);
+adminRoute.get("/editproduct/:id", auth.login, productController.editProductpage);
+adminRoute.post("/editproduct/:id", auth.login, productController.editandupdateProduct);
+adminRoute.post("/blockproduct", productController.blockProduct);
+adminRoute.get('/searchProduct', auth.login, productController.searchProduct);
+
+// Order management routes
+adminRoute.get("/orders", auth.login, ordersController.loadorders);
+adminRoute.get('/orderdetails/:id', auth.login, ordersController.orderDetails);
+adminRoute.post('/updateOrderStatus', auth.login, ordersController.updateOrderStatus);
+adminRoute.get('/searchOrders', auth.login, ordersController.searchOrders);
+adminRoute.get('/returnRequest', auth.login, ordersController.loadReturnRequets);
+adminRoute.get('/downloadSalesReport', auth.login, ordersController.downloadSalesReport);
+
+// Coupon management routes
+adminRoute.get('/coupons', auth.login, couponController.loadCoupons);
+adminRoute.post('/addCoupons', auth.login, couponController.addCoupons);
+adminRoute.patch('/saveEditCoupons', auth.login, couponController.saveEditCoupon);
+adminRoute.post('/editdata', auth.login, couponController.editdata);
+adminRoute.get('/searchCoupons', auth.login, couponController.searchCoupons);
+
+// Offer management routes
+adminRoute.get('/offers', auth.login, offerController.loadOffers);
+adminRoute.get('/addOffer', auth.login, offerController.loadAddOffer);
+adminRoute.post('/addOffer', auth.login, offerController.addOffer);
+adminRoute.get('/editOffer/:id', auth.login, offerController.loadEditOffer);
+adminRoute.post('/editOffer', auth.login, offerController.editOffer);
+adminRoute.patch('/offerDelete', auth.login, offerController.offerDelete);
+
+// Sales report and statistics routes
+adminRoute.get('/salesReport', auth.login, ordersController.salesReport);
+adminRoute.get('/salesData', auth.login, indexController.salesData);
+adminRoute.get('/sales', auth.login, indexController.salesChart);
 
 
 module.exports = adminRoute;

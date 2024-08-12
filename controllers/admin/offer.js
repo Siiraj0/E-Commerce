@@ -4,24 +4,31 @@ const order = require('../../models/ordermodel')
 const offer = require('../../models/offermodel')
 const product = require('../../models/productmodel')
 const category = require('../../models/categorymodel')
+const offermodel = require('../../models/offermodel')
 
 
 
-const loadLogin = async (req, res) => {
-    try {
-        res.render('admin/login')
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+// const loadLogin = async (req, res) => {
+//     try {
+//         res.render('admin/login')
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// }
 
 
 
 const loadOffers=async (req,res)=>{
     try {
-        const offers = await offer.find()
+        const limit = 5;
+        const page = parseInt(req.query.page) || 1;
+        const skip = (page -1 ) * limit;
+        const totalProsCount = await offermodel.countDocuments();
+        const totalPages = Math.ceil(totalProsCount / limit);
+  
+        const offers = await offer.find().skip(skip).limit(limit).sort({_id: -1});
 
-        res.render('admin/offers',{offers})
+        res.render('admin/offers',{offers , totalPages, currentPage: page})
     } catch (error) {
         console.log(error.message);
     }

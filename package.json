@@ -8,6 +8,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.18.0",
     "express-validator": "^7.1.0",
+    "file-saver": "^2.0.5",
     "mongoose": "^8.3.2",
     "morgan": "^1.10.0",
     "nocache": "^4.0.0",
@@ -15,7 +16,8 @@
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "razorpay": "^2.9.4"
+    "razorpay": "^2.9.4",
+    "xlsx": "^0.18.5"
   },
   "name": "projectt",
   "version": "1.0.0",

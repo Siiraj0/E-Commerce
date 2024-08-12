@@ -3,94 +3,54 @@
   <div class="m ain-wrapper">
     <header class="header-area section-padding-1">
       <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="col-xl-2 col-lg-2">
-            <div class="logo logo-width">
-              <a href="index.html">
-                <img src="user/assets/images/logo/logo.png" alt="logo" />
-              </a>
-            </div>
+          <div class="row align-items-center">
+              <!-- Left side with Home and Shop -->
+              <div class="col-xl-4 col-lg-4 d-flex justify-content-start">
+                  <div class="main-menu menu-lh-1 main-menu-padding-1">
+                      <nav>
+                          <ul class="d-flex">
+                              <li><a href="/">Home</a></li>
+                              <li><a href="/shop">Shop</a></li>
+                          </ul>
+                      </nav>
+                  </div>
+              </div>
+  
+              <!-- Centered Logo -->
+              <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
+                  <div class="logo logo-width">
+                      <a href="/">
+                          <img src="user/assets/images/logo/logo.png" alt="logo">
+                      </a>
+                  </div>
+              </div>
+  
+              <!-- Right side with Wishlist, Cart, Search, and Account -->
+              <div class="col-xl-4 col-lg-4 d-flex justify-content-end">
+                  <div class="header-right-wrap header-right-flex">
+                      <div class="same-style header-wishlist">
+                          <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                      </div>
+                      <div class="same-style cart-wrap">
+                          <a href="#" class="cart-active">
+                              <i class="dlicon shopping_bag-20"></i>
+                              <span class="count-style"><%= cartCount %></span>
+                          </a>
+                      </div>
+                      <div class="same-style header-search">
+                          <a class="search-active" href="#"><i class="dlicon ui-1_zoom"></i></a>
+                      </div>
+                      <div class="same-style header-off-canvas">
+                          <a href="/login">
+                              <i class="far fa-user" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i>
+                          </a>
+                      </div>
+                  </div>
+              </div>
           </div>
-          <div
-            class="col-xl-8 col-lg-8 d-flex justify-content-center position-static"
-          >
-            <div class="main-menu menu-lh-1 main-menu-padding-1">
-              <nav>
-                <ul>
-                  <li class="position-static">
-                    <a href="/">Home </a>
-                    <div class="mega-menu-style-1"></div>
-                  </li>
-                  <li>
-                    <a href="#">Pages </a>
-                    <ul class="sub-menu-width">
-                      <li><a href="about-us.html">About Us</a></li>
-                      <li><a href="contact-us.html">Contact Page</a></li>
-                      <li><a href="404.html">404 Page</a></li>
-                      <li><a href="comming-soon.html">Comming Soon 01</a></li>
-                      <li><a href="comming-soon-2.html">Comming Soon 02</a></li>
-                      <li><a href="faq.html">FAQ</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="/shop">Shop </a>
-                  </li>
-                  <li>
-                    <a href="shop-collection-1.html"
-                      >Collections 
-                    </a>
-                    <ul class="sub-menu-width">
-                      <li>
-                        <a href="shop-collection-1.html">Shop Collection 01</a>
-                      </li>
-                      <li>
-                        <a href="shop-collection-2.html">Shop Collection 02</a>
-                      </li>
-                      <li><a href="shop-metro.html">Shop Metro Layout</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="blog.html"
-                      >Blog </a>
-                   
-                  </li>
-                  <li><a href="shop-instagram.html">Instagram Shop </a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-          <div class="col-xl-2 col-lg-2">
-            <div class="header-right-wrap header-right-flex">
-              <div class="same-style header-wishlist">
-                <a href="/wishlist"><i class="far fa-heart"></i></a>
-              </div>
-              <div class="same-style cart-wrap">
-                <a href="#" class="cart-active">
-                  <i class="dlicon shopping_bag-20"></i>
-                  <span class="count-style">02</span>
-                </a>
-              </div>
-              <div class="same-style header-search">
-                <a class="search-active" href="#">
-                  <i class="dlicon ui-1_zoom"></i>
-                </a>
-              </div>
-              <div class="same-style header-off-canvas">
-                <a href="<%= locals.user? '/myaccount' : '/login' %> ">
-                  <!-- <i class="far fa-user-plus" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i> -->
-                  <i
-                    class="far fa-user"
-                    style="font-size: 20px; color: black"
-                    onmouseover="this.style.color='red'"
-                    onmouseout="this.style.color='black'"
-                  ></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </header>
+  </header>
+  
     <div class="header-small-mobile section-padding-1">
       <div class="container-fluid">
         <div class="row align-items-center">
@@ -107,7 +67,7 @@
                 <div class="same-style cart-wrap">
                   <a href="#" class="cart-active">
                     <i class="dlicon shopping_bag-20"></i>
-                    <span class="count-style">02</span>
+                    <span class="count-style"><%= cartCount %></span>
                   </a>
                 </div>
                 <div class="same-style header-off-canvas">
@@ -291,13 +251,6 @@
           <div class="breadcrumb-title">
             <h2>My Account</h2>
           </div>
-          <ul>
-            <li>
-              <a href="index.html">Home 01 </a>
-            </li>
-            <li><span> &gt; </span></li>
-            <li class="active">My Account</li>
-          </ul>
         </div>
       </div>
     </div>
@@ -308,7 +261,6 @@
             <div class="myaccount-tab-menu nav" role="tablist">
               <a href="#dashboad" class="active" data-bs-toggle="tab">Dashboard</a>
               <a href="#orders" data-bs-toggle="tab">Orders</a>
-              <a href="#download" data-bs-toggle="tab">Download</a>
               <a href="#address-edit" data-bs-toggle="tab">Address</a>
               <a href="#wallet" data-bs-toggle="tab">Wallet</a> <!-- New Wallet Tab -->
               <a href="#account-info" data-bs-toggle="tab">Account Details</a>
@@ -394,46 +346,7 @@
           
               <!-- Single Tab Content End -->
               <!-- Single Tab Content Start -->
-              <div class="tab-pane fade" id="download" role="tabpanel">
-                <div class="myaccount-content">
-                  <div class="myaccount-table table-responsive text-center">
-                    <table class="table table-bordered">
-                      <thead class="thead-light">
-                        <tr>
-                          <th>Product</th>
-                          <th>Date</th>
-                          <th>Expire</th>
-                          <th>Download</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Haven - Free Real Estate PSD Template</td>
-                          <td>Aug 22, 2023</td>
-                          <td>Yes</td>
-                          <td>
-                            <a href="#" class="check-btn sqr-btn"
-                              ><i class="fa fa-cloud-download"></i> Download
-                              File</a
-                            >
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>HasTech - Profolio Business Template</td>
-                          <td>Sep 12, 2023</td>
-                          <td>Never</td>
-                          <td>
-                            <a href="#" class="check-btn sqr-btn"
-                              ><i class="fa fa-cloud-download"></i> Download
-                              File</a
-                            >
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+            
               <!-- Single Tab Content End -->
               <!-- Single Tab Content Start -->
               <div class="tab-pane fade" id="address-edit" role="tabpanel">
@@ -562,6 +475,8 @@
                   </div>
                 </div>
               </div>
+
+
               <!-- Single Tab Content End -->
             </div>
           </div>

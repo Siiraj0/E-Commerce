@@ -1,10 +1,11 @@
 <div class="search-content-wrap main-search-active">
-    <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
+    <a onclick="closing()" class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
     <div class="search-content">
         <p>Start typing and press Enter to search</p>
-        <form class="search-form" action="#">
-            <input type="text" placeholder="Search">
-            <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
+        <form class="search-form" action="/shop" method="get">
+            <input type="text" id="searchInput" name="term" placeholder="Search" >
+            <button type="submit" class="button-search"><i class="dlicon ui-1_zoom"></i></button>
         </form>
     </div>
 </div>
+

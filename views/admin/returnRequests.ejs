@@ -1,18 +1,19 @@
 <%- include('../layouts/admin/adminHeaders.ejs') %>
-<body data-layout="horizontal" data-topbar="dark">
-  <!-- Begin page -->
-  <div id="layout-wrapper">
+
+    <body data-layout="horizontal" data-topbar="dark">
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+
     <!-- header -->
 
     <%- include('../layouts/admin/pageTopbar.ejs') %>
+            <!-- ========== Left Sidebar Start ========== -->
+            <%- include('../layouts/admin/verticalMenu.ejs') %>
+            <!-- Left Sidebar End -->
+            <%- include('../layouts/admin/leftsidebarEnd.ejs') %>
+    
 
-    <!-- ========== Left Sidebar Start ========== -->
-
-    <%- include('../layouts/admin/verticalMenu.ejs') %>
-
-    <!-- Left Sidebar End -->
-
-    <%- include('../layouts/admin/leftsidebarEnd.ejs') %>
 
 
             <!-- ============================================================== -->
@@ -27,15 +28,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0">Orders</h4>
-
+                                    <h3 class="mb-0">Orders</h3>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                            <li class="breadcrumb-item active">Orders</li>
+                                            <li class="breadcrumb-item"><a href="/admin/home">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="/admin/orders">Orders</a></li>
+                                            <li class="breadcrumb-item active">Return requests</li>
                                         </ol>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -43,73 +43,85 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
+                                <div class="card" >
+                                    <% if(products.length >=1){ %>
+                                    <div class="card-body" >
                                         <div class="row mb-2">
                                             <div class="col-sm-4">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                                                        <input type="text" class="form-control" placeholder="Search...">
                                                         <i class="bx bx-search-alt search-icon"></i>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-8">
-                                                <div class="text-sm-end">
-                                                    <a href="/admin/returnRequest" type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2"><i class="mdi mdi-plus me-1" ></i> Return Requests</a>
-                                                </div>
-                                            </div><!-- end col-->
                                         </div>
-                
+                                        <!-- Button trigger modal -->
+                                        
                                         <div class="table-responsive" id="reloadDiv">
-                                            
                                             <table class="table align-middle table-nowrap">
                                                 <thead>
                                                     <tr>
                                                         <th>Sl No.</th>
-                                                        
-                                                        <th>Customer</th>
-                                                        <th>Products Count</th>
-                                                        <th>Amount</th>
-                                                        <th>Order Date</th>
-                                                        <th>Payment</th>
-
+                                                        <th>Order Id</th>
+                                                        <th>Product</th>
+                                                        <!-- <th>Customer</th> -->
+                                                        <th>Return Reason</th>
+                                                        <th>Ordered Date</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="orderTableBody">
-                                                    <% orders.forEach((e, i) => { %>
+                                                <tbody>
+                                                    <% products.forEach((prod,i)=> { %>
                                                         <tr>
-                                                            <td><%= i + 1 %></td>
-                                                            <td><%= e.userId.name %></td>
-                                                            <td><%= e.products.length %></td>
-                                                            <td><%= e.orderAmount %></td>
-                                                            <td><%= e.orderDate.toString().split(" ").splice(0, 4).join(' ') %></td>
-                                                            <td><%= e.payment %></td>
+                                                            <td><%= i+1 %></td>
+                                                            <td><%= prod.orderId %></td>
                                                             <td>
-                                                                <button class="btn btn-primary btn-sm btn-rounded" style="color: white;">
-                                                                    <a href="/admin/orderdetails/<%= e._id %>" style="color: white;">View All</a>
-                                                                </button>
+                                                                <!-- <div>
+                                                                <img width="75px" class="rounded" src="<%=// prod.productId.image[0]  %>" alt="">
+                                                                
+                                                                </div> -->
+                                                                <p><%= prod.productDetails.name %><span class="fw-semibold text-danger "> x </span><%= prod.quantity %> qty</p>
+                                                                <div>
+                                                                    <p>Purchase Price : <%= prod.totalPrice.toFixed(2) %></p>
+                                                                </div>
+                                                                <div>
+                                                                    <% let tot = 0;
+                                                                    tot = prod.totalPrice * prod.quantity %>
+                                                                    <p>Net Total : <%= tot.toFixed(2) %></p>
+                                                                </div>
+                                                            </td>
+                                                            <td><%= prod.returnReason %></td>
+                                                            <td><%= prod.orderDate.toLocaleDateString() %></td>
+                                                            <td>
+                                                                <button onclick="returnApprove('<%= prod._id %>','<%= prod.orderId %>','<%= prod.returnReason %>','<%= prod.userId %>')" class="btn btn-success">Approve</button>
                                                             </td>
                                                         </tr>
                                                     <% }); %>
                                                 </tbody>
                                             </table>
-                                            
                                         </div>
-                                        <%- include('../layouts/admin/adminPagination.ejs') %>
-                                   
+                                        
+                                        <!-- Pagination -->
+                                        
+                                        <!--  -->
+
                                     </div>
+                                    <% }else{ %>
+                                        <div class="p-5 m-5 text-center ">
+                                            <h1>No Return Requests</h1>
+                                        </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
                         <!-- end row -->
 
+                        
+
                     </div> <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-
-                
-                <!-- end modal -->
                 
                 <footer class="footer">
                     <div class="container-fluid">
@@ -131,10 +143,7 @@
         </div>
         <!-- END layout-wrapper -->
 
-        <!-- Right Sidebar -->
-        <a href="#" class="right-bar-toggle layout-setting-btn" id="right-bar-toggle">
-            <i class="icon-sm mb-2" data-feather="settings"></i> <span class="align-middle">Settings</span>
-        </a>
+        
 
         <div class="right-bar">
             <div data-simplebar class="h-100">
@@ -271,72 +280,48 @@
         </div>
         <!-- /Right-bar -->
 
-
-        <%- include('../layouts/admin/rightBar.ejs') %>
-
-
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
 
         <!-- JAVASCRIPT -->
-
+        <!-- Axios CDN -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <!-- SweetAlert CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script>
-            let searchTimeout;
-        
-            async function searchOrders() {
-                clearTimeout(searchTimeout);
-                const searchTerm = document.getElementById('searchInput').value;
-        
-                searchTimeout = setTimeout(async () => {
-                    try {
-                        if (searchTerm.trim() === '') {
-                            // When search input is empty, reload the full order list
-                            window.location.href = window.location.pathname; // Redirect to current page to reset search
-                            return;
-                        }
-        
-                        console.log('Searching for:', searchTerm);
-                        const response = await axios.get('/admin/searchOrders', {
-                            params: { term: searchTerm }
-                        });
-        
-                        const orders = response.data;
-                        const tableBody = document.getElementById('orderTableBody');
-                        tableBody.innerHTML = ''; // Clear previous results
-        
-                        if (orders.length > 0) {
-                            orders.forEach((order, i) => {
-                                const orderRow = document.createElement('tr');
-                                orderRow.innerHTML = `
-                                    <td>${i + 1}</td>
-                                    <td>${order.userId.name}</td>
-                                    <td>${order.products.length}</td>
-                                    <td>${order.orderAmount}</td>
-                                    <td>${new Date(order.orderDate).toDateString()}</td>
-                                    <td>${order.payment}</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm btn-rounded" style="color: white;">
-                                            <a href="/admin/orderdetails/${order._id}" style="color: white;">View All</a>
-                                        </button>
-                                    </td>
-                                `;
-                                tableBody.appendChild(orderRow);
+            async function returnApprove(productId,orderId,returnReason,userId){
+
+                const result = await Swal.fire({
+                    title: "Are you sure?",
+                    text: "Approve Return request?",
+                    icon: "warning",
+                    confirmButtonText: "Yes",
+                    confirmButtonColor: "#3085d6",
+                    showCancelButton: true,
+                    cancelButtonColor: "#d33"
+                })
+                
+                if(result.isConfirmed){
+                    const response = await axios.patch('/returnOrder',{productId,orderId,returnReason,userId})
+                    
+                    if(response.data.loginRequired){
+                        window.location.href = '/login'
+                    }else{
+                        if(response.data.success){
+                            Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Approved!",
+                            showConfirmButton: false,
+                            timer: 1500
+                            }).then((result) => {
+                                window.location.reload()
                             });
-                        } else {
-                            tableBody.innerHTML = '<tr><td colspan="7">No orders found</td></tr>';
                         }
-                    } catch (error) {
-                        console.error('Error fetching search results:', error);
                     }
-                }, 300); // Delay search by 300ms to reduce server requests
+                }
             }
-        
-            document.getElementById('searchInput').addEventListener('input', searchOrders);
         </script>
-        
-
-
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/libs/metismenujs/metismenujs.min.js"></script>
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
@@ -346,5 +331,5 @@
 
     </body>
 
-<!-- Mirrored from themesdesign.in/symox-laravel/layouts/ecommerce-orders.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Feb 2024 16:07:02 GMT -->
+<!-- Mirrored from themesdesign.in/symox-laravel/layouts/ecommerce-customers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Feb 2024 16:07:02 GMT -->
 </html>

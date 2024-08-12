@@ -66,81 +66,78 @@
                                                   }
                                                 </script>
                                                 <div class="text-sm-end">
-                                                    <a href="/admin/addOffer" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
-                                                         Excel
+                                                    <a href="/admin/downloadSalesReport" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
+                                                        Download Excel
                                                     </a>
                                                 </div>
+                                                
                                             </div><!-- end col-->
                                         </div>
                 
                                     
 
 
-                                    <div class="table-responsive" id="reloadDiv">
-                                        
-                                        <table class="table align-middle table-nowrap">
-                                            <thead>
+                                        <div class="table-responsive" id="reloadDiv">
+                                            <table class="table align-middle table-nowrap">
+                                              <thead>
                                                 <tr>
-                                                    <th>Sl No.</th>
-                                                    <th>Order Date</th>
-                                                    <th>Count</th>
-                                                    <th>Amount</th>
-                                                    <th>Status</th>
-                                                   
+                                                  <th>Sl No.</th>
+                                                  <th>Order Date</th>
+                                                  <th>Count</th>
+                                                  <th>Amount</th>
+                                                  <th>Coupon Discount</th>
+                                                  <th>Status</th>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                              <% locals.orders.forEach((e,i) => { %>
-                                                
-                                                
-                                                <tr>
-                                                    <td>
-                                                        <%= i+1  %>
-                                                    </td>
-                                                    <td>
-                                                    <%= e.orderDate.toString().split(" ").splice(0,4).join(' ')  %>
-                                                    </td>
-                                                    <td>
-                                                   <%= e.products.length %>
-                                                    </td>
-                                                    <td>
-                                                        <%= e.orderAmount %>
-                                                    </td>
-                                                    <td>
-                                                    <%= e.products[0].orderStatus  %>
-                                                    </td>
-                                                    
-                                                </tr>
-                                                
+                                              </thead>
+                                              <tbody>
+                                                <% orders.forEach((e, i) => { %>
+                                                  <tr>
+                                                    <td><%= (currentPage - 1) * 5 + (i + 1) %></td>
+                                                    <td><%= e.orderDate.toDateString() %></td>
+                                                    <td><%= e.products.length %></td>
+                                                    <td><%= e.orderAmount %></td>
+                                                    <td><%= e.couponDiscount %></td>
+                                                    <td><%= e.products[0].orderStatus %></td>
+                                                  </tr>
                                                 <% }); %>
-                                            </tbody>
-                                        </table>
-                                        
-                                    </div>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                          
 
-                                        <ul class="pagination pagination-rounded justify-content-end mb-2">
-                                            <li class="page-item disabled">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                                                    <i class="mdi mdi-chevron-left"></i>
-                                                </a>
-                                            </li>
-                                            <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                                            <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                                                    <i class="mdi mdi-chevron-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                          <%- include('../layouts/admin/adminPagination.ejs') %>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- end row -->
 
+                        <div class="modal fade" id="customDateModal" tabindex="-1" aria-labelledby="customDateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="customDateModalLabel">Select Custom Date Range</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <form id="customDateForm" method="GET" action="/admin/salesReport">
+                                    <input type="hidden" name="sort" value="custom">
+                                    <div class="mb-3">
+                                      <label for="startDate" class="form-label">Start Date</label>
+                                      <input type="date" class="form-control" id="startDate" name="startDate" required>
+                                    </div>
+                                    <div class="mb-3">
+                                      <label for="endDate" class="form-label">End Date</label>
+                                      <input type="date" class="form-control" id="endDate" name="endDate" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Apply</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
                     </div> <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
@@ -274,8 +271,22 @@
         
 
         <!-- JAVASCRIPT -->
-      
-
+        <script>
+            document.getElementById('customDateTrigger').addEventListener('click', function(e) {
+              e.preventDefault();
+              document.getElementById('customDateRange').style.display = 'block';
+            });
+          
+            document.getElementById('customDateForm').addEventListener('submit', function(e) {
+              e.preventDefault();
+              const startDate = document.getElementById('startDate').value;
+              const endDate = document.getElementById('endDate').value;
+              if (startDate && endDate) {
+                window.location.href = `/admin/salesReport?sort=custom&startDate=${startDate}&endDate=${endDate}`;
+              }
+            });
+          </script>
+          
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/libs/metismenujs/metismenujs.min.js"></script>
         <script src="assets/libs/simplebar/simplebar.min.js"></script>

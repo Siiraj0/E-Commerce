@@ -3,94 +3,54 @@
   <div class="m ain-wrapper">
     <header class="header-area section-padding-1">
       <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="col-xl-2 col-lg-2">
-            <div class="logo logo-width">
-              <a href="index.html">
-                <img src="user/assets/images/logo/logo.png" alt="logo" />
-              </a>
-            </div>
+          <div class="row align-items-center">
+              <!-- Left side with Home and Shop -->
+              <div class="col-xl-4 col-lg-4 d-flex justify-content-start">
+                  <div class="main-menu menu-lh-1 main-menu-padding-1">
+                      <nav>
+                          <ul class="d-flex">
+                              <li><a href="/">Home</a></li>
+                              <li><a href="/shop">Shop</a></li>
+                          </ul>
+                      </nav>
+                  </div>
+              </div>
+  
+              <!-- Centered Logo -->
+              <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
+                  <div class="logo logo-width">
+                      <a href="/">
+                          <img src="user/assets/images/logo/logo.png" alt="logo">
+                      </a>
+                  </div>
+              </div>
+  
+              <!-- Right side with Wishlist, Cart, Search, and Account -->
+              <div class="col-xl-4 col-lg-4 d-flex justify-content-end">
+                  <div class="header-right-wrap header-right-flex">
+                      <div class="same-style header-wishlist">
+                          <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                      </div>
+                      <div class="same-style cart-wrap">
+                          <a href="#" class="cart-active">
+                              <i class="dlicon shopping_bag-20"></i>
+                              <span class="count-style">02</span>
+                          </a>
+                      </div>
+                      <div class="same-style header-search">
+                          <a class="search-active" href="#"><i class="dlicon ui-1_zoom"></i></a>
+                      </div>
+                      <div class="same-style header-off-canvas">
+                          <a href="/login">
+                              <i class="far fa-user" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i>
+                          </a>
+                      </div>
+                  </div>
+              </div>
           </div>
-          <div
-            class="col-xl-8 col-lg-8 d-flex justify-content-center position-static"
-          >
-            <div class="main-menu menu-lh-1 main-menu-padding-1">
-              <nav>
-                <ul>
-                  <li class="position-static">
-                    <a href="/">Home </a>
-                    <div class="mega-menu-style-1"></div>
-                  </li>
-                  <li>
-                    <a href="#">Pages </a>
-                    <ul class="sub-menu-width">
-                      <li><a href="about-us.html">About Us</a></li>
-                      <li><a href="contact-us.html">Contact Page</a></li>
-                      <li><a href="404.html">404 Page</a></li>
-                      <li><a href="comming-soon.html">Comming Soon 01</a></li>
-                      <li><a href="comming-soon-2.html">Comming Soon 02</a></li>
-                      <li><a href="faq.html">FAQ</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="/shop">Shop </a>
-                  </li>
-                  <li>
-                    <a href="shop-collection-1.html"
-                      >Collections 
-                    </a>
-                    <ul class="sub-menu-width">
-                      <li>
-                        <a href="shop-collection-1.html">Shop Collection 01</a>
-                      </li>
-                      <li>
-                        <a href="shop-collection-2.html">Shop Collection 02</a>
-                      </li>
-                      <li><a href="shop-metro.html">Shop Metro Layout</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="blog.html"
-                      >Blog </a>
-                   
-                  </li>
-                  <li><a href="shop-instagram.html">Instagram Shop </a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-          <div class="col-xl-2 col-lg-2">
-            <div class="header-right-wrap header-right-flex">
-              <div class="same-style header-wishlist">
-                <a href="/wishlist"><i class="far fa-heart"></i></a>
-              </div>
-              <div class="same-style cart-wrap">
-                <a href="#" class="cart-active">
-                  <i class="dlicon shopping_bag-20"></i>
-                  <span class="count-style">02</span>
-                </a>
-              </div>
-              <div class="same-style header-search">
-                <a class="search-active" href="#">
-                  <i class="dlicon ui-1_zoom"></i>
-                </a>
-              </div>
-              <div class="same-style header-off-canvas">
-                <a href="<%= locals.user? '/myaccount' : '/login' %> ">
-                  <!-- <i class="far fa-user-plus" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i> -->
-                  <i
-                    class="far fa-user"
-                    style="font-size: 20px; color: black"
-                    onmouseover="this.style.color='red'"
-                    onmouseout="this.style.color='black'"
-                  ></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </header>
+  </header>
+  
     <div class="header-small-mobile section-padding-1">
       <div class="container-fluid">
         <div class="row align-items-center">
@@ -291,68 +251,109 @@
           <div class="breadcrumb-title">
             <h2>My Account</h2>
           </div>
-          <ul>
-            <li>
-              <a href="index.html">Home 01 </a>
-            </li>
-            <li><span> &gt; </span></li>
-            <li class="active">My Account</li>
-          </ul>
+        
         </div>
       </div>
     </div>
     <div class="container">
-        <h1>Order Details</h1>
-        <div class="order-info">
-            <p><strong>Order ID:</strong> <%= order._id %></p>
-            <p><strong>Order Date:</strong> <%= order.orderDate.toDateString() %></p>
-            <p><strong>Coupon Discount:</strong> ₹<%= order.couponDiscount %></p>
-            <p><strong>Payment Method:</strong> <%= order.payment %></p>
-            <p><strong>Total Amount:</strong> ₹<%= order.orderAmount %></p>
-            <p><strong>Deliver To:</strong> <%= order.deliveryAddress.name %></p>
+      <h1>Order Details</h1>
+      <div class="order-info">
+          <p><strong>Order ID:</strong> <%= order._id %></p>
+          <p><strong>Order Date:</strong> <%= order.orderDate.toDateString() %></p>
+          <p><strong>Coupon Discount:</strong> ₹<%= order.couponDiscount %></p>
+          <p><strong>Payment Method:</strong> <%= order.payment %></p>
+          <p><strong>Total Amount:</strong> ₹<%= order.orderAmount %></p>
+          <p><strong>Deliver To:</strong> <%= order.deliveryAddress.name %></p>
+          <div class="d-flex justify-content-end">
+            <% if(deliveredProds.length > 0){ %>
+              <a href="/getinvoice/<%= order._id %>" class="btn btn-success fw-semibold"><i class="fa fa-print"></i> Get Invoice</a>
+          <% } %>
+          </div>
+        
         </div>
+        
 
-        <div class="order-products">
-            <% order.products.forEach((e) => { %>
-                <div class="product-box">
-                    <img src="<%= e.productId.image[0] %>" alt="Product Image" class="product-image">
-                    <div class="product-details">
-                        <p class="product-name"><%= e.productId.name %></p>
-                        <p class="product-price">₹<%= e.totalPrice %></p>
-                        <% if (e.productId.offerPercentage) { %>
-                            <p class="offer-percentage"><%= e.productId.offerPercentage %>% off</p>
-                        <% } %>
-                    </div>
-                    <% if (!e.cancelled) { %>
-                        <button class="cancel-button" type="button" onclick="cancelOrder('<%= order._id %>', '<%= e._id %>')">Cancel Order</button>
-                    <% } else { %>
-                        <p>Cancelled</p>
-                    <% } %>
-                </div>
-            <% }); %>
-        </div>
+      <div class="order-products">
+          <% order.products.forEach((e) => { %>
+              <div class="product-box">
+                  <img src="<%= e.productId.image[0] %>" alt="Product Image" class="product-image">
+                  <div class="product-details">
+                      <p class="product-name"><%= e.productId.name %></p>
+                      <p class="product-price">₹<%= e.totalPrice %></p>
+                      <p class="product-price"><%= e.orderStatus %></p>
+                      <% if (e.productId.offerPercentage) { %>
+                          <p class="offer-percentage"><%= e.productId.offerPercentage %>% off</p>
+                      <% } %>
+                  </div>
+                  <% if (e.orderStatus !=='Cancelled' && e.orderStatus !== 'Returned' && e.orderStatus !== 'Delivered') { %>
+                      <button class="cancel-button" type="button" onclick="cancelOrder('<%= order._id %>', '<%= e._id %>')">Cancel Order</button>
+                  <% } else if (e.orderStatus === 'Returned') { %>
+                      <p>Returned</p>
+                  <% } else if (e.orderStatus=='Cancelled') { %>
+                      <p>Cancelled</p>
+                  <% } %>
 
-        <div class="tracking-line">
-            <div class="<%= order.products.every(p => p.orderStatus !== 'Pending') ? 'active' : '' %>"></div>
-            <div class="<%= order.products.some(p => p.orderStatus === 'Shipped') ? 'active' : '' %>"></div>
-            <div class="<%= order.products.some(p => p.orderStatus === 'Delivered') ? 'active' : '' %>"></div>
-        </div>
-        <div style="text-align: center; margin-top: 10px;">
-            <span>Order Placed</span>
-            <span style="margin: 0 10px;">></span>
-            <span>Shipped</span>
-            <span style="margin: 0 10px;">></span>
-            <span>Delivered</span>
-        </div>
-    </div>
+                  <% if (e.orderStatus === 'Delivered' && e.orderStatus !=="Returned") { %>
+                      <button class="return-button" type="button" onclick="returnOrder('<%= order._id %>', '<%= e._id %>')">Return Order</button>
+                  <% } %>
+                  
+                
+              </div>
+          <% }); %>
+      </div>
+  </div>
 
-    <script>
-        function cancelOrder(orderId, productId) {
-            // Logic for cancelling the order
-            alert('Order ' + orderId + ', Product ' + productId + ' has been cancelled.');
-            // You can replace this with an AJAX call to your server to handle the cancellation
-        }
-    </script>
+  <script src="your-custom-script.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+<script>
+
+
+  function cancelOrder(orderId, productId) {
+    axios.post('/order/cancel', { orderId, productId })
+        .then(response => {
+            alert(response.data.message);
+            location.reload(); // Reload to reflect changes
+        })
+        .catch(error => {
+            console.error('Error cancelling order:', error);
+            alert('Failed to cancel order.');
+        });
+}
+
+async function returnOrder(orderId, productId) {
+  const {value: returnReason} = await Swal.fire({
+                title: "Return reason",
+                input: "text",
+                inputLabel: "Return reason",
+                showCancelButton: true,
+
+                inputValidator: (value)=>{
+                    if(!value){
+                        return "Enter a valid reason"
+                    }
+                }
+            })
+            if(returnReason){
+
+              axios.post('/order/return', { orderId, productId })
+              .then(response => {
+                alert(response.data.message);
+                location.reload(); // Reload to reflect changes
+              })
+              .catch(error => {
+                console.error('Error returning order:', error);
+                alert('Failed to return order.');
+              });
+            }
+}
+
+</script>
+  
+  
+  
 </body>
   </div>
   
@@ -367,102 +368,117 @@
 </div>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        max-width: 800px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 20px;
-    }
-    .order-info {
-        margin-bottom: 20px;
-    }
-    .order-info p {
-        margin: 5px 0;
-    }
-    .product-box {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #fafafa;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-    }
-    .product-image {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 10px;
-        margin-right: 15px;
-    }
-    .product-details {
-        flex: 1;
-    }
-    .product-name {
-        font-size: 16px;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
-    }
-    .product-price {
-        font-size: 14px;
-        color: #777;
-        margin: 5px 0;
-    }
-    .offer-percentage {
-        font-size: 14px;
-        color: #ff5722;
-    }
-    .cancel-button {
-        background-color: #f44336;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        border-radius: 5px;
-        margin-left: 10px;
-    }
-    .cancel-button:hover {
-        background-color: #d32f2f;
-    }
-    .tracking-line {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-    }
-    .tracking-line div {
-        flex: 1;
-        height: 10px;
-        border: 1px solid #ddd;
-        position: relative;
-    }
-    .tracking-line div::after {
-        content: '';
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        width: 20px;
-        height: 20px;
-        background-color: #4caf50;
-        border-radius: 50%;
-        border: 2px solid white;
-    }
-    .tracking-line .active {
-        background-color: #4caf50;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.order-info {
+    margin-bottom: 20px;
+}
+
+.order-info p {
+    margin: 5px 0;
+}
+
+.product-box {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    position: relative;
+}
+
+.product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+
+.product-details {
+    flex: 1;
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.product-price {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0;
+}
+
+.offer-percentage {
+    font-size: 14px;
+    color: #ff5722;
+}
+
+.cancel-button, .return-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.cancel-button:hover {
+    background-color: #d32f2f;
+}
+
+.return-button {
+    background-color: #4caf50;
+}
+
+.return-button:hover {
+    background-color: #388e3c;
+}
+
+.tracking-line {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    height: 5px;
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.tracking-status {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s;
+}
+
 </style>
 <!-- editAddress modal end  -->
 

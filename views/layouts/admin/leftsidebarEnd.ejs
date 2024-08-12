@@ -96,22 +96,19 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="/admin/salesReport" id="topnav-pages" role="button">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span data-key="t-apps">Sales</span>
-                                    <div class="arrow-down"></div>
+                                  <i class="fas fa-chart-line"></i>
+                                  <span data-key="t-apps">Sales</span>
+                                  <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-pages">
-
-                                    <a  class="dropdown-item" data-key="t-calendar">Day</a>
-                                    <a  class="dropdown-item" data-key="t-chat">Week</a>
-                                    <a  class="dropdown-item" data-key="t-chat">Month</a>
-                                    <a  class="dropdown-item" data-key="t-chat">Year</a>
-                                    <a  class="dropdown-item" data-key="t-chat">Custom</a>
-                                    
+                                  <a href="/admin/salesReport?sort=day" class="dropdown-item" data-key="t-calendar">Day</a>
+                                  <a href="/admin/salesReport?sort=week" class="dropdown-item" data-key="t-chat">Week</a>
+                                  <a href="/admin/salesReport?sort=month" class="dropdown-item" data-key="t-chat">Month</a>
+                                  <a href="/admin/salesReport?sort=year" class="dropdown-item" data-key="t-chat">Year</a>
+                                  <a href="#" class="dropdown-item" data-key="t-chat" data-bs-toggle="modal" data-bs-target="#customDateModal">Custom</a>
                                 </div>
-                            </li>
-                            
-
+                              </li>
+                              
                         </ul>
                     </div>
                 </nav>

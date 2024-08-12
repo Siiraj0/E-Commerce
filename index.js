@@ -18,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(nocache());
 
 app.use(express.json());
+// Middleware to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "1234",
@@ -26,11 +28,12 @@ app.use(
   })
 );
 app.use(flash());
-app.use("/", userroutes);
 app.use("/admin", adminroutes);
+app.use("/", userroutes);
 
-// Middleware to parse URL-encoded bodies
-app.use(express.urlencoded({ extended: true }));
+app.use((err, res, next) => {
+  res.status(404).render('user/error-404');
+});
 
 app.listen(3000, () => {
   console.log("http://localhost:3000/");

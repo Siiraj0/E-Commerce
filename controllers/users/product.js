@@ -6,21 +6,31 @@ const shopPage = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * limit;
     const filter = req.query.filter;
+    const searchTerm = req.query.term;
     let filterObj = {};
+    let searchObj = { isBlocked: false };
+
+    if (searchTerm) {
+      const regex = new RegExp(searchTerm, 'i');
+      searchObj.name = { $regex: regex };
+    }
 
     switch (filter) {
       case "lowToHigh":
-        filterObj.price = 1;
+        filterObj.offerPrice = 1;
         break;
       case "highToLow":
-        filterObj.price = -1;
+        filterObj.offerPrice = -1;
+        break;
+      case "latest":
+        filterObj._id = -1;
         break;
       default:
         break;
     }
 
     // Fetch products and apply filter
-    const products = await productModel.find({ isBlocked: false })
+    const products = await productModel.find(searchObj)
       .populate({
         path: 'category',
         match: { isBlocked: false }
@@ -31,7 +41,7 @@ const shopPage = async (req, res) => {
       .limit(limit);
 
     // Calculate total products count for pagination
-    const totalProductsCount = await productModel.countDocuments({ isBlocked: false });
+    const totalProductsCount = await productModel.countDocuments(searchObj);
     const totalPages = Math.ceil(totalProductsCount / limit);
 
     res.render("user/shop", {
@@ -40,15 +50,14 @@ const shopPage = async (req, res) => {
       user: req.session.userId,
       totalPages,
       currentPage: page,
-      filter
+      filter,
+      searchTerm
     });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal server error");
   }
 };
-;
-
 
 const productpage = async (req, res) => {
   try {
@@ -61,9 +70,29 @@ const productpage = async (req, res) => {
   }
 };
 
+const searchProduct = async (req, res) => {
+  try {
+    const searchTerm = req.query.term;
+    const regex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+
+    const products = await productModel.find({
+      name: { $regex: regex }
+    })
+      .populate('category')
+      .populate({
+        path: 'offer',
+        match: { endDate: { $gte: new Date() }, startDate: { $lte: new Date() } }
+      });
+
+    res.json(products);
+  } catch (error) {
+    console.error('Error searching products:', error);
+    res.status(500).send({ error: 'Internal server error' });
+  }
+};
 
 module.exports = {
   shopPage,
-  productpage
+  productpage,
+  searchProduct
 };
-

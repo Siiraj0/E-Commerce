@@ -6,54 +6,29 @@
         <header class="header-area section-padding-1">
             <div class="container-fluid">
                 <div class="row align-items-center">
-                    <div class="col-xl-2 col-lg-2">
-                        <div class="logo logo-width">
-                            <a href="index.html">
-                                <img src="user/assets/images/logo/logo.png" alt="logo">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-8 col-lg-8 d-flex justify-content-center position-static">
+                    <!-- Left side with Home and Shop -->
+                    <div class="col-xl-4 col-lg-4 d-flex justify-content-start">
                         <div class="main-menu menu-lh-1 main-menu-padding-1">
                             <nav>
-                                <ul>
-                                    <li class="position-static"><a  href="/">Home </a>
-                                        <div class="mega-menu-style-1">
-                                          
-                                        </div>
-                                    </li>
-                                    <li><a href="#">Pages </a>
-                                        
-                                    </li>
-                                    <li><a href="/shop">Shop </a>
-                                        
-                                    </li>
-                                    <li><a href="shop-collection-1.html">Collections  </a>
-                                        <ul class="sub-menu-width">
-                                            <li><a href="shop-collection-1.html">Shop Collection 01</a></li>
-                                            <li><a href="shop-collection-2.html">Shop Collection 02</a></li>
-                                            <li><a href="shop-metro.html">Shop Metro Layout</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="blog.html">Blog </a>
-                                        <ul class="sub-menu-width">
-                                            <li><a href="blog.html">Blog Style 01</a></li>
-                                            <li><a href="blog-2.html">Blog Style 02</a></li>
-                                            <li><a href="blog-3.html">Blog Style 03</a></li>
-                                            <li><a href="#">Single Posts <i class="fa fa-angle-right"></i></a>
-                                                <ul class="lavel-menu">
-                                                    <li><a href="blog-details.html">Single Post Style 01</a></li>
-                                                    <li><a href="blog-details-2.html">Single Post Style 02</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="shop-instagram.html">Instagram Shop </a></li>
+                                <ul class="d-flex">
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/shop">Shop</a></li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-2">
+        
+                    <!-- Centered Logo -->
+                    <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
+                        <div class="logo logo-width">
+                            <a href="/">
+                                <img src="user/assets/images/logo/logo.png" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+        
+                    <!-- Right side with Wishlist, Cart, Search, and Account -->
+                    <div class="col-xl-4 col-lg-4 d-flex justify-content-end">
                         <div class="header-right-wrap header-right-flex">
                             <div class="same-style header-wishlist">
                                 <a href="wishlist.html"><i class="far fa-heart"></i></a>
@@ -65,13 +40,10 @@
                                 </a>
                             </div>
                             <div class="same-style header-search">
-                                <a class="search-active" href="#">
-                                    <i class="dlicon ui-1_zoom"></i>
-                                </a>
+                                <a class="search-active" href="#"><i class="dlicon ui-1_zoom"></i></a>
                             </div>
                             <div class="same-style header-off-canvas">
-                                <a href="<%= locals.user? '/myaccount' : '/login' %> ">
-                                    <!-- <i class="far fa-user-plus" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i> -->
+                                <a href="/login">
                                     <i class="far fa-user" style="font-size: 20px; color: black;" onmouseover="this.style.color='red'" onmouseout="this.style.color='black'"></i>
                                 </a>
                             </div>
@@ -80,6 +52,7 @@
                 </div>
             </div>
         </header>
+        
         <div class="header-small-mobile section-padding-1">
             <div class="container-fluid">
                 <div class="row align-items-center">
@@ -382,10 +355,11 @@
                             <div class="coupon-input-container">
                                 <input type="text" id="couponCode" placeholder="Coupon code" class="coupon-input">
                                 <button type="button" id="applyCouponBtn" onclick="applyCoupon()" class="coupon-btn">Apply Coupon</button>
-                                <button type="button" id="removeCouponBtn" onclick="removeCoupon()" class="coupon-btn">Remove Coupon</button>
+                                <button type="button" id="removeCouponBtn" onclick="removeCoupon()" class="coupon-btn" style="display: none;">Remove Coupon</button>
                             </div>
                             <button type="button" id="showCoupons" onclick="showCoupons()" class="coupon-btn coupon-show">Show Coupons</button>
                         </div>
+                        
                         
                     </div>
                 </div>
@@ -1142,31 +1116,44 @@
     }
 
     async function applyCoupon() {
-        const couponCode = document.getElementById('couponCode').value;
-        console.log('Applying coupon:', couponCode);
+    const couponCode = document.getElementById('couponCode').value.trim();
+    
+    if (couponCode === '') {
+        alert('Please enter a valid coupon code.');
+        return;
+    }
 
-        try {
-            const response = await axios.post('/couponSubmit', { couponCode });
-            const discountPercentage = response.data;
-            console.log('Coupon response:', discountPercentage);
+    console.log('Applying coupon:', couponCode);
 
-            // Apply the discount
-            if (discountPercentage) {
-                applyDiscount(discountPercentage);
-            } else {
-                console.error('Invalid discount percentage');
-                applyDiscount(0);
-            }
-        } catch (error) {
-            console.error('Error applying coupon:', error);
+    try {
+        const response = await axios.post('/couponSubmit', { couponCode });
+        const discountPercentage = response.data;
+        console.log('Coupon response:', discountPercentage);
+
+        // Apply the discount
+        if (discountPercentage) {
+            applyDiscount(discountPercentage);
+            document.getElementById('applyCouponBtn').style.display = 'none';
+            document.getElementById('showCoupons').style.display = 'none';
+            document.getElementById('removeCouponBtn').style.display = 'inline-block';
+        } else {
+            console.error('Invalid discount percentage');
             applyDiscount(0);
         }
-    }
-
-    function removeCoupon() {
-        document.getElementById('couponCode').value = '';
+    } catch (error) {
+        console.error('Error applying coupon:', error);
         applyDiscount(0);
     }
+}
+
+function removeCoupon() {
+    document.getElementById('couponCode').value = '';
+    applyDiscount(0);
+    document.getElementById('applyCouponBtn').style.display = 'inline-block';
+    document.getElementById('showCoupons').style.display = 'inline-block';
+    document.getElementById('removeCouponBtn').style.display = 'none';
+}
+
 
     async function showCoupons() {
         const totalPriceElement = document.getElementById('product-total');

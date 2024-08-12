@@ -1020,6 +1020,47 @@
 
         <script src="assets/js/app.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+     async function salesStaticsChart(){
+       const {data}= await axios.get('/admin/sales')
+        options = {
+  series: [{ data: data.monthlyCounts
+  }],   
+  chart: {
+    toolbar: { show: !1 },
+    height: 350,
+    type: "bar",
+    events: { click: function (e, r, t) {} },
+  },
+  plotOptions: { bar: { columnWidth: "70%", distributed: !0 } },
+  dataLabels: { enabled: !1 },
+  legend: { show: !1 },
+  colors: (barchartColors = getChartColorsArray("sales-statistics")),
+  xaxis: {
+    categories: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+    ],
+    labels: { style: { colors: barchartColors, fontSize: "12px" } },
+  },
+};
+(chart = new ApexCharts(
+  document.querySelector("#sales-statistics"),
+  options
+)).render();
+     }
+     salesStaticsChart()
+      </script>
+
     </body>
 
 <!-- Mirrored from themesdesign.in/symox-laravel/layouts/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Feb 2024 16:06:55 GMT -->
