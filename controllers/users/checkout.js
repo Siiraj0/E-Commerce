@@ -3,6 +3,7 @@ const addressModel=require('../../models/addressmodel')
 const orderModel= require('../../models/ordermodel')
 const couponModel= require('../../models/coupon');
 const usermodel = require('../../models/usermodel');
+const productModel = require('../../models/productmodel')
 
 const checkout =async (req, res) => {
     try {
@@ -57,32 +58,39 @@ const checkout =async (req, res) => {
         console.log(error.message);
     }
 }
+
 const placeOrder = async (req, res) => {
   try {
-      const { addressSelected, couponDiscount, orderAmount, paymentMethod } = req.body;
-      const userId = req.session.userId;
-      const address = await addressModel.findOne({ _id: addressSelected });
-      const cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
+    const { addressSelected, couponDiscount, orderAmount, paymentMethod } = req.body;
+    const userId = req.session.userId;
+    const address = await addressModel.findOne({ _id: addressSelected });
+    const cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
 
-      const newOrder = await orderModel.create({
-          userId: userId,
-          couponDiscount: parseFloat(couponDiscount), // Ensure it's a number
-          products: cart.products.map(e => ({
-              productId: e.productId._id,
-              quantity: e.count,
-              totalPrice: e.productId.offer ? Math.floor(e.productId.offerPrice) : Math.floor(e.productId.price) * e.count
-          })),
-          deliveryAddress: address,
-          orderAmount: parseFloat(orderAmount), // Ensure it's a number
-          payment: paymentMethod,
+    await orderModel.create({
+      userId: userId,
+      couponDiscount: parseFloat(couponDiscount),
+      products: cart.products.map(e => ({
+        productId: e.productId._id,
+        quantity: e.count,
+        totalPrice: e.productId.offer ? Math.floor(e.productId.offerPrice) : Math.floor(e.productId.price) * e.count
+      })),
+      deliveryAddress: address,
+      orderAmount: parseFloat(orderAmount),
+      payment: paymentMethod,
+    });
+
+    for (const item of cart.products) {
+      await productModel.findByIdAndUpdate(item.productId._id, {
+        $inc: { stock: -item.count }
       });
+    }
+    cart.products = [];
+    await cart.save();
 
-      cart.products = [];
-      await cart.save();
-
-      res.redirect('/thankyou');
+    res.redirect('/thankyou');
   } catch (error) {
-      console.log(error.message);
+    console.log(error.message);
+    res.status(500).send('Internal server error');
   }
 };
 

@@ -64,6 +64,36 @@ const indexPage = (req, res) => {
 
 
   
+  const categoryChart =async (req,res)=>{
+    try {
+        const statusCounts = await orderModel.aggregate([
+            { $unwind: '$products' }, // Unwind the products array to handle each product separately
+            { 
+                $group: {
+                    _id: '$products.orderStatus',
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    orderStatus: '$_id',
+                    count: 1
+                }
+            }
+        ]);
+
+        // Convert the array of objects to a single object
+        const statusCountObj = {};
+        statusCounts.forEach(status => {
+            statusCountObj[status.orderStatus] = status.count;
+        });
+
+    } catch (error) {
+       console.log(error.messege);
+        
+    }
+}
 
   
   
@@ -72,5 +102,6 @@ module.exports={
     indexPage,
     salesData,
     salesChart,
+    categoryChart
     
 }

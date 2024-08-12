@@ -73,6 +73,7 @@ adminRoute.patch('/offerDelete', auth.login, offerController.offerDelete);
 adminRoute.get('/salesReport', auth.login, ordersController.salesReport);
 adminRoute.get('/salesData', auth.login, indexController.salesData);
 adminRoute.get('/sales', auth.login, indexController.salesChart);
+adminRoute.get('/categoryChart', auth.login, indexController.categoryChart);
 
 
 module.exports = adminRoute;

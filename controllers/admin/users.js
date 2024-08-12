@@ -1,3 +1,4 @@
+const ordermodel = require("../../models/ordermodel");
 const usermodel = require("../../models/usermodel");
 
 const userPage = async (req, res) => {
@@ -66,8 +67,11 @@ const searchUser = async (req, res) => {
       res.status(500).send({ error: 'Internal server error' });
   }
 };
+
+
 module.exports = {
     blockUser,
     userPage,
-    searchUser // Export the new method
+    searchUser,
+    
 };

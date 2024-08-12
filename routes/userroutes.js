@@ -65,6 +65,7 @@ userRoute.patch('/saveEditAddress', checkoutController.saveEditAddress);
 userRoute.patch('/removeAddress', checkoutController.removeAddress);
 userRoute.post('/couponFetch', checkoutController.couponFetch);
 userRoute.post('/couponSubmit', checkoutController.couponSubmit);
+userRoute.get('/thankyou', checkoutController.thankyou);
 
 // My Account routes
 userRoute.get("/myaccount", auth.userIn, myaccountController.myaccount);
@@ -79,7 +80,6 @@ userRoute.get('/orderDetails/:id', auth.userIn, myaccountController.orderDetails
 userRoute.post('/order/cancel', myaccountController.cancelOrder);
 userRoute.post('/order/return', myaccountController.returnOrder);
 userRoute.patch('/returnOrder', myaccountController.returnApprove);
-
 userRoute.get('/getinvoice/:id', myaccountController.loadInvoice)
 
 // Wishlist routes

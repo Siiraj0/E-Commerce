@@ -8,7 +8,7 @@ const shopPage = async (req, res) => {
     const filter = req.query.filter;
     const searchTerm = req.query.term;
     let filterObj = {};
-    let searchObj = { isBlocked: false };
+    let searchObj = { isBlocked: false, stock: { $gt: 0 } }; // Filter out out-of-stock products
 
     if (searchTerm) {
       const regex = new RegExp(searchTerm, 'i');
@@ -58,6 +58,7 @@ const shopPage = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
 
 const productpage = async (req, res) => {
   try {
