@@ -48,6 +48,7 @@ userRoute.post("/logout", myaccountController.logout);
 userRoute.get("/shop", productController.shopPage);
 userRoute.get("/product/:id", productController.productpage);
 userRoute.get('/searchProduct',productController.searchProduct);
+userRoute.get('/shopFiltering',productController.shopFiltering);
 
 
 // Cart routes

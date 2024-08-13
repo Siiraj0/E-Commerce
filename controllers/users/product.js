@@ -1,28 +1,21 @@
+const categorymodel = require("../../models/categorymodel");
 const productModel = require("../../models/productmodel");
 
 const shopPage = async (req, res) => {
   try {
-    const limit = 6; 
+    const limit = 6; // Number of products per page
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * limit;
     const filter = req.query.filter;
     const searchTerm = req.query.term;
-    const category = req.query.category; // New: Get the selected category from query
     let filterObj = {};
     let searchObj = { isBlocked: false, stock: { $gt: 0 } }; // Filter out out-of-stock products
 
-    // Add search term to searchObj if provided
     if (searchTerm) {
       const regex = new RegExp(searchTerm, 'i');
       searchObj.name = { $regex: regex };
     }
 
-    // Add category to searchObj if provided
-    if (category) {
-      searchObj.category = category;
-    }
-
-    // Apply sorting filter
     switch (filter) {
       case "lowToHigh":
         filterObj.offerPrice = 1;
@@ -38,6 +31,7 @@ const shopPage = async (req, res) => {
     }
 
     // Fetch products and apply filter
+    const category = await categorymodel.find()
     const products = await productModel.find(searchObj)
       .populate({
         path: 'category',
@@ -59,16 +53,14 @@ const shopPage = async (req, res) => {
       totalPages,
       currentPage: page,
       filter,
-      searchTerm,
-      category // Pass the selected category to the view
+      category,
+      searchTerm
     });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal server error");
   }
 };
-
-
 
 
 const productpage = async (req, res) => {
@@ -103,8 +95,73 @@ const searchProduct = async (req, res) => {
   }
 };
 
+
+const shopFiltering = async (req,res)=>{
+  try {
+    const category=req.query.category;
+ 
+    if(category){
+      
+
+      const limit = 6; // Number of products per page
+      const page = parseInt(req.query.page) || 1;
+      const skip = (page - 1) * limit;
+      const filter = req.query.filter;
+      const searchTerm = req.query.term;
+      let filterObj = {};
+      let searchObj = { isBlocked: false, stock: { $gt: 0 } }; // Filter out out-of-stock products
+  
+      const products=await productModel.find({category:category}).populate("category").sort(filterObj)
+      .skip(skip)
+      .limit(limit);
+
+      if (searchTerm) {
+        const regex = new RegExp(searchTerm, 'i');
+        searchObj.name = { $regex: regex };
+      }
+  
+      switch (filter) {
+        case "lowToHigh":
+          filterObj.offerPrice = 1;
+          break;
+        case "highToLow":
+          filterObj.offerPrice = -1;
+          break;
+        case "latest":
+          filterObj._id = -1;
+          break;
+        default:
+          break;
+      }
+  
+      // Fetch products and apply filter
+      const categories = await categorymodel.find()
+  
+      // Calculate total products count for pagination
+      const totalProductsCount = await productModel.countDocuments(searchObj);
+      const totalPages = Math.ceil(totalProductsCount / limit);
+  
+      // res.render()
+      res.render("user/shop", {
+        filteredProductData: products,
+        totalProductsCount,
+        user: req.session.userId,
+        totalPages,
+        currentPage:page,
+        filter,
+        category:categories,
+        searchTerm
+      });
+    }
+    
+  } catch (error) {
+    console.log("error : ",error);
+  }
+}
+
 module.exports = {
   shopPage,
   productpage,
-  searchProduct
+  searchProduct,
+  shopFiltering
 };

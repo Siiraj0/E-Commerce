@@ -245,8 +245,18 @@
                             <a href="#shop-1" class="active" data-bs-toggle="tab"><i class="dlicon ui-2_grid-45"></i></a>
                             <a href="#shop-2" data-bs-toggle="tab"><i class="dlicon design_bullet-list-69"></i></a>
                         </div>
-                        <div class="shop-filter ml-50">
-                            <a class="shop-filter-active" href="#">Filters <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></a>
+                     
+                        <div class="shop-short-by ml-50">
+                            <span>Filter by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
+                            <ul id="sort-options">
+                                <% category.forEach(e =>{ %>
+
+                                    <li><a href="/shopFiltering?category=<%=e._id %>"><%=e.name %></a></li>
+                                    
+                                    <%   })  %>
+                          
+                            </ul>
+                            
                         </div>
                         <div class="shop-short-by ml-50">
                             <span>Sort by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
@@ -261,15 +271,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="filter-section">
-                    <h4>Filter by Category</h4>
-                    <ul>
-                      <li><a href="/shop?category=WOMENS&filter=<%= filter %>&term=<%= searchTerm %>&page=1" class="<%= category === 'WOMENS' ? 'active' : '' %>">Womens</a></li>
-                      <li><a href="/shop?category=MENS&filter=<%= filter %>&term=<%= searchTerm %>&page=1" class="<%= category === 'MENS' ? 'active' : '' %>">Mens</a></li>
-                      <li><a href="/shop?category=KIDS&filter=<%= filter %>&term=<%= searchTerm %>&page=1" class="<%= category === 'KIDS' ? 'active' : '' %>">Kids</a></li>
-                    </ul>
-                  </div>
-                  
+             
                 <div class="tab-content jump-3 pt-30">
                     <div id="shop-1" class="tab-pane active">
                         <div class="row">
