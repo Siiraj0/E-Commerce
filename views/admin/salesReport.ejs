@@ -49,8 +49,12 @@
                                             <div class="col-sm-4">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <input type="text" class="form-control" placeholder="Search...">
-                                                        <i class="bx bx-search-alt search-icon"></i>
+                                                        
+                                                       <% if(sort){ %>
+                                                        <h6><strong>Sales</strong> : <%= startDate?.toDateString() %> To: <%= endDate?.toDateString() %></h6>
+                                                    <% }else{ %>
+                                                        <h6>All Orders</h6>
+                                                        <% } %>
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,7 +109,25 @@
                                           </div>
                                           
 
-                                          <%- include('../layouts/admin/adminPagination.ejs') %>
+                                          <!-- Pagination -->
+<ul class="pagination pagination-rounded justify-content-end mb-2">
+    <% if(currentPage > 1){ %>
+        <li class="page-item disabled">
+            <a href="?page=<%= currentPage - 1 %>&&sort=<%=sort  %>">Previous<i class="mdi mdi-chevron-left"></i></a>
+        </li>
+    <% } %>
+
+    <% for(let i = 1; i <= totalPages; i++){ %>
+        <li class="page-item <%= currentPage === i ? 'active' : '' %> "><a class="page-link " href="?page=<%= i %>&&sort=<%= sort %>"><%= i %></a></li>
+    <% } %>
+
+    <% if(currentPage < totalPages){ %>
+        <li class="page-item">
+            <a href="?page=<%= currentPage + 1 %>&&sort=<%= sort  %>">Next<i class="mdi mdi-chevron-right"></i></a>
+        </li>
+    <% } %>
+</ul>
+<!--  -->
 
                                     </div>
                                 </div>
@@ -147,7 +169,7 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id=orderdetailsModalLabel">Order Details</h5>
+                                <h5 class="modal-title" id="orderdetailsModalLabel">Order Details</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">

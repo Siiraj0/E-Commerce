@@ -4,20 +4,33 @@ const orderModel= require('../../models/ordermodel')
 const couponModel= require('../../models/coupon');
 const usermodel = require('../../models/usermodel');
 const productModel = require('../../models/productmodel')
+const walletModel = require('../../models/walletmodel')
 
 const checkout =async (req, res) => {
     try {
  
      
+     
       const userId=req.session.userId
+      const wallet =await walletModel.findOne({userId:userId})
       const addresses=await addressModel.find({userId:userId}).limit(3)
-      // console.log(addresses,'addresses');
+      console.log(req.session.coupon,'ggggggggggggggg');
+      
       const cartdata=await cartModel.find({userId:userId}).populate('products.productId')
+let couponPercentage = 0 ;
+if(req.session.coupon){
+ const foundCoupon = await couponModel.findOne({_id:req.session.coupon})
+couponPercentage = foundCoupon.percentage
+}
+
+const sessionCoupon = await couponModel.findOne({_id:req.session.coupon})
+
+
 
 
        if(cartdata?.[0]?.products?.length > 0){
          
-         res.render("user/checkout", { user: userId , cartdata,addresses});
+         res.render("user/checkout", { user: userId , cartdata,addresses,wallet,couponPercentage,sessionCoupon});
        }else{
         res.redirect('/shop')
        }
@@ -30,7 +43,7 @@ const checkout =async (req, res) => {
   const checkoutAddAddress = async(req,res) => {
     try{
 
-    console.log('jhihihihihihihihhihhi');
+  
         const {name, mobile, pincode, state, streetAddress, locality, city} = req.body
         const { userId } = req.session
 
@@ -78,12 +91,29 @@ const placeOrder = async (req, res) => {
       orderAmount: parseFloat(orderAmount),
       payment: paymentMethod,
     });
-
+    if (paymentMethod == "wallet Payment") {
+   await walletModel.findOneAndUpdate(
+          { userId: userId },
+          {
+              $inc: { balance: -orderAmount },
+              $push: {
+                  transaction: {
+                      amount: orderAmount,
+                      creditOrDebit: 'debit',
+                      time: new Date() 
+                  }
+              }
+          },
+          { new: true }
+      );
+  }
+  
     for (const item of cart.products) {
       await productModel.findByIdAndUpdate(item.productId._id, {
         $inc: { stock: -item.count }
       });
     }
+    
     cart.products = [];
     await cart.save();
 
@@ -179,6 +209,7 @@ const couponSubmit = async (req, res) => {
       return res.json({ message: 'Coupon not found' });
     }
 
+    req.session.coupon = findCoupon._id
     let store = findCoupon.percentage;
     res.json(store);
   } catch (error) {

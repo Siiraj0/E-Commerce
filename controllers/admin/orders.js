@@ -35,38 +35,47 @@ try {
   
 const salesReport = async (req, res) => {
   try {
-    const limit = 5;  // Number of items per page
+    const limit = 5; 
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * limit;
 
-    const { sort, startDate, endDate } = req.query;
+    let startDate, endDate;
+    const { sort, startDate: customStartDate, endDate: customEndDate } = req.query;
     let filter = {};
-
     const now = new Date();
-
-    // Apply sorting filter
+    
+    // Apply sorting filter and calculate start and end dates
     if (sort) {
       switch (sort) {
         case 'day':
-          filter = { orderDate: { $gte: new Date(now.setDate(now.getDate() - 1)) } };
+          startDate = new Date(now.setDate(now.getDate() - 1));
+          endDate = new Date();
           break;
         case 'week':
-          filter = { orderDate: { $gte: new Date(now.setDate(now.getDate() - 7)) } };
+          startDate = new Date(now.setDate(now.getDate() - 7));
+          endDate = new Date();
           break;
         case 'month':
-          filter = { orderDate: { $gte: new Date(now.setMonth(now.getMonth() - 1)) } };
+          startDate = new Date(now.setMonth(now.getMonth() - 1));
+          endDate = new Date();
           break;
         case 'year':
-          filter = { orderDate: { $gte: new Date(now.setFullYear(now.getFullYear() - 1)) } };
+          startDate = new Date(now.setFullYear(now.getFullYear() - 1));
+          endDate = new Date();
           break;
         case 'custom':
-          if (startDate && endDate) {
-            filter = { orderDate: { $gte: new Date(startDate), $lte: new Date(endDate) } };
+          if (customStartDate && customEndDate) {
+            startDate = new Date(customStartDate);
+            endDate = new Date(customEndDate);
           }
           break;
         default:
-          filter = {};
+          startDate = endDate = null;
           break;
+      }
+
+      if (startDate && endDate) {
+        filter.orderDate = { $gte: startDate, $lte: endDate };
       }
     }
 
@@ -75,9 +84,14 @@ const salesReport = async (req, res) => {
     const totalPages = Math.ceil(totalProsCount / limit);
 
     // Fetch filtered and paginated orders
-    const orders = await orderModel.find(filter).skip(skip).limit(limit).populate('products.productId');
+    const orders = await orderModel
+      .find(filter)
+      .populate('products.productId')
+      .skip(skip)
+      .limit(limit)
+      .sort({ _id: -1 }); // Sort orders by most recent
 
-    // Render the sales report with the fetched orders
+    // Render the sales report with the fetched orders and the pagination details
     res.render('admin/salesReport', { 
       orders, 
       sort, 
@@ -88,6 +102,7 @@ const salesReport = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.status(500).send('Internal Server Error');
   }
 };
 

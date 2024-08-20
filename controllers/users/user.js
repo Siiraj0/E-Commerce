@@ -46,8 +46,8 @@ const sendVarifyMail = async (otp, name, email) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "sirajkp752@gmail.com",
-        pass: "rzyv ugjm nzak edpm",
+        user: `${process.env.NODEMAILER_USER}`,
+        pass: `${process.env.NODEMAILER_PASS}`,
       },
     });
     const mailoptions = {

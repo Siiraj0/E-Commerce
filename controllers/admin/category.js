@@ -29,7 +29,7 @@ const categoryPage = async (req, res) => {
       }
       const pattern = new RegExp(`^${req.body.name}$`, 'i');
       
-        const existCategory= await productModel.findOne({name: pattern})
+        const existCategory= await categorymodel.findOne({name: pattern})
         if(existCategory){
           req.flash('msg','category already exist')
           res.redirect('/admin/addcategory')

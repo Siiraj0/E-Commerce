@@ -87,70 +87,70 @@ options = {
 };
 (chart = new ApexCharts(document.querySelector("#mini-4"), options)).render();
 
-var barchartColors = getChartColorsArray("earning-item"),
-  options = {
-    series: [
-      {
-        data: [
-          {
-            x: "Iphone",
-            y: [
-              new Date("2021-10-02").getTime(),
-              new Date("2021-10-10").getTime(),
-            ],
-            fillColor: barchartColors[0],
-          },
-          {
-            x: "Android",
-            y: [
-              new Date("2021-10-12").getTime(),
-              new Date("2021-10-21").getTime(),
-            ],
-            fillColor: barchartColors[1],
-          },
-          {
-            x: "Watch 8",
-            y: [
-              new Date("2021-10-06").getTime(),
-              new Date("2021-10-16").getTime(),
-            ],
-            fillColor: barchartColors[0],
-          },
-          {
-            x: "Books",
-            y: [
-              new Date("2021-10-12").getTime(),
-              new Date("2021-10-22").getTime(),
-            ],
-            fillColor: barchartColors[1],
-          },
-          {
-            x: "Speaker",
-            y: [
-              new Date("2021-10-05").getTime(),
-              new Date("2021-10-16").getTime(),
-            ],
-            fillColor: barchartColors[0],
-          },
-          {
-            x: "Cover",
-            y: [
-              new Date("2021-10-17").getTime(),
-              new Date("2021-10-26").getTime(),
-            ],
-            fillColor: barchartColors[1],
-          },
-        ],
-      },
-    ],
-    chart: { height: 381, type: "rangeBar", toolbar: { show: !1 } },
-    plotOptions: { bar: { horizontal: !0, barHeight: "30%" } },
-    xaxis: { type: "datetime" },
-  };
-(chart = new ApexCharts(
-  document.querySelector("#earning-item"),
-  options
-)).render(),
+// var barchartColors = getChartColorsArray("earning-item"),
+//   options = {
+//     series: [
+//       {
+//         data: [
+//           {
+//             x: "Iphone",
+//             y: [
+//               new Date("2021-10-02").getTime(),
+//               new Date("2021-10-10").getTime(),
+//             ],
+//             fillColor: barchartColors[0],
+//           },
+//           {
+//             x: "Android",
+//             y: [
+//               new Date("2021-10-12").getTime(),
+//               new Date("2021-10-21").getTime(),
+//             ],
+//             fillColor: barchartColors[1],
+//           },
+//           {
+//             x: "Watch 8",
+//             y: [
+//               new Date("2021-10-06").getTime(),
+//               new Date("2021-10-16").getTime(),
+//             ],
+//             fillColor: barchartColors[0],
+//           },
+//           {
+//             x: "Books",
+//             y: [
+//               new Date("2021-10-12").getTime(),
+//               new Date("2021-10-22").getTime(),
+//             ],
+//             fillColor: barchartColors[1],
+//           },
+//           {
+//             x: "Speaker",
+//             y: [
+//               new Date("2021-10-05").getTime(),
+//               new Date("2021-10-16").getTime(),
+//             ],
+//             fillColor: barchartColors[0],
+//           },
+//           {
+//             x: "Cover",
+//             y: [
+//               new Date("2021-10-17").getTime(),
+//               new Date("2021-10-26").getTime(),
+//             ],
+//             fillColor: barchartColors[1],
+//           },
+//         ],
+//       },
+//     ],
+//     chart: { height: 381, type: "rangeBar", toolbar: { show: !1 } },
+//     plotOptions: { bar: { horizontal: !0, barHeight: "30%" } },
+//     xaxis: { type: "datetime" },
+//   };
+// (chart = new ApexCharts(
+//   document.querySelector("#earning-item"),
+//   options
+// )).render(),
   Chart.pluginService.register({
     afterUpdate: function (e) {
       for (var r, t = 1; t < e.config.data.labels.length; t++) {
@@ -213,18 +213,19 @@ var barchartColors = getChartColorsArray("earning-item"),
   });
 var salescategorycolors = getChartColorsArray("sales-category");
 
-const {data}=fetch('/admin/sales',{
-  method:"GET"
+const {data}=fetch('/admin/salesByCat',{
+  method:"GET",
 }).then(res=>res.json()).then(data=>{
   console.log(data);
   
-  data_c=data.count;config = {
+  
+  config = {
     type: "doughnut",
     data: {
-      labels: ["Watch", "Iphone", "Book", "TV"],
+      labels:Object.keys(data.result).map(e=>e),
       datasets: [
         {
-          data: data.monthlyCounts
+          data:Object.values(data.result).map(e=>e)
           ,
           backgroundColor: salescategorycolors,
           hoverBackgroundColor: salescategorycolors,

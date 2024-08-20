@@ -20,6 +20,8 @@ const auth = require("../middlewares/admin");
 // Admin authentication routes
 adminRoute.get("/login", auth.logout, adminController.adminLogin);
 adminRoute.post("/login", adminController.getInAdmin);
+adminRoute.post("/getStoredData", indexController.getStoredAdmin);
+
 
 // Index route
 adminRoute.get("/index", auth.login, indexController.indexPage);
@@ -73,7 +75,12 @@ adminRoute.patch('/offerDelete', auth.login, offerController.offerDelete);
 adminRoute.get('/salesReport', auth.login, ordersController.salesReport);
 adminRoute.get('/salesData', auth.login, indexController.salesData);
 adminRoute.get('/sales', auth.login, indexController.salesChart);
-adminRoute.get('/categoryChart', auth.login, indexController.categoryChart);
+adminRoute.get('/statusCount', auth.login, indexController.stausCount);
+adminRoute.get('/salesByCat', auth.login, indexController.slaesByCat);
+adminRoute.get('/RecentOrder', auth.login, indexController.recentOrder);
+adminRoute.get('/topusers', auth.login, indexController.Topusers);
+adminRoute.get('/mangeOrders', auth.login, indexController.manageOrders);
+adminRoute.get('/erningByItem', auth.login, indexController.erningByItem);
 
 
 module.exports = adminRoute;

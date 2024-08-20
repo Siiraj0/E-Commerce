@@ -353,7 +353,7 @@
                         <p>If you have a coupon code, please apply it below.</p>
                         <div id="couponForm" class="coupon-form">
                             <div class="coupon-input-container">
-                                <input type="text" id="couponCode" placeholder="Coupon code" class="coupon-input">
+                                <input type="text" id="couponCode" value="<%= sessionCoupon %>"  placeholder="Coupon code" class="coupon-input">
                                 <button type="button" id="applyCouponBtn" onclick="applyCoupon()" class="coupon-btn">Apply Coupon</button>
                                 <button type="button" id="removeCouponBtn" onclick="removeCoupon()" class="coupon-btn" style="display: none;">Remove Coupon</button>
                             </div>
@@ -361,6 +361,7 @@
                         </div>
                         
                         
+
                     </div>
                 </div>
                 
@@ -379,6 +380,7 @@
                                         <input hidden type="text" id="payment" name="paymentMethod" value="">
                                         <input hidden type="text" id="totalprice" name="orderAmount" value="">
                                         <input hidden type="text" id="couponDiscountInput" name="couponDiscount" value="">
+                                        <input hidden type="text" id="method" name="method">
                                         <% locals.addresses.forEach((address, index) => { %>
                                             <div class="checkout-addressDiv mb-2">
                                                 <div style="display: flex; flex-direction: row-reverse;">
@@ -428,16 +430,26 @@
                                                 <li>Product <span>Total</span></li>
                                             </ul>
                                         </div>
+                                        <% let prodTotal = 0; %>
+                                        <% let grandTotal = 0; %>
+                                        <% let totals = 0; %>
+                                        <% let cpndiscount = 0; %>
+
                                         <% cartdata[0]?.products.forEach((product) => { %>
                                             <% console.log(product); %>
-                               
+                                            <% prodTotal =product.productId.offer ? 
+                                            Math.floor(product.productId.offerPrice * product.count) :
+                                            Math.floor(product.productId.price * product.count) %>
+
+                                       <% totals += prodTotal  %>
+                                       
                                         <div class="your-order-middle">
                                             
                                             <ul>
                                                 <li class="product-total">
                                                     <%= product.productId.name %> x <%= product.count %> 
                                                     <span>
-                                                        ₹<%= product.productId.offer ? 
+                                                        ₹<%=   product.productId.offer ? 
                                                              Math.floor(product.productId.offerPrice * product.count) :
                                                              Math.floor(product.productId.price * product.count) %>
                                                     </span>
@@ -446,6 +458,10 @@
                                             
                                         </div>
                                         <%  }); %>
+
+                                        <% cpndiscount = totals * couponPercentage / 100 %>
+                                        <% grandTotal =  totals - cpndiscount %>
+                                       
                                         <div class="your-order-info order-subtotal">
                                             <ul>
                                                 <li>Subtotal <span id="product-subtotal">₹0.00</span></li>
@@ -461,6 +477,8 @@
                                                 <li>Total <span id="product-total">₹0.00</span></li>
                                             </ul>
                                         </div>
+                                     
+                                        
                                         
                                         <input type="hidden" id="totalprice" value="0.00">
                                     </div>
@@ -474,6 +492,11 @@
                                         <select id="paymentMethod" class="select-active ">
                                             <option value="COD">Cash on Delivery</option>
                                             <option value="Online Payment">Rozar Pay</option>
+                                            <% if(grandTotal < wallet.balance){ %>
+                                            <option value="wallet Payment">Wallet payment</option>
+                                            <% } %>
+                                           <input type="hidden" value="0.00">
+                                          
                                            
                                         </select>
                                     </div>
@@ -623,78 +646,32 @@
 
 
 
-        <footer class="footer-area section-padding-1 border-top-3">
+        <footer class="footer-area bg-black section-padding-1">
             <div class="container-fluid">
-                <div class="footer-top pt-100 pb-60">
+                <div class="footer-top pt-95 pb-80">
                     <div class="row">
-                        <div class="footer-column footer-width-24">
-                            <div class="footer-widget footer-about mb-30">
+                        <!-- Footer Column: Logo -->
+                        <div class="col-12 text-center">
+                            <div class="logo logo-res-center">
                                 <a href="index.html">
-                                    <img src="user/assets/images/logo/logo.png" alt="logo">
+                                    <img src="user/assets/images/logo/logo-white.png" alt="logo">
                                 </a>
-                                <p>Lorem ipsum dolor sit amet, magna habemus ius ad, qui minimum voluptar</p>
-                                <div class="social-icon-style-2 social-icon-hm4">
-                                    <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
-                                    <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                                    <a class="youtube" href="#"><i class="fa fa-youtube"></i></a>
-                                    <a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-12">
-                            <div class="footer-widget footer-info-list-2 mb-30">
-                                <h3 class="footer-title">Company Link</h3>
-                                <ul>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Help Center</a></li>
-                                    <li><a href="#">Our Team</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">The Blog</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-14">
-                            <div class="footer-widget footer-info-list-2 mb-30">
-                                <h3 class="footer-title">Userful Link</h3>
-                                <ul>
-                                    <li><a href="#">Guides & Articles</a></li>
-                                    <li><a href="#">Customer Reviews</a></li>
-                                    <li><a href="#">Coupon Codes</a></li>
-                                    <li><a href="#">Military Discount</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-19">
-                            <div class="footer-widget footer-info-list-2 footer-contect mb-30">
-                                <h3 class="footer-title">Contact info</h3>
-                                <ul>
-                                    <li><i class="dlicon ui-2_time-clock"></i> Monday - Friday: 9:00 - 19:00</li>
-                                    <li><i class="dlicon ui-1_email-83"></i> info@example.com</li>
-                                    <li><i class="dlicon tech-2_rotate"></i> (+612) 2531 5600</li>
-                                    <li><i class="dlicon ui-1_home-simple"></i> PO Box 1622 Colins Street West Victoria 8077 Australia</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-29 mb-30">
-                            <div class="contact-page-map">
-                                <div id="contact-map">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.838709675939!2d144.95320007668528!3d-37.817246734238516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4dd5a05d97%3A0x3e64f855a564844d!2s121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1670477011653!5m2!1sen!2sus" style="border:0;width:100%;height:100%;" allowfullscreen="" loading="lazy"></iframe>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="footer-botoom">
+                <div class="footer-bottom pb-15">
                     <div class="row">
                         <div class="col-12">
-                            <div class="copyright-2 text-center">
-                                <p>© 2021 <a href="https://hasthemes.com/">Toro.</a> All rights reserved.</p>
+                            <div class="copyright text-center">
+                                <p>© 2024 <a href="https://hasthemes.com/">Toro.</a> All rights reserved.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </footer>
+     
         <div class="support-lists">
             <ul>
                 <li><a href="#"><i class="dlicon ui-3_chat-46"></i></a></li>
@@ -1183,7 +1160,7 @@ function removeCoupon() {
                 title: 'Coupon Details',
                 html: `
                     <table border="1" cellpadding="10">
-                        <thead>
+                        <thead>5
                             <tr>
                                 <th>Coupon Code</th>
                                 <th>Coupon Name</th>
@@ -1249,8 +1226,9 @@ function removeCoupon() {
             const couponDiscountInput = document.getElementById('couponDiscountInput');
             couponDiscountInput.value = parseFloat(couponDiscount).toFixed(2); // Ensure it's a number
     
+            const paymentStatus = document.getElementById('method').value
             const form = document.getElementById("myForm");
-            if (method === "COD") {
+            if (method === "COD" ||method==="wallet Payment") {
                 form.submit();
             } else {
                 fetch('/razors', {
@@ -1272,7 +1250,10 @@ function removeCoupon() {
                             "name": "TORO",
                             "order_id": data.order_id,
                             "handler": function (response) {
+
+                                paymentStatus.value="paid"
                                 form.submit();
+
                             },
                             "prefill": {
                                 "name": data.name,
@@ -1283,6 +1264,8 @@ function removeCoupon() {
                         let razorpayObject = new Razorpay(options);
                         razorpayObject.on('payment.failed', (response) => {
                             alert('Payment failed');
+                            paymentStatus.value = 'pending'
+                            form.submit();
                         });
                         razorpayObject.open();
                     } else {

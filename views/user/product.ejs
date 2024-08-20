@@ -306,10 +306,17 @@
                                     </div>
                                     <div class="product-details-action-wrap">
                                       <div class="product-details-quality">
-                                        <div class="cart-plus-minus">
-                                          <input class="cart-plus-minus-box" type="number" name="qtybutton" value="1">
+                                        <div id="ll" class="cart-plus-minus">
+                                          <input id="qty" max="<%=productData.stock  %>" class="cart-plus-minus-box" type="number" name="qtybutton"  value="1">
                                         </div>
                                       </div>
+                                      <style>
+                                        input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+                                      </style>
                                       <div class="product-details-cart">
                                         <a title="Add to cart" onclick="addcart('<%=productData._id %>')">Add to cart</a>
                                       </div>
@@ -681,72 +688,25 @@
             </div>
         </div>
        
-        <footer class="footer-area section-padding-1 border-top-3">
+        <footer class="footer-area bg-black section-padding-1">
             <div class="container-fluid">
-                <div class="footer-top pt-100 pb-60">
+                <div class="footer-top pt-95 pb-80">
                     <div class="row">
-                        <div class="footer-column footer-width-24">
-                            <div class="footer-widget footer-about mb-30">
+                        <!-- Footer Column: Logo -->
+                        <div class="col-12 text-center">
+                            <div class="logo logo-res-center">
                                 <a href="index.html">
-                                    <img src="/user/assets/images/logo/logo.png" alt="logo">
+                                    <img src="user/assets/images/logo/logo-white.png" alt="logo">
                                 </a>
-                                <p>Lorem ipsum dolor sit amet, magna habemus ius ad, qui minimum voluptar</p>
-                                <div class="social-icon-style-2 social-icon-hm4">
-                                    <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
-                                    <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                                    <a class="youtube" href="#"><i class="fa fa-youtube"></i></a>
-                                    <a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-12">
-                            <div class="footer-widget footer-info-list-2 mb-30">
-                                <h3 class="footer-title">Company Link</h3>
-                                <ul>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Help Center</a></li>
-                                    <li><a href="#">Our Team</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">The Blog</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-14">
-                            <div class="footer-widget footer-info-list-2 mb-30">
-                                <h3 class="footer-title">Userful Link</h3>
-                                <ul>
-                                    <li><a href="#">Guides & Articles</a></li>
-                                    <li><a href="#">Customer Reviews</a></li>
-                                    <li><a href="#">Coupon Codes</a></li>
-                                    <li><a href="#">Military Discount</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-19">
-                            <div class="footer-widget footer-info-list-2 footer-contect mb-30">
-                                <h3 class="footer-title">Contact info</h3>
-                                <ul>
-                                    <li><i class="dlicon ui-2_time-clock"></i> Monday - Friday: 9:00 - 19:00</li>
-                                    <li><i class="dlicon ui-1_email-83"></i> info@example.com</li>
-                                    <li><i class="dlicon tech-2_rotate"></i> (+612) 2531 5600</li>
-                                    <li><i class="dlicon ui-1_home-simple"></i> PO Box 1622 Colins Street West Victoria 8077 Australia</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="footer-column footer-width-29 mb-30">
-                            <div class="contact-page-map">
-                                <div id="contact-map">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.838709675939!2d144.95320007668528!3d-37.817246734238516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4dd5a05d97%3A0x3e64f855a564844d!2s121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1670477011653!5m2!1sen!2sus" style="border:0;width:100%;height:100%;" allowfullscreen="" loading="lazy"></iframe>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="footer-botoom">
+                <div class="footer-bottom pb-15">
                     <div class="row">
                         <div class="col-12">
-                            <div class="copyright-2 text-center">
-                                <p>© 2021 <a href="https://hasthemes.com/">Toro.</a> All rights reserved.</p>
+                            <div class="copyright text-center">
+                                <p>© 2024 <a href="https://hasthemes.com/">Toro.</a> All rights reserved.</p>
                             </div>
                         </div>
                     </div>
@@ -784,8 +744,8 @@
                                     </div>
                                     <div class="product-details-action-wrap">
                                         <div class="product-details-quality">
-                                            <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                                            <div  class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box"  type="text" name="qtybutton" value="2">
                                             </div>
                                         </div>
                                         <div class="product-details-cart">
@@ -828,9 +788,13 @@
    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
     <script>
-
+        // console.log(document.querySelector('.inc'));
+        
+          
 async function addcart(id){
-  const {data}= await axios.post(`/addtocart`,{id})
+  try {
+    const qty=document.getElementById('qty').value
+    const {data}= await axios.post(`/addtocart`,{id,qty})
    if(data.msg=='no user'){
     window.location.href="/login"
     
@@ -848,15 +812,37 @@ async function addcart(id){
 });
 Toast.fire({
   icon: "success",
-  title: "Signed in successfully"
+  title: "Added to cart"
 });
 
    }
+  } catch (error) {
+    window.location.href='/login'
+  }
 }
 
 
 
-
+document.getElementById("ll").addEventListener('click',e=>{ 
+   if(e.target.classList.contains('inc')){
+        const elem=document.getElementById('qty');
+        console.log(Number(elem.value));
+        
+        if(Number(elem.value)+1<=elem.max){
+            // elem.value=elem.value+1;
+        }else elem.value=elem.max
+   }
+    
+   if(e.target.classList.contains('dec')){
+        const elem=document.getElementById('qty');
+        console.log(elem.value);
+        
+        if((Number(elem.value)-1)>=1){
+            // elem.value=elem.value-1;
+        }else elem.value=1
+   }
+    
+})
 
 async function addwishlist(id) {
   try {

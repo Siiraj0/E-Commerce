@@ -16,31 +16,53 @@ const shopPage = async (req, res) => {
       searchObj.name = { $regex: regex };
     }
 
-    switch (filter) {
-      case "lowToHigh":
-        filterObj.offerPrice = 1;
-        break;
-      case "highToLow":
-        filterObj.offerPrice = -1;
-        break;
-      case "latest":
-        filterObj._id = -1;
-        break;
-      default:
-        break;
-    }
+    let products;
 
-    // Fetch products and apply filter
-    const category = await categorymodel.find()
-    const products = await productModel.find(searchObj)
-      .populate({
-        path: 'category',
-        match: { isBlocked: false }
-      })
-      .populate('offer')
-      .sort(filterObj)
-      .skip(skip)
-      .limit(limit);
+    if (filter === "popularity") {
+      products = await productModel.aggregate([
+        { $match: searchObj },  // Apply search filter
+        {
+          $lookup: {
+            from: 'orders',  // Assuming your orders collection is named 'orders'
+            localField: '_id',  // Match product ID in orders
+            foreignField: 'products.productId',  // Assuming orders have a products array with productId
+            as: 'orders'  // The result will be stored in a field named 'orders'
+          }
+        },
+        {
+          $addFields: {
+            popularity: { $size: "$orders" }  // Count how many times each product appears in orders
+          }
+        },
+        { $sort: { popularity: -1 } },  // Sort by popularity in descending order
+        { $skip: skip },
+        { $limit: limit }
+      ]);
+    } else {
+      switch (filter) {
+        case "lowToHigh":
+          filterObj.offerPrice = 1;
+          break;
+        case "highToLow":
+          filterObj.offerPrice = -1;
+          break;
+        case "latest":
+          filterObj._id = -1;
+          break;
+        default:
+          break;
+      }
+
+      products = await productModel.find(searchObj)
+        .populate({
+          path: 'category',
+          match: { isBlocked: false }
+        })
+        .populate('offer')
+        .sort(filterObj)
+        .skip(skip)
+        .limit(limit);
+    }
 
     // Calculate total products count for pagination
     const totalProductsCount = await productModel.countDocuments(searchObj);
@@ -53,7 +75,7 @@ const shopPage = async (req, res) => {
       totalPages,
       currentPage: page,
       filter,
-      category,
+      category: await categorymodel.find(),
       searchTerm
     });
   } catch (error) {
@@ -61,6 +83,7 @@ const shopPage = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
 
 
 const productpage = async (req, res) => {

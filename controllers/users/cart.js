@@ -47,7 +47,7 @@ const addtocart = async (req, res) => {
       const product = await Product.findById(req.body.id);
       const pro = {
         productId: req.body.id,
-        count: 1,
+        count: req.body.qty || 1,
       };
 
       if (product.offer) {

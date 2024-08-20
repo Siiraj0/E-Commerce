@@ -11,7 +11,7 @@ const razor = async (req, res) => {
         const options = {
             amount: amount,
             currency: "INR",
-            receipt: 'absharameen625@gmail.com'
+            receipt: 'sirajkp752@gmail.com'
         }
         instance.orders.create(options, (err, order) => {
             if (!err) {

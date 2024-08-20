@@ -21,6 +21,10 @@ const myaccount = async (req, res) => {
         .findOne({ userId: userId })
         .populate("products.productId");
         const walletData=await walletModel.findOne({ userId: userId})
+       
+        
+        console.log(walletData,'walletData');
+        
       const userData = await usermodel.findOne({ _id: req.session.userId });
       const addresses = await addressModel.find({ userId: userId });
       const orders = await orderModel.find({ userId: userId }).populate("products.productId").populate("userId").sort({_id : -1});
@@ -35,6 +39,7 @@ const myaccount = async (req, res) => {
           orders,
           walletData,
           cartItems,
+         
           cartCount,
           user: req.session.userId,
         });
@@ -362,11 +367,16 @@ const returnApprove = async(req, res) => {
               let updatedStock = eproduct.quantity + returnedProduct.quantity;
 
               await productModel.findOneAndUpdate({_id:productId},{$set:{quantity:updatedStock}})
-              await walletModel.findOneAndUpdate({userId:userId},
-                  {$inc:{balance:parseFloat(returnedProduct.totalPrice.toFixed(2))},
-                  $push: {transaction :{amount:parseFloat(returnedProduct.totalPrice.toFixed(2)), creditOrDebit:'credit'}}},
-                  {new : true, upsert:true})
-          }
+              console.log(returned.payment,'returnedProduct.payment');
+              
+             if(returned.payment !== "COD"){
+
+               await walletModel.findOneAndUpdate({userId:userId},
+                {$inc:{balance:parseFloat(returnedProduct.totalPrice.toFixed(2))},
+                $push: {transaction :{amount:parseFloat(returnedProduct.totalPrice.toFixed(2)), creditOrDebit:'credit'}}},
+                {new : true, upsert:true})
+              }
+            }
           
       }
       console.log('Returned');
