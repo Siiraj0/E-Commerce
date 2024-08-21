@@ -30,9 +30,9 @@
                         <a href="<%= locals.user ? '/wishlist' : '/login' %>"><i class="far fa-heart"></i></a>
                     </div>
                     <div class="same-style cart-wrap">
-                        <a href="#" class="cart-active">
+                        <a href="<%= locals.user ? '/cart' : '/login' %>" class="cart-active">
                             <i class="dlicon shopping_bag-20"></i>
-                            <span class="count-style"></span>
+                            <span class="count-style"><%=cartcount  %></span>
                         </a>
                     </div>
                     <div class="same-style header-search">

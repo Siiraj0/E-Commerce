@@ -19,9 +19,7 @@
             </div>
         </div>
         
-        <!-- mini cart start -->
-        <%- include('../layouts/user/minicart.ejs') %>
-       
+    
         <!-- aside start -->
         <div class="header-aside-active">
             <div class="header-aside-wrap">
@@ -284,7 +282,7 @@
                                       <img class="hover-img" src="<%= product.image[0] %>" alt="">
                                     </a>
                                     <div class="product-action product-action-position-1">
-                                      <a title="Add to Wishlist" onclick="addcart('<%=product._id %>')"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
+                                      <a title="Add to Wishlist" onclick="addwishlist('<%=product._id %>')"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
                                       <a title="Add to Cart" onclick="addcart('<%=product._id %>')"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
                                     </div>
                                   </div>
@@ -311,6 +309,7 @@
                         <!-- Shop-2 content remains unchanged -->
                     </div>
                     <!-- pagination -->
+                     
                     <%- include('../layouts/user/userPagination.ejs') %>
                 </div>
             </div>

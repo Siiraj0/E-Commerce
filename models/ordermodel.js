@@ -52,8 +52,14 @@ const orderSchema = new mongoose.Schema({
     },
     payment: {
         type: String,
+        enum: ['Online Payment','COD','wallet Payment'], 
         required: true
     },
+    paymentStatus:{
+        type:String,
+        enum:['Paid','Pending'],
+        default:'Pending'
+      },
     orderDate: {
         type: Date,
         required: true,

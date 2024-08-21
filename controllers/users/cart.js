@@ -1,9 +1,10 @@
 const cartModel = require("../../models/cartmodel");
 const wishlistModel = require("../../models/wishlistmodel");
 const Product = require("../../models/productmodel");
-
+const validate=require('../../util/productValidate')
 const cartpage = async (req, res) => {
   try {
+    await validate(req.session.userId)
     const cart = await cartModel
       .findOne({ userId: req.session.userId })
       .populate("products.productId");
@@ -19,8 +20,10 @@ const cartpage = async (req, res) => {
       });
     }
 
+    const userId = req.session.userId
+    const cartcount = await cartModel.countDocuments({userId:userId})
     const countProduct = cart ? cart.products.length : 0;
-    res.render("user/cart", { cart, countProduct, user: req.session.userId });
+    res.render("user/cart", { cart,cartcount, countProduct, user: req.session.userId });
   } catch (error) {
     console.log(error.message);
   }

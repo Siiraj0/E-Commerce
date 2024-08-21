@@ -29,12 +29,12 @@
               <div class="col-xl-4 col-lg-4 d-flex justify-content-end">
                   <div class="header-right-wrap header-right-flex">
                       <div class="same-style header-wishlist">
-                          <a href="wishlist.html"><i class="far fa-heart"></i></a>
+                          <a href="<%= locals.user ? '/wishlist' : '/login' %>"><i class="far fa-heart"></i></a>
                       </div>
                       <div class="same-style cart-wrap">
                           <a href="#" class="cart-active">
                               <i class="dlicon shopping_bag-20"></i>
-                              <span class="count-style"><%= cartCount %></span>
+                              <span class="count-style"><%= cartcount %></span>
                           </a>
                       </div>
                       <div class="same-style header-search">
@@ -65,9 +65,9 @@
             <div class="mobile-header-right-wrap">
               <div class="header-right-wrap header-right-flex">
                 <div class="same-style cart-wrap">
-                  <a href="#" class="cart-active">
+                  <a href="/cart" class="cart-active">
                     <i class="dlicon shopping_bag-20"></i>
-                    <span class="count-style"><%= cartCount %></span>
+                    <span class="count-style"><%= cartcount %></span>
                   </a>
                 </div>
                 <div class="same-style header-off-canvas">
@@ -94,56 +94,7 @@
         </form>
       </div>
     </div>
-    <!-- mini cart start -->
-    <div class="sidebar-cart-active">
-      <div class="sidebar-cart-all">
-        <a class="cart-close" href="#"
-          ><i class="dlicon ui-1_simple-remove"></i
-        ></a>
-        <div class="cart-content">
-          <h3>Shopping Cart</h3>
-          <ul>
-            <li class="single-product-cart">
-              <div class="cart-img">
-                <a href="#"
-                  ><img src="user/assets/images/cart/cart-1.jpg" alt=""
-                /></a>
-              </div>
-              <div class="cart-title">
-                <h4><a href="#">Bejewelled velvet sandals</a></h4>
-                <span> 1 × $49.00 </span>
-              </div>
-              <div class="cart-delete">
-                <a href="#">×</a>
-              </div>
-            </li>
-            <li class="single-product-cart">
-              <div class="cart-img">
-                <a href="#"
-                  ><img src="user/assets/images/cart/cart-2.jpg" alt=""
-                /></a>
-              </div>
-              <div class="cart-title">
-                <h4><a href="#">Contrast faux fur jacket</a></h4>
-                <span> 1 × $49.00 </span>
-              </div>
-              <div class="cart-delete">
-                <a href="#">×</a>
-              </div>
-            </li>
-          </ul>
-          <div class="cart-total">
-            <h4>Subtotal: <span>$170.00</span></h4>
-          </div>
-          <div class="cart-checkout-btn">
-            <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
-            <a class="no-mrg btn-hover cart-btn-style" href="/checkout"
-               >checkout</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
+ 
     <!-- aside start -->
     <div class="header-aside-active">
       <div class="header-aside-wrap">
@@ -327,8 +278,26 @@
                                             </div>
                                         <% }); %>
                                     </div>
+                                    
                                     <div class="order-footer">
+                                     
+                                   
+                                     
                                         <a href="/orderDetails/<%= order._id %>" class="btn btn-dark">View Details</a>
+                                     
+
+                                        <% if(order.paymentStatus=="Pending"){ %>
+
+                                          <form action="/repayment/<%= order._id %>" method="post" id="paymentForm" style="display: inline;">
+                                            <input type="hidden" name="orderId" id="amounts" value="<%= order.orderAmount %>">
+                                    
+                                            <button type="button" onclick="initiateRazorpayPayment()" class="btn btn-primary">Re-Payment</button>
+                                          </form>
+                                          
+                                          
+                                        
+                                          <% } %>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -930,7 +899,58 @@ async function saveEdit() {
 
 
 <script>
+  function initiateRazorpayPayment() {
+    const amount = document.getElementById("amounts").value
+    const paymentForm = document.getElementById('paymentForm')
+
+console.log(paymentForm,'amount');
+
+    fetch('/razors', {
+                          
+                          method: 'POST',
+                          headers: { 'Content-type': 'application/json' },
+                          body: JSON.stringify({amount: amount })
+                      }).then(res => res.json()).then(data => {
+                          if (data.success) {
+
+                              let options = {
+                                  "key": `${data.key_id}`,
+                                  "amount": `${data.amount}`,
+                                  "currency": "INR",
+                                  "name": "TORO",
+                                  "order_id": `${data.order_id}`,
+                                  "handler": function (response) {
+                             
+                                    paymentForm.submit();
+                                      
+                                  },
+                                  "profile": {
+                                      "name": `${data.name}`,
+                                      "email": `${data.email}`
+                                  }
+                              }
+                              
+                              let razorpayObject = new Razorpay(options);
+                              razorpayObject.on('payment.failed', (response) => {
+                                  alert('payment failed');
+                             
+
+                              });
+                              razorpayObject.open();
+                          }
+                      })
+
+
+
+  }
+</script>
+
+
+
+
+<script>
   function razor(){
+
 
     const myyform = document.getElementById('myyform')
     const amount = document.getElementById('amount')
@@ -1122,12 +1142,6 @@ console.log(amount.value,'lpppppppppppppppppppp');
     }
   </script>
 
-
-<script>
-  function select(s){
-     
-  }
-</script>
 
     <!-- Modernizer JS -->
     <script src="user/assets/js/vendor/modernizr-3.11.7.min.js"></script>

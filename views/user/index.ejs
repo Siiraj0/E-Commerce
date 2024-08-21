@@ -10,8 +10,7 @@
         <!-- search start -->
         
         <%- include('../layouts/user/searchstart.ejs') %>
-        <!-- mini cart start -->
-        <%- include('../layouts/user/minicart.ejs') %>
+      
        
         <!-- aside start -->
         <div class="header-aside-active">
@@ -187,22 +186,17 @@
             <div class="product-slider-active product-slider-padding dot-style-1">
               <% latestProducts.forEach(product => { %>
               <div class="product-wrap product-wrap-opacity">
-                <div class="product-img default-overlay mb-40">
-                  <a href="/product-details/<%= product._id %>">
+                <div  class="product-img default-overlay mb-40">
+                  <a href="/product/<%= product._id %>">
                     <img class="default-img" src="<%= product.image[0] %>" alt="<%= product.name %>">
                     <% if (product.image[1]) { %>
                     <img class="hover-img" src="<%= product.image[1] %>" alt="<%= product.name %>">
                     <% } %>
                   </a>
-                  <div class="product-action product-action-position-1">
-                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                    <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                    <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                    <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                  </div>
+                
                 </div>
                 <div class="product-content">
-                  <h3 class="title-blod"><a href="/product-details/<%= product._id %>"><%= product.name %></a></h3>
+                  <h3 class="title-blod"><a href="/product/<%= product._id %>"><%= product.name %></a></h3>
                   <div class="product-price">
                     <% if (product.offerPrice) { %>
                       <span class="new-price">₹<%= product.offerPrice %></span>
@@ -227,7 +221,7 @@
                         <!-- Footer Column: Logo -->
                         <div class="col-12 text-center">
                             <div class="logo logo-res-center">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="user/assets/images/logo/logo-white.png" alt="logo">
                                 </a>
                             </div>

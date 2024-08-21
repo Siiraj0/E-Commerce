@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const walletModel = require("../../models/walletmodel");
 const instance = require('../../config/razorpay');
 const offermodel = require("../../models/offermodel");
+const ordermodel = require("../../models/ordermodel");
 require('dotenv').config()
 
 const myaccount = async (req, res) => {
@@ -22,13 +23,13 @@ const myaccount = async (req, res) => {
         .populate("products.productId");
         const walletData=await walletModel.findOne({ userId: userId})
        
-        
-        console.log(walletData,'walletData');
+        const cartcount = await cartmodel.countDocuments({userId:userId})
+       
         
       const userData = await usermodel.findOne({ _id: req.session.userId });
       const addresses = await addressModel.find({ userId: userId });
       const orders = await orderModel.find({ userId: userId }).populate("products.productId").populate("userId").sort({_id : -1});
-      const cartCount = await cartmodel.countDocuments({ userId: userId });
+   
     
      
       if (userData) {
@@ -40,7 +41,7 @@ const myaccount = async (req, res) => {
           walletData,
           cartItems,
          
-          cartCount,
+          cartcount,
           user: req.session.userId,
         });
       } else {
@@ -161,6 +162,8 @@ const razorPay = async (req, res) => {
   try {
       const user = await userModel.findOne({ _id: req.session.userId });
       const amount = req.body.amount * 100; // Amount in paise for Razorpay
+      console.log(parseFloat(amount),'amount');
+      
       const options = {
           amount,
           currency: "INR",
@@ -262,7 +265,7 @@ const orderDetails = async (req, res) => {
       if (!order) {
         return res.status(404).render('error', { message: 'Order not found' });
       }
-      
+      const cartcount = await cartmodel.countDocuments({userId:req.session.userId})
       const deliveredProds = order.products.filter(product=> product.orderStatus === 'Delivered')
       // Calculate the tracking percentage based on the order status
       const getTrackingPercentage = (status) => {
@@ -279,7 +282,8 @@ const orderDetails = async (req, res) => {
       };
 
       res.render('user/orderDetails', { 
-          order, 
+          order,
+          cartcount, 
           deliveredProds,
           getTrackingPercentage 
       });
@@ -403,6 +407,35 @@ const loadInvoice =async (req,res)=>{
   }
 }
 
+const repayment = async (req, res) => {
+  try {
+    console.log('malalamalamamlaamlaml');
+    
+    const {  paymentId } = req.body;
+    const orderId = req.params.id
+    console.log(orderId,'ggggggggjkookok');
+    
+    const order = await ordermodel.findOneAndUpdate(
+      { _id: orderId },
+      { 
+        paymentStatus: 'Paid',
+        payment: 'Online Payment'
+      },
+      { new: true }
+    );
+
+    if (!order) {
+      return res.json({ success: false, message: 'Order not found' });
+    }
+
+    res.redirect('/myAccount')
+  } catch (error) {
+    console.error('Error in repayment:', error.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+
   module.exports={
     myaccount,
     editUser,
@@ -418,5 +451,7 @@ const loadInvoice =async (req,res)=>{
     returnOrder,
     returnApprove,
     loadInvoice,
+    repayment,
+
 
   }

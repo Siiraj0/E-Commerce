@@ -34,9 +34,9 @@
                                 <a href="wishlist.html"><i class="far fa-heart"></i></a>
                             </div>
                             <div class="same-style cart-wrap">
-                                <a href="#" class="cart-active">
+                                <a href="/cart" class="cart-active">
                                     <i class="dlicon shopping_bag-20"></i>
-                                    <span class="count-style">02</span>
+                                    <span class="count-style"><%=cartcount  %></span>
                                 </a>
                             </div>
                             <div class="same-style header-search">
@@ -94,48 +94,7 @@
                 </form>
             </div>
         </div>
-        <!-- mini cart start -->
-        <div class="sidebar-cart-active">
-            <div class="sidebar-cart-all">
-                <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
-                <div class="cart-content">
-                    <h3>Shopping Cart</h3>
-                    <ul>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="#"><img src="user/assets/images/cart/cart-1.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="#">Bejewelled velvet sandals</a></h4>
-                                <span> 1 × $49.00	</span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#">×</a>
-                            </div>
-                        </li>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="#"><img src="user/assets/images/cart/cart-2.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="#">Contrast faux fur jacket</a></h4>
-                                <span> 1 × $49.00	</span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#">×</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="cart-total">
-                        <h4>Subtotal: <span>$170.00</span></h4>
-                    </div>
-                    <div class="cart-checkout-btn">
-                        <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
-                        <a class="no-mrg btn-hover cart-btn-style" href="/checkout">checkout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- aside start -->
         <div class="header-aside-active">
             <div class="header-aside-wrap">
@@ -353,7 +312,7 @@
                         <p>If you have a coupon code, please apply it below.</p>
                         <div id="couponForm" class="coupon-form">
                             <div class="coupon-input-container">
-                                <input type="text" id="couponCode" value="<%= sessionCoupon %>"  placeholder="Coupon code" class="coupon-input">
+                                <input type="text" id="couponCode" value="<%= sessionCoupon?.couponCode %>"  placeholder="Coupon code" class="coupon-input">
                                 <button type="button" id="applyCouponBtn" onclick="applyCoupon()" class="coupon-btn">Apply Coupon</button>
                                 <button type="button" id="removeCouponBtn" onclick="removeCoupon()" class="coupon-btn" style="display: none;">Remove Coupon</button>
                             </div>
@@ -380,7 +339,7 @@
                                         <input hidden type="text" id="payment" name="paymentMethod" value="">
                                         <input hidden type="text" id="totalprice" name="orderAmount" value="">
                                         <input hidden type="text" id="couponDiscountInput" name="couponDiscount" value="">
-                                        <input hidden type="text" id="method" name="method">
+                                        <input hidden type="text" id="statusMethod"  name="statusMethod">
                                         <% locals.addresses.forEach((address, index) => { %>
                                             <div class="checkout-addressDiv mb-2">
                                                 <div style="display: flex; flex-direction: row-reverse;">
@@ -1226,9 +1185,10 @@ function removeCoupon() {
             const couponDiscountInput = document.getElementById('couponDiscountInput');
             couponDiscountInput.value = parseFloat(couponDiscount).toFixed(2); // Ensure it's a number
     
-            const paymentStatus = document.getElementById('method').value
+            const paymentStatus = document.getElementById('statusMethod')
             const form = document.getElementById("myForm");
             if (method === "COD" ||method==="wallet Payment") {
+                paymentStatus.value = "Paid"
                 form.submit();
             } else {
                 fetch('/razors', {
@@ -1251,7 +1211,7 @@ function removeCoupon() {
                             "order_id": data.order_id,
                             "handler": function (response) {
 
-                                paymentStatus.value="paid"
+                                paymentStatus.value="Paid"
                                 form.submit();
 
                             },
@@ -1264,7 +1224,7 @@ function removeCoupon() {
                         let razorpayObject = new Razorpay(options);
                         razorpayObject.on('payment.failed', (response) => {
                             alert('Payment failed');
-                            paymentStatus.value = 'pending'
+                            paymentStatus.value = 'Pending'
                             form.submit();
                         });
                         razorpayObject.open();

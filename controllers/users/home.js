@@ -9,7 +9,7 @@ const productModel = require("../../models/productmodel");
 
 const loadHome = async (req, res) => {
   try {
-    const cartcount = await cartModel.find().countDocuments();
+    const cartcount = await cartModel.countDocuments({userId:req.session.userId})
     const countProduct = await productModel.countDocuments({ isBlocked: false });
 
     const womansCategory = await categoryModel.findOne({ name: "WOMANS" });

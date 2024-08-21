@@ -8,6 +8,7 @@ const productmodel = require("../../models/productmodel");
 const OTP = require("../../models/otpmodel");
 
 const cartmodel = require("../../models/cartmodel");
+const walletmodel = require("../../models/walletmodel");
 
 
 
@@ -119,6 +120,7 @@ const getinsignup = async (req, res) => {
 
 const getinlogin = async (req, res) => {
   try {
+    console.log("body : ",req.body);
     const data = await usermodel.findOne({ email: req.body.email });
     if (data) {
       const pass = await bcrypt.compare(req.body.password, data.password);
@@ -181,9 +183,15 @@ const verifyOtp = async (req, res) => {
         isVerified: 1,
       });
       
-      await user.save();
-      req.session.userId=null;
+      if(user){
 
+        await user.save();
+        req.session.userId=user._id;
+        
+        await walletmodel.create({
+          userId : req.session.userId
+      })
+      }
       res.redirect("/login");
     } else {
       req.flash("msg", "otp incorrect");

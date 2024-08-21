@@ -20,32 +20,32 @@
     };
     sidebarSearch();
     
-    /*====== SidebarCart ======*/
-    function miniCart() {
-        var navbarTrigger = $('.cart-active'),
-            endTrigger = $('.cart-close'),
-            container = $('.sidebar-cart-active'),
-            wrapper2 = $('.main-wrapper');
+    // /*====== SidebarCart ======*/
+    // function miniCart() {
+    //     var navbarTrigger = $('.cart-active'),
+    //         endTrigger = $('.cart-close'),
+    //         container = $('.sidebar-cart-active'),
+    //         wrapper2 = $('.main-wrapper');
         
-        wrapper2.prepend('<div class="body-overlay"></div>');
+    //     wrapper2.prepend('<div class="body-overlay"></div>');
         
-        navbarTrigger.on('click', function(e) {
-            e.preventDefault();
-            container.addClass('inside');
-            wrapper2.addClass('overlay-active');
-        });
+    //     navbarTrigger.on('click', function(e) {
+    //         e.preventDefault();
+    //         container.addClass('inside');
+    //         wrapper2.addClass('overlay-active');
+    //     });
         
-        endTrigger.on('click', function() {
-            container.removeClass('inside');
-            wrapper2.removeClass('overlay-active');
-        });
+    //     endTrigger.on('click', function() {
+    //         container.removeClass('inside');
+    //         wrapper2.removeClass('overlay-active');
+    //     });
         
-        $('.body-overlay').on('click', function() {
-            container.removeClass('inside');
-            wrapper2.removeClass('overlay-active');
-        });
-    };
-    miniCart();
+    //     $('.body-overlay').on('click', function() {
+    //         container.removeClass('inside');
+    //         wrapper2.removeClass('overlay-active');
+    //     });
+    // };
+    // miniCart();
     
     /*====== QuickInfo ======*/
     function quickInfo() {

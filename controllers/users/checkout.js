@@ -5,13 +5,14 @@ const couponModel= require('../../models/coupon');
 const usermodel = require('../../models/usermodel');
 const productModel = require('../../models/productmodel')
 const walletModel = require('../../models/walletmodel')
+const validate=require('../../util/productValidate')
 
 const checkout =async (req, res) => {
     try {
  
-     
-     
+      await validate(req.session.userId)
       const userId=req.session.userId
+      const cartcount = await cartModel.countDocuments({userId:userId})
       const wallet =await walletModel.findOne({userId:userId})
       const addresses=await addressModel.find({userId:userId}).limit(3)
       console.log(req.session.coupon,'ggggggggggggggg');
@@ -30,7 +31,7 @@ const sessionCoupon = await couponModel.findOne({_id:req.session.coupon})
 
        if(cartdata?.[0]?.products?.length > 0){
          
-         res.render("user/checkout", { user: userId , cartdata,addresses,wallet,couponPercentage,sessionCoupon});
+         res.render("user/checkout", { user: userId ,cartcount, cartdata,addresses,wallet,couponPercentage,sessionCoupon});
        }else{
         res.redirect('/shop')
        }
@@ -74,10 +75,19 @@ const sessionCoupon = await couponModel.findOne({_id:req.session.coupon})
 
 const placeOrder = async (req, res) => {
   try {
-    const { addressSelected, couponDiscount, orderAmount, paymentMethod } = req.body;
+    const { addressSelected, couponDiscount, orderAmount, paymentMethod,statusMethod } = req.body;
     const userId = req.session.userId;
     const address = await addressModel.findOne({ _id: addressSelected });
     const cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
+
+    let payStatus=""
+    if(paymentMethod=="wallet payment" || paymentMethod=="COD"){
+      payStatus="Paid"
+    }else if(paymentMethod=="Online payment"){
+      payStatus=statusMethod
+    }else{
+      payStatus = 'Pending'
+    }
 
     await orderModel.create({
       userId: userId,
@@ -90,6 +100,7 @@ const placeOrder = async (req, res) => {
       deliveryAddress: address,
       orderAmount: parseFloat(orderAmount),
       payment: paymentMethod,
+      paymentStatus:payStatus
     });
     if (paymentMethod == "wallet Payment") {
    await walletModel.findOneAndUpdate(

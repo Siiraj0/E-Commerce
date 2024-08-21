@@ -15,7 +15,7 @@ const adminLogin = (req, res) => {
   
   const getInAdmin = async (req, res) => {
     try {
-      console.log(req.body);
+      console.log(req.body,'adminnnn');
       const data = await adminModel.findOne({ email: req.body.email });
       console.log("data", data);
       if (data && data.password === req.body.password) {

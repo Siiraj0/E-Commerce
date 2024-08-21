@@ -75,6 +75,7 @@ userRoute.post("/editUser/:id", myaccountController.editUser);
 userRoute.post("/updateprofile", auth.userIn, myaccountController.updateProfile);
 userRoute.post("/addWallet", myaccountController.addWallet);
 userRoute.post("/razors", myaccountController.razorPay);
+
 userRoute.post("/editAddress", myaccountController.editAddress);
 userRoute.patch("/saveEdit", myaccountController.saveEdit);
 userRoute.get('/orderDetails/:id', auth.userIn, myaccountController.orderDetails);
@@ -82,6 +83,7 @@ userRoute.post('/order/cancel', myaccountController.cancelOrder);
 userRoute.post('/order/return', myaccountController.returnOrder);
 userRoute.patch('/returnOrder', myaccountController.returnApprove);
 userRoute.get('/getinvoice/:id', myaccountController.loadInvoice)
+userRoute.post('/repayment/:id', myaccountController.repayment);
 
 // Wishlist routes
 userRoute.get('/wishlist',auth.userIn,  wishlistController.wishlist);

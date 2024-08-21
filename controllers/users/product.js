@@ -1,15 +1,16 @@
 const categorymodel = require("../../models/categorymodel");
 const productModel = require("../../models/productmodel");
+const cartModel = require('../../models/cartmodel')
 
 const shopPage = async (req, res) => {
   try {
-    const limit = 6; // Number of products per page
+    const limit = 6; 
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * limit;
     const filter = req.query.filter;
     const searchTerm = req.query.term;
     let filterObj = {};
-    let searchObj = { isBlocked: false, stock: { $gt: 0 } }; // Filter out out-of-stock products
+    let searchObj = { isBlocked: false, stock: { $gt: 0 } }; 
 
     if (searchTerm) {
       const regex = new RegExp(searchTerm, 'i');
@@ -20,21 +21,21 @@ const shopPage = async (req, res) => {
 
     if (filter === "popularity") {
       products = await productModel.aggregate([
-        { $match: searchObj },  // Apply search filter
+        { $match: searchObj },  
         {
           $lookup: {
-            from: 'orders',  // Assuming your orders collection is named 'orders'
-            localField: '_id',  // Match product ID in orders
-            foreignField: 'products.productId',  // Assuming orders have a products array with productId
-            as: 'orders'  // The result will be stored in a field named 'orders'
+            from: 'orders',  
+            localField: '_id',  
+            foreignField: 'products.productId',  
+            as: 'orders'  
           }
         },
         {
           $addFields: {
-            popularity: { $size: "$orders" }  // Count how many times each product appears in orders
+            popularity: { $size: "$orders" }  
           }
         },
-        { $sort: { popularity: -1 } },  // Sort by popularity in descending order
+        { $sort: { popularity: -1 } },  
         { $skip: skip },
         { $limit: limit }
       ]);
@@ -64,7 +65,8 @@ const shopPage = async (req, res) => {
         .limit(limit);
     }
 
-    // Calculate total products count for pagination
+    const cartcount = await cartModel.countDocuments({userId:req.session.userId})
+    
     const totalProductsCount = await productModel.countDocuments(searchObj);
     const totalPages = Math.ceil(totalProductsCount / limit);
 
@@ -75,6 +77,7 @@ const shopPage = async (req, res) => {
       totalPages,
       currentPage: page,
       filter,
+      cartcount,
       category: await categorymodel.find(),
       searchTerm
     });
@@ -90,8 +93,8 @@ const productpage = async (req, res) => {
   try {
     const id = req.params.id;
     const productData = await productModel.findOne({ _id: id }).populate('offer');
-
-    res.render("user/product", { productData, user: req.session.userId });
+    const cartcount = await cartModel.countDocuments({userId:req.session.userId})
+    res.render("user/product", { productData,cartcount, user: req.session.userId });
   } catch (error) {
     console.log(error.message);
   }
@@ -100,7 +103,7 @@ const productpage = async (req, res) => {
 const searchProduct = async (req, res) => {
   try {
     const searchTerm = req.query.term;
-    const regex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+    const regex = new RegExp(searchTerm, 'i'); 
 
     const products = await productModel.find({
       name: { $regex: regex }
@@ -126,15 +129,15 @@ const shopFiltering = async (req,res)=>{
     if(category){
       
 
-      const limit = 6; // Number of products per page
+      const limit = 6; 
       const page = parseInt(req.query.page) || 1;
       const skip = (page - 1) * limit;
       const filter = req.query.filter;
       const searchTerm = req.query.term;
       let filterObj = {};
-      let searchObj = { isBlocked: false, stock: { $gt: 0 } }; // Filter out out-of-stock products
+      let searchObj = { isBlocked: false, stock: { $gt: 0 } }; 
   
-      const products=await productModel.find({category:category}).populate("category").sort(filterObj)
+      const products=await productModel.find({category:category}).populate("category offer").sort(filterObj)
       .skip(skip)
       .limit(limit);
 
@@ -157,14 +160,16 @@ const shopFiltering = async (req,res)=>{
           break;
       }
   
-      // Fetch products and apply filter
+      
       const categories = await categorymodel.find()
   
-      // Calculate total products count for pagination
-      const totalProductsCount = await productModel.countDocuments(searchObj);
+      
+      const totalProductsCount = products.length
+      
+      const cartcount = await cartModel.countDocuments({userId:req.session.userId})
       const totalPages = Math.ceil(totalProductsCount / limit);
   
-      // res.render()
+      
       res.render("user/shop", {
         filteredProductData: products,
         totalProductsCount,
@@ -172,6 +177,7 @@ const shopFiltering = async (req,res)=>{
         totalPages,
         currentPage:page,
         filter,
+        cartcount,
         category:categories,
         searchTerm
       });

@@ -1,12 +1,13 @@
 const wishlistModel = require('../../models/wishlistmodel');
+const cartModel = require('../../models/cartmodel')
 
 const wishlist = async (req, res) => {
   try {
     const wishlist = await wishlistModel
       .findOne({ userId: req.session.userId })
       .populate("products.productId");
-
-    res.render('user/wishlist', { wishlist, user: req.session.userId });
+      const cartcount = await cartModel.countDocuments({userId: req.session.userId})
+    res.render('user/wishlist', { wishlist, user: req.session.userId,cartcount });
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Server Error');
