@@ -81,7 +81,7 @@ const placeOrder = async (req, res) => {
     const cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
 
     let payStatus=""
-    if(paymentMethod=="wallet payment" || paymentMethod=="COD"){
+    if(paymentMethod=="wallet Payment" || paymentMethod=="COD"){
       payStatus="Paid"
     }else if(paymentMethod=="Online payment"){
       payStatus=statusMethod

@@ -22,7 +22,7 @@
                     <div class="col-xl-4 col-lg-4 d-flex justify-content-center">
                         <div class="logo logo-width">
                             <a href="/">
-                                <img src="user/assets/images/logo/logo.png" alt="logo">
+                                <img src="/user/assets/images/logo/logo-white-6.jpg" alt="logo">
                             </a>
                         </div>
                     </div>
@@ -58,8 +58,8 @@
                 <div class="row align-items-center">
                     <div class="col-6">
                         <div class="mobile-logo logo-width">
-                            <a href="index.html">
-                                <img alt="" src="user/assets/images/logo/logo.png">
+                            <a href="/">
+                                <img src="/user/assets/images/logo/logo-white-6.jpg" alt="logo">
                             </a>
                         </div>
                     </div>
@@ -282,7 +282,7 @@
                         <a class="behance" href="#"><i class="fa fa-behance"></i></a>
                     </div>
                     <div class="copyright">
-                        <p>© 2021 <a href="https://hasthemes.com/">Toro.</a> All rights reserved</p>
+                        <p>© 2021 <a href="https://hasthemes.com/">GlamGrow.</a> All rights reserved</p>
                     </div>
                 </div>
             </div>
@@ -332,7 +332,7 @@
                         <div class="col-lg-7" >
                             <div class="your-order-area" id="shippingArea">
                                 <h3>SHIPPING ADDRESS</h3>
-                                <!-- <% console.log(locals.addresses._id,'addres.-id'); %> -->
+                              
                                 <% if(locals.addresses?.length >= 1) { %>
                                     <h6 class="text-secondary fw-semibold ">DEFAULT ADDRESS</h6>
                                     <form action="/placeOrder" method="post" id="myForm">
@@ -612,8 +612,8 @@
                         <!-- Footer Column: Logo -->
                         <div class="col-12 text-center">
                             <div class="logo logo-res-center">
-                                <a href="index.html">
-                                    <img src="user/assets/images/logo/logo-white.png" alt="logo">
+                                <a href="/">
+                                    <img src="user/assets/images/logo/footers.jpg" width="200px" alt="logo">
                                 </a>
                             </div>
                         </div>
@@ -623,7 +623,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="copyright text-center">
-                                <p>© 2024 <a href="https://hasthemes.com/">Toro.</a> All rights reserved.</p>
+                                <p>© 2024 <a href="https://hasthemes.com/">GlamGrow.</a> All rights reserved.</p>
                             </div>
                         </div>
                     </div>
@@ -1187,7 +1187,7 @@ function removeCoupon() {
     
             const paymentStatus = document.getElementById('statusMethod')
             const form = document.getElementById("myForm");
-            if (method === "COD" ||method==="wallet Payment") {
+            if (method === "COD" || method==="wallet Payment") {
                 paymentStatus.value = "Paid"
                 form.submit();
             } else {
@@ -1207,7 +1207,7 @@ function removeCoupon() {
                             "key": data.key_id,
                             "amount": data.amount,
                             "currency": "INR",
-                            "name": "TORO",
+                            "name": "GlamGrow",
                             "order_id": data.order_id,
                             "handler": function (response) {
 
@@ -1290,5 +1290,5 @@ function removeCoupon() {
 </body>
 
 
-<!-- Mirrored from htmldemo.net/toro/toro/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 11:04:56 GMT -->
+<!-- Mirrored from htmldemo.net/GlamGrow/toro/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 22 Feb 2024 11:04:56 GMT -->
 </html>

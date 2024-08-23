@@ -31,8 +31,19 @@ const adminLogin = (req, res) => {
     }
   };
   
+  const logout = (req, res) => {
+    try {
+      req.session.admin = null
+
+      res.redirect('/admin/login')
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  };
 
   module.exports={
     adminLogin,
-    getInAdmin
+    getInAdmin,
+    logout
   }

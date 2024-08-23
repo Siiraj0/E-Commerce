@@ -21,6 +21,7 @@ const auth = require("../middlewares/admin");
 adminRoute.get("/login", auth.logout, adminController.adminLogin);
 adminRoute.post("/login", adminController.getInAdmin);
 adminRoute.post("/getStoredData", indexController.getStoredAdmin);
+adminRoute.get("/logout", adminController.logout); 
 
 
 // Index route

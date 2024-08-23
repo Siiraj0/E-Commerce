@@ -4,60 +4,71 @@ const cartModel = require('../../models/cartmodel')
 
 const shopPage = async (req, res) => {
   try {
-    const limit = 6; 
+    const limit = 6;
     const page = parseInt(req.query.page) || 1;
     const skip = (page - 1) * limit;
     const filter = req.query.filter;
     const searchTerm = req.query.term;
-    let filterObj = {};
-    let searchObj = { isBlocked: false, stock: { $gt: 0 } }; 
+
+    // Initial filters for products
+    let searchObj = { 
+      isBlocked: false,  // Ensure only unblocked products are shown
+      stock: { $gt: 0 }  // Ensure only products with stock > 0 are shown
+    };
 
     if (searchTerm) {
       const regex = new RegExp(searchTerm, 'i');
       searchObj.name = { $regex: regex };
     }
 
+    // Ensure only products from unblocked categories are shown
+    searchObj.category = {
+      $in: await categorymodel.distinct('_id', { isBlocked: false })
+    };
+
     let products;
+    let filterObj = {};
 
-    if (filter === "popularity") {
-      products = await productModel.aggregate([
-        { $match: searchObj },  
-        {
-          $lookup: {
-            from: 'orders',  
-            localField: '_id',  
-            foreignField: 'products.productId',  
-            as: 'orders'  
-          }
-        },
-        {
-          $addFields: {
-            popularity: { $size: "$orders" }  
-          }
-        },
-        { $sort: { popularity: -1 } },  
-        { $skip: skip },
-        { $limit: limit }
-      ]);
-    } else {
-      switch (filter) {
-        case "lowToHigh":
-          filterObj.offerPrice = 1;
-          break;
-        case "highToLow":
-          filterObj.offerPrice = -1;
-          break;
-        case "latest":
-          filterObj._id = -1;
-          break;
-        default:
-          break;
-      }
+    switch (filter) {
+      case "lowToHigh":
+        filterObj.offerPrice = 1;
+        break;
+      case "highToLow":
+        filterObj.offerPrice = -1;
+        break;
+      case "latest":
+        filterObj._id = -1;
+        break;
+      case "popularity":
+        products = await productModel.aggregate([
+          { $match: searchObj },  
+          {
+            $lookup: {
+              from: 'orders',  
+              localField: '_id',  
+              foreignField: 'products.productId',  
+              as: 'orders'  
+            }
+          },
+          {
+            $addFields: {
+              popularity: { $size: "$orders" }  
+            }
+          },
+          { $sort: { popularity: -1 } },  
+          { $skip: skip },
+          { $limit: limit }
+        ]);
+        break;
+      default:
+        break;
+    }
 
+    if (!products) {
       products = await productModel.find(searchObj)
         .populate({
           path: 'category',
-          match: { isBlocked: false }
+          match: { isBlocked: false },  // Ensure the category is not blocked
         })
         .populate('offer')
         .sort(filterObj)
@@ -65,10 +76,11 @@ const shopPage = async (req, res) => {
         .limit(limit);
     }
 
-    const cartcount = await cartModel.countDocuments({userId:req.session.userId})
-    
     const totalProductsCount = await productModel.countDocuments(searchObj);
     const totalPages = Math.ceil(totalProductsCount / limit);
+
+    const cartcount = await cartModel.countDocuments({ userId: req.session.userId });
+
 
     res.render("user/shop", {
       filteredProductData: products,
@@ -78,14 +90,15 @@ const shopPage = async (req, res) => {
       currentPage: page,
       filter,
       cartcount,
-      category: await categorymodel.find(),
+      category: await categorymodel.find({ isBlocked: false }),  // Ensure only unblocked categories are shown
       searchTerm
     });
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
     res.status(500).send("Internal server error");
   }
 };
+
 
 
 
@@ -137,7 +150,7 @@ const shopFiltering = async (req,res)=>{
       let filterObj = {};
       let searchObj = { isBlocked: false, stock: { $gt: 0 } }; 
   
-      const products=await productModel.find({category:category}).populate("category offer").sort(filterObj)
+      const products=await productModel.find({category:category},{isBlocked:false}).populate("category  offer").sort(filterObj)
       .skip(skip)
       .limit(limit);
 

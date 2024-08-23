@@ -23,7 +23,7 @@ const loadHome = async (req, res) => {
 
     console.log(womansProducts, 'womansProducts');
 
-    res.render("user/index", { countProduct, cartcount, user: req.session.userId, womansProducts, latestProducts });
+    res.render("user/index", { countProduct, cartcount : cartcount, user: req.session.userId, womansProducts, latestProducts });
   } catch (error) {
     console.log(error.message);
   }
