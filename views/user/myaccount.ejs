@@ -274,7 +274,7 @@
                                         <% order.products.forEach((product, i) => { %>
                                             <div class="product-item">
                                                 <img src="<%= `${product?.productId?.image?product?.productId?.image[0]:''}` %>" alt="<%= product.productId.name %>">
-                                                <p class="product-name"><%= product.productId.name %></p>
+                                                <p class="product-name"><%= product?.productId?.name %></p>
                                             </div>
                                         <% }); %> 
                                     </div>
