@@ -1,5 +1,6 @@
 
 const userModel = require("../../models/usermodel");
+const userModel = require("../../models/usermodel");
 const usermodel = require("../../models/usermodel");
 const categorymodel = require("../../models/categorymodel");
 const productModel = require("../../models/productmodel");
@@ -24,7 +25,7 @@ const myaccount = async (req, res) => {
         const walletData=await walletModel.findOne({ userId: userId})
        
        
-       
+      
         
       const userData = await usermodel.findOne({ _id: req.session.userId });
       const addresses = await addressModel.find({ userId: userId });
