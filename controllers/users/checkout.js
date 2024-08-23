@@ -79,6 +79,8 @@ const placeOrder = async (req, res) => {
     const userId = req.session.userId;
     const address = await addressModel.findOne({ _id: addressSelected });
     const cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
+console.log(orderAmount,'orderamountt');
+console.log(typeof orderAmount,'orderamountt');
 
     let payStatus=""
     if(paymentMethod=="wallet Payment" || paymentMethod=="COD"){
