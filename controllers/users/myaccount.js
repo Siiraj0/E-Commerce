@@ -33,7 +33,7 @@ const myaccount = async (req, res) => {
     
      
       if (userData) {
-;
+
         res.render("user/myAccount", {
           userData,
           addresses,
