@@ -12,7 +12,7 @@ const checkout =async (req, res) => {
  
       await validate(req.session.userId)
       const userId=req.session.userId
-      const cartcount = await cartModel.countDocuments({userId:userId})
+
       const wallet =await walletModel.findOne({userId:userId})
       const addresses=await addressModel.find({userId:userId}).limit(3)
       console.log(req.session.coupon,'ggggggggggggggg');
@@ -31,7 +31,7 @@ const sessionCoupon = await couponModel.findOne({_id:req.session.coupon})
 
        if(cartdata?.[0]?.products?.length > 0){
          
-         res.render("user/checkout", { user: userId ,cartcount, cartdata,addresses,wallet,couponPercentage,sessionCoupon});
+         res.render("user/checkout", { user: userId , cartdata,addresses,wallet,couponPercentage,sessionCoupon});
        }else{
         res.redirect('/shop')
        }

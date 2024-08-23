@@ -6,8 +6,8 @@ const wishlist = async (req, res) => {
     const wishlist = await wishlistModel
       .findOne({ userId: req.session.userId })
       .populate("products.productId");
-      const cartcount = await cartModel.countDocuments({userId: req.session.userId})
-    res.render('user/wishlist', { wishlist, user: req.session.userId,cartcount });
+      
+    res.render('user/wishlist', { wishlist, user: req.session.userId,});
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Server Error');

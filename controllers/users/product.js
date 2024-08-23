@@ -79,7 +79,7 @@ const shopPage = async (req, res) => {
     const totalProductsCount = await productModel.countDocuments(searchObj);
     const totalPages = Math.ceil(totalProductsCount / limit);
 
-    const cartcount = await cartModel.countDocuments({ userId: req.session.userId });
+
 
 
     res.render("user/shop", {
@@ -89,7 +89,7 @@ const shopPage = async (req, res) => {
       totalPages,
       currentPage: page,
       filter,
-      cartcount,
+
       category: await categorymodel.find({ isBlocked: false }),  // Ensure only unblocked categories are shown
       searchTerm
     });
@@ -106,8 +106,8 @@ const productpage = async (req, res) => {
   try {
     const id = req.params.id;
     const productData = await productModel.findOne({ _id: id }).populate('offer');
-    const cartcount = await cartModel.countDocuments({userId:req.session.userId})
-    res.render("user/product", { productData,cartcount, user: req.session.userId });
+  
+    res.render("user/product", { productData, user: req.session.userId });
   } catch (error) {
     console.log(error.message);
   }
@@ -178,8 +178,7 @@ const shopFiltering = async (req,res)=>{
   
       
       const totalProductsCount = products.length
-      
-      const cartcount = await cartModel.countDocuments({userId:req.session.userId})
+
       const totalPages = Math.ceil(totalProductsCount / limit);
   
       
@@ -190,7 +189,7 @@ const shopFiltering = async (req,res)=>{
         totalPages,
         currentPage:page,
         filter,
-        cartcount,
+    
         category:categories,
         searchTerm
       });

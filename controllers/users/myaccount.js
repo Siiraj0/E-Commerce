@@ -23,7 +23,7 @@ const myaccount = async (req, res) => {
         .populate("products.productId");
         const walletData=await walletModel.findOne({ userId: userId})
        
-        const cartcount = await cartmodel.countDocuments({userId:userId})
+       
        
         
       const userData = await usermodel.findOne({ _id: req.session.userId });
@@ -40,8 +40,6 @@ const myaccount = async (req, res) => {
           orders,
           walletData,
           cartItems,
-         
-          cartcount,
           user: req.session.userId,
         });
       } else {
@@ -265,7 +263,7 @@ const orderDetails = async (req, res) => {
       if (!order) {
         return res.status(404).render('error', { message: 'Order not found' });
       }
-      const cartcount = await cartmodel.countDocuments({userId:req.session.userId})
+
       const deliveredProds = order.products.filter(product=> product.orderStatus === 'Delivered')
       // Calculate the tracking percentage based on the order status
       const getTrackingPercentage = (status) => {
@@ -283,7 +281,7 @@ const orderDetails = async (req, res) => {
 
       res.render('user/orderDetails', { 
           order,
-          cartcount, 
+        
           deliveredProds,
           getTrackingPercentage 
       });

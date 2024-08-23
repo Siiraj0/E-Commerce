@@ -21,9 +21,9 @@ const cartpage = async (req, res) => {
     }
 
     const userId = req.session.userId
-    const cartcount = await cartModel.countDocuments({userId:userId})
+
     const countProduct = cart ? cart.products.length : 0;
-    res.render("user/cart", { cart,cartcount, countProduct, user: req.session.userId });
+    res.render("user/cart", { cart, countProduct, user: req.session.userId });
   } catch (error) {
     console.log(error.message);
   }
