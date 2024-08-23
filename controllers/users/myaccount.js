@@ -1,6 +1,4 @@
 
-const userModel = require("../../models/usermodel");
-const userModel = require("../../models/usermodel");
 const usermodel = require("../../models/usermodel");
 const categorymodel = require("../../models/categorymodel");
 const productModel = require("../../models/productmodel");
@@ -159,7 +157,7 @@ const addWallet = async (req,res)=>{
 
 const razorPay = async (req, res) => {
   try {
-      const user = await userModel.findOne({ _id: req.session.userId });
+      const user = await usermodel.findOne({ _id: req.session.userId });
       const amount = req.body.amount * 100; // Amount in paise for Razorpay
       console.log(parseFloat(amount),'amount');
       
