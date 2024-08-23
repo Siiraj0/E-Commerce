@@ -34,7 +34,7 @@ const myaccount = async (req, res) => {
      
       if (userData) {
 
-        res.render("user/myAccount", {
+        res.render("user/myaccount", {
           userData,
           addresses,
           orders,
