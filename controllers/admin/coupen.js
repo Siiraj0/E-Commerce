@@ -1,20 +1,31 @@
 const couponModel= require('../../models/coupon')
 
-const loadCoupons = async (req,res)=>{
+const loadCoupons = async (req, res) => {
     try {
         const limit = 5;
         const page = parseInt(req.query.page) || 1;
         const skip = (page - 1) * limit;
-        const totalCouponsCount = await couponModel.countDocuments();
-        const totalPages = Math.ceil(totalCouponsCount / limit)
+        const now = new Date(); 
 
-        const couponData = await couponModel.find({}).skip(skip).limit(limit).sort({_id: -1})
-        
-        res.render('admin/coupons',{couponData ,totalPages, currentPage: page })
+      
+        const totalCouponsCount = await couponModel.countDocuments({
+            endDate: { $gte: now } 
+        });
+
+        const totalPages = Math.ceil(totalCouponsCount / limit);
+
+     
+        const couponData = await couponModel.find({
+            endDate: { $gte: now } 
+        }).skip(skip).limit(limit).sort({ _id: -1 });
+
+        res.render('admin/coupons', { couponData, totalPages, currentPage: page });
     } catch (error) {
-        console.log(error.messege);
+        console.log(error.message);
+        res.status(500).send('Internal server error');
     }
-}
+};
+
 
 function generateRandomString() {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

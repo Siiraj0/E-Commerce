@@ -79,21 +79,28 @@
                                                         <tr>
                                                             <td><%= i + 1 %></td>
                                                             <td><%= e.productId.name %></td>
-                                                            <td><img style="width: 3rem; height: 3rem; border-radius: 50%;" src="<%= e.productId.image[0] %>" alt="" srcset=""></td>
+                                                            <td>
+                                                                <img style="width: 3rem; height: 3rem; border-radius: 50%;" src="<%= e.productId.image[0] %>" alt="" srcset="">
+                                                            </td>
                                                             <td><%= e.productId.price %></td>
                                                             <td><%= e.quantity %></td>
                                                             <td><%= orders.orderAmount %></td>
                                                             <td>
-                                                                <select onchange="updateOrderStatus('<%= e._id %>', this.value)">
-                                                                    <option value="Pending" <%= e.orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
-                                                                    <option value="Shipped" <%= e.orderStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
-                                                                    <option value="Delivered" <%= e.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
-                                                                    <option value="Cancelled" <%= e.orderStatus === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
-                                                                </select>
+                                                                <% if (e.orderStatus === 'Delivered' || e.orderStatus === 'Cancelled') { %>
+                                                                    <span><%= e.orderStatus %></span>
+                                                                <% } else { %>
+                                                                    <select onchange="updateOrderStatus('<%= e._id %>', this.value)">
+                                                                        <option value="Pending" <%= e.orderStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                                                        <option value="Shipped" <%= e.orderStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                                                        <option value="Delivered" <%= e.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                                                        <option value="Cancelled" <%= e.orderStatus === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                                                    </select>
+                                                                <% } %>
                                                             </td>
                                                         </tr>
                                                     <% }); %>
                                                 </tbody>
+                                                
                                                 
                                                 
                                             </table>
@@ -163,8 +170,11 @@
         <!-- JAVASCRIPT -->
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+       
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <script>
-      async function updateOrderStatus(orderId, newStatus) {
+            async function updateOrderStatus(orderId, newStatus) {
     try {
         console.log('Updating order status:', orderId, newStatus); // Debug the input values
 
@@ -173,21 +183,40 @@
             newStatus: newStatus
         });
 
-        console.log('Response data:', response.data);
+        console.log('Response data:', response.data); // Debug the response data
 
         if (response.data.success) {
-            alert('Order status updated successfully');
+            // Use SweetAlert for successful update
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Order status updated successfully.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                location.reload(); // Reload to reflect changes
+            });
         } else {
-            alert('Failed to update order status: ' + response.data.message);
+            // Use SweetAlert for failure message
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed!',
+                text: 'Failed to update order status: ' + response.data.message,
+                confirmButtonText: 'OK'
+            });
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred while updating the order status');
+        // Use SweetAlert for error handling
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An error occurred while updating the order status.',
+            confirmButtonText: 'OK'
+        });
     }
 }
 
         </script>
-        
 
         <base href="/admin/">
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -75,7 +75,7 @@ const sessionCoupon = await couponModel.findOne({_id:req.session.coupon})
 
 const placeOrder = async (req, res) => {
   try {
-    const { addressSelected, couponDiscount, orderAmount, paymentMethod,statusMethod } = req.body;
+    const { addressSelected, couponDiscount, orderAmount, paymentMethod,statusMethod,usedCoupon } = req.body;
     const userId = req.session.userId;
     const address = await addressModel.findOne({ _id: addressSelected });
     const cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
@@ -121,6 +121,14 @@ console.log(typeof orderAmount,'orderamountt');
       );
   }
   
+ 
+  if (couponDiscount !== "") {
+    await couponModel.findOneAndUpdate(
+      { code: usedCoupon }, // Assuming the coupon code is passed as 'couponCode' in the request body
+      { $inc: { count: -1 } } // Decrease the count by 1
+    );
+  }
+
     for (const item of cart.products) {
       await productModel.findByIdAndUpdate(item.productId._id, {
         $inc: { stock: -item.count }
@@ -197,9 +205,14 @@ const couponFetch = async (req, res) => {
   try {
     let amount = req.body.money;
     const updatedAmount = parseInt(amount, 10); // Directly use the amount
-    
+    const now = new Date();
+
     console.log(`Fetching coupons for amount: ${updatedAmount}`);
-    const data = await couponModel.find({ minAmount: { $lte: updatedAmount } });
+    const data = await couponModel.find({
+      minAmount: { $lte: updatedAmount },
+      count: { $gt: 0 },
+      endDate: { $gte: now }
+  });
     console.log('Coupons fetched:', data);
     res.send(data);
   } catch (error) {

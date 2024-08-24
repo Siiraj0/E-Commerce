@@ -110,23 +110,29 @@ const salesReport = async (req, res) => {
 
 const updateOrderStatus = async (req, res) => {
   try {
-    const { orderId, newStatus } = req.body;
+      const { orderId, newStatus } = req.body;
 
-    const result = await orderModel.updateOne(
-      { 'products._id': orderId },
-      { $set: { 'products.$.orderStatus': newStatus } }
-    );
+      const result = await orderModel.updateOne(
+          { 'products._id': orderId },
+          { $set: { 'products.$.orderStatus': newStatus } }
+      );
 
-    if (result.nModified > 0) {
-      res.json({ success: true });
-    } else {
-      res.json({ success: false, message: 'Order status not updated. Order might not be found.' });
-    }
+      // Check if a document was matched, even if no modifications were needed
+      if (result.nModified > 0 || result.matchedCount > 0) {
+          console.log('Order status updated successfully.');
+          res.json({ success: true });
+      } else {
+          console.log('Order status not updated. Order might not be found.');
+          res.json({ success: false, message: 'Order status not updated. Order might not be found.' });
+      }
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ success: false, message: error.message });
+      console.error('Error:', error.message);
+      res.status(500).json({ success: false, message: 'Server error. Please try again later.' });
   }
 };
+
+
+
 
 
 

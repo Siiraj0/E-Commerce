@@ -379,9 +379,6 @@
                         <div class="col-lg-5">
                             <div class="your-order-area">
                                 <h3>Your order</h3>
-                
-                                
-                
                                 <div class="your-order-wrap gray-bg-4">
                                     <div class="your-order-info-wrap">
                                         <div class="your-order-info">
@@ -393,78 +390,68 @@
                                         <% let grandTotal = 0; %>
                                         <% let totals = 0; %>
                                         <% let cpndiscount = 0; %>
-
+                            
                                         <% cartdata[0]?.products.forEach((product) => { %>
-                                            <% console.log(product); %>
-                                            <% prodTotal =product.productId.offer ? 
-                                            Math.floor(product.productId.offerPrice * product.count) :
-                                            Math.floor(product.productId.price * product.count) %>
-
-                                       <% totals += prodTotal  %>
-                                       
-                                        <div class="your-order-middle">
+                                            <% prodTotal = product.productId.offer ? 
+                                                Math.floor(product.productId.offerPrice * product.count) :
+                                                Math.floor(product.productId.price * product.count) %>
+                            
+                                            <% totals += prodTotal %>
                                             
-                                            <ul>
-                                                <li class="product-total">
-                                                    <%= product.productId.name %> x <%= product.count %> 
-                                                    <span>
-                                                        ₹<%=   product.productId.offer ? 
-                                                             Math.floor(product.productId.offerPrice * product.count) :
-                                                             Math.floor(product.productId.price * product.count) %>
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                            
-                                        </div>
-                                        <%  }); %>
-
+                                            <div class="your-order-middle">
+                                                <ul>
+                                                    <li class="product-total">
+                                                        <%= product.productId.name %> x <%= product.count %> 
+                                                        <span>
+                                                            ₹<%= product.productId.offer ? 
+                                                                 Math.floor(product.productId.offerPrice * product.count) :
+                                                                 Math.floor(product.productId.price * product.count) %>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        <% }); %>
+                            
                                         <% cpndiscount = totals * couponPercentage / 100 %>
-                                        <% grandTotal =  totals - cpndiscount %>
-                                       
+                                        <% grandTotal = totals - cpndiscount %>
+                            
                                         <div class="your-order-info order-subtotal">
                                             <ul>
-                                                <li>Subtotal <span id="product-subtotal">₹0.00</span></li>
+                                                <li>Subtotal <span id="product-subtotal">₹<%= totals %></span></li>
                                             </ul>
                                         </div>
                                         <div class="your-order-info coupon-discount">
                                             <ul>
-                                                <li>Coupon Discount <span id="couponDiscount">₹0.00</span></li>
+                                                <li>Coupon Discount <span id="couponDiscount">₹<%= cpndiscount %></span></li>
                                             </ul>
                                         </div>
                                         <div class="your-order-info order-total">
                                             <ul>
-                                                <li>Total <span id="product-total">₹0.00</span></li>
+                                                <li>Total <span id="product-total">₹<%= grandTotal %></span></li>
                                             </ul>
                                         </div>
-                                     
-                                        
-                                        
-                                        <input type="hidden" id="totalprice" value="0.00">
+                            
+                                        <input type="hidden" id="totalprice" value="<%= grandTotal %>">
+                                        <input type="hidden" id="usedCoupon" value="<%= sessionCoupon?.couponCode%>"> <!-- Hidden input for coupon code -->
                                     </div>
-                                    <div class="payment-method">
-                                      
-                                      
-                
-                                      </div>
-                                      <div class="billing-select mb-10">
+                                    <div class="payment-method"></div>
+                                    <div class="billing-select mb-10">
                                         <label>Payment method </label>
                                         <select id="paymentMethod" class="select-active ">
                                             <option value="COD">Cash on Delivery</option>
-                                            <option value="Online Payment">Rozar Pay</option>
+                                            <option value="Online Payment">Razor Pay</option>
                                             <% if(grandTotal < wallet.balance){ %>
-                                            <option value="wallet Payment">Wallet payment</option>
+                                            <option value="wallet Payment">Wallet Payment</option>
                                             <% } %>
-                                           <input type="hidden" value="0.00">
-                                          
-                                           
                                         </select>
                                     </div>
                                 </div>
                                 <div class="Place-order mt-30">
-                                    <a  onclick="placeorder()">Place Order</a>
-                                  
+                                    <a href="javascript:void(0);" onclick="placeorder()">Place Order</a>
                                 </div>
                             </div>
+                            
+                            
                         </div>
             </div>
         </div>
@@ -1053,7 +1040,7 @@
 
     async function applyCoupon() {
     const couponCode = document.getElementById('couponCode').value.trim();
-    
+
     if (couponCode === '') {
         alert('Please enter a valid coupon code.');
         return;
@@ -1168,79 +1155,89 @@ function removeCoupon() {
     }
 
     function placeorder() {
-        let checkedRadio = document.querySelector('input[name="addressSelected"]:checked');
-        if (checkedRadio) {
-            let addressId = checkedRadio.value;
-    
-            let method = document.getElementById('paymentMethod').value;
-            console.log(method, 'method');
-            console.log(addressId, 'addressId');
-    
-            let payment = document.getElementById("payment");
-            payment.value = method;
-    
-            const totalprice = document.getElementById('totalprice').value;
-            const couponDiscountElement = document.getElementById('couponDiscount');
-            const couponDiscount = couponDiscountElement ? couponDiscountElement.innerText.replace('₹', '') : '0';
-            const couponDiscountInput = document.getElementById('couponDiscountInput');
-            couponDiscountInput.value = parseFloat(couponDiscount).toFixed(2); // Ensure it's a number
-    
-            const paymentStatus = document.getElementById('statusMethod')
-            const form = document.getElementById("myForm");
-            if (method === "COD" || method==="wallet Payment") {
-                paymentStatus.value = "Paid"
-                form.submit();
-            } else {
-                fetch('/razors', {
-                    method: 'POST',
-                    headers: { 'Content-type': 'application/json' },
-                    body: JSON.stringify({ amount: totalprice })
-                })
-                .then(res => {
-                    console.log('Fetch response status:', res.status);
-                    return res.json();
-                })
-                .then(data => {
-                    console.log('Data received from server:', data);
-                    if (data.success) {
-                        let options = {
-                            "key": data.key_id,
-                            "amount": data.amount,
-                            "currency": "INR",
-                            "name": "GlamGrow",
-                            "order_id": data.order_id,
-                            "handler": function (response) {
+    let checkedRadio = document.querySelector('input[name="addressSelected"]:checked');
+    if (checkedRadio) {
+        let addressId = checkedRadio.value;
 
-                                paymentStatus.value="Paid"
-                                form.submit();
+        let method = document.getElementById('paymentMethod').value;
+        console.log(method, 'method');
+        console.log(addressId, 'addressId');
 
-                            },
-                            "prefill": {
-                                "name": data.name,
-                                "email": data.email
-                            }
-                        };
-    
-                        let razorpayObject = new Razorpay(options);
-                        razorpayObject.on('payment.failed', (response) => {
-                            alert('Payment failed');
-                            paymentStatus.value = 'Pending'
-                            form.submit();
-                        });
-                        razorpayObject.open();
-                    } else {
-                        alert('Failed to initiate payment');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error initiating payment:', error);
-                    alert('Error initiating payment');
-                });
-            }
+        let payment = document.getElementById("payment");
+        payment.value = method;
+
+        const totalprice = document.getElementById('totalprice').value;
+        const couponDiscountElement = document.getElementById('couponDiscount');
+        const couponDiscount = couponDiscountElement ? couponDiscountElement.innerText.replace('₹', '') : '0';
+        const couponDiscountInput = document.getElementById('couponDiscountInput');
+        couponDiscountInput.value = parseFloat(couponDiscount).toFixed(2); // Ensure it's a number
+
+        const usedCoupon = document.getElementById('usedCoupon').value; // Get usedCoupon from hidden input
+        const paymentStatus = document.getElementById('statusMethod');
+        const form = document.getElementById("myForm");
+
+        if (method === "COD" || method === "wallet Payment") {
+            paymentStatus.value = "Paid";
+            form.submit();
         } else {
-            alert('Please select an address.');
+            fetch('/razors', {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({ amount: totalprice, usedCoupon: usedCoupon }) // Send usedCoupon with payment data
+            })
+            .then(res => {
+                console.log('Fetch response status:', res.status);
+                return res.json();
+            })
+            .then(data => {
+                console.log('Data received from server:', data);
+                if (data.success) {
+                    let options = {
+                        "key": data.key_id,
+                        "amount": data.amount,
+                        "currency": "INR",
+                        "name": "GlamGrow",
+                        "order_id": data.order_id,
+                        "handler": function (response) {
+                            paymentStatus.value = "Paid";
+                            form.submit();
+                        },
+                        "prefill": {
+                            "name": data.name,
+                            "email": data.email
+                        }
+                    };
+
+                    let razorpayObject = new Razorpay(options);
+                    razorpayObject.on('payment.failed', (response) => {
+                        alert('Payment failed');
+                        paymentStatus.value = 'Pending';
+                        form.submit();
+                    });
+                    razorpayObject.open();
+                } else {
+                    alert('Failed to initiate payment');
+                }
+            })
+            .catch(error => {
+                console.error('Error initiating payment:', error);
+                alert('Error initiating payment');
+            });
         }
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Please select an address',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+        });
     }
+}
+
+
 
     // Call calculateTotal initially (on page load, for example)
     calculateTotal();

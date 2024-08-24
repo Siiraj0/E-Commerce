@@ -269,49 +269,75 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
 <script>
-
-
   function cancelOrder(orderId, productId) {
-    axios.post('/order/cancel', { orderId, productId })
-        .then(response => {
-            alert(response.data.message);
-            location.reload(); // Reload to reflect changes
-        })
-        .catch(error => {
-            console.error('Error cancelling order:', error);
-            alert('Failed to cancel order.');
-        });
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, cancel it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post('/order/cancel', { orderId, productId })
+                .then(response => {
+                    Swal.fire(
+                        'Cancelled!',
+                        response.data.message,
+                        'success'
+                    ).then(() => {
+                        location.reload(); // Reload to reflect changes
+                    });
+                })
+                .catch(error => {
+                    console.error('Error cancelling order:', error);
+                    Swal.fire(
+                        'Failed!',
+                        'Failed to cancel the order.',
+                        'error'
+                    );
+                });
+        }
+    });
 }
 
 async function returnOrder(orderId, productId) {
-  const {value: returnReason} = await Swal.fire({
-                title: "Return reason",
-                input: "text",
-                inputLabel: "Return reason",
-                showCancelButton: true,
-
-                inputValidator: (value)=>{
-                    if(!value){
-                        return "Enter a valid reason"
-                    }
-                }
-            })
-            if(returnReason){
-
-              axios.post('/order/return', { orderId, productId })
-              .then(response => {
-                alert(response.data.message);
-                location.reload(); // Reload to reflect changes
-              })
-              .catch(error => {
-                console.error('Error returning order:', error);
-                alert('Failed to return order.');
-              });
+    const { value: returnReason } = await Swal.fire({
+        title: "Return Reason",
+        input: "text",
+        inputLabel: "Please provide a reason for the return:",
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Please enter a valid reason.";
             }
+        }
+    });
+
+    if (returnReason) {
+        axios.post('/order/return', { orderId, productId, returnReason })
+            .then(response => {
+                Swal.fire(
+                    'Returned!',
+                    response.data.message,
+                    'success'
+                ).then(() => {
+                    location.reload(); // Reload to reflect changes
+                });
+            })
+            .catch(error => {
+                console.error('Error returning order:', error);
+                Swal.fire(
+                    'Failed!',
+                    'Failed to return the order.',
+                    'error'
+                );
+            });
+    }
 }
 
 </script>
-  
   
   
 </body>

@@ -387,57 +387,65 @@
 
 <script>
     async function plus(e, qt, proID) {
-        const g = e.nextElementSibling;
-        if (qt > Number(g.value)) {
-            g.value = Number(g.value) + 1;
-        } else {
-            g.value = qt;
-        }
+    const g = e.nextElementSibling;
+    if (qt > Number(g.value)) {
+        g.value = Number(g.value) + 1;
         updateTotal(e);
         await cartUpdate(proID, g.value);
+    } else {
+        g.value = qt;
+        // Show SweetAlert when stock limit is reached
+        Swal.fire({
+            icon: 'warning',
+            title: 'Out of Stock',
+            text: 'Sorry, no more stock available for this product.',
+            confirmButtonText: 'OK'
+        });
     }
+}
 
-    async function minus(e, proID) {
-        const g = e.previousElementSibling;
-        if (Number(g.value) > 1) {
-            g.value = Number(g.value) - 1;
-        }
-        updateTotal(e);
-        await cartUpdate(proID, g.value);
+async function minus(e, proID) {
+    const g = e.previousElementSibling;
+    if (Number(g.value) > 1) {
+        g.value = Number(g.value) - 1;
     }
+    updateTotal(e);
+    await cartUpdate(proID, g.value);
+}
 
-    async function cartUpdate(proID, qt) {
-        try {
-            await axios.post('/cartupdate', { productId: proID, count: qt });
-        } catch (error) {
-            console.error('Error updating cart:', error);
-        }
+async function cartUpdate(proID, qt) {
+    try {
+        await axios.post('/cartupdate', { productId: proID, count: qt });
+    } catch (error) {
+        console.error('Error updating cart:', error);
     }
+}
 
-    function updateTotal(e) {
-        const row = e.closest('tr');
-        const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value, 10);
-        const price = parseInt(row.querySelector('.cart-plus-minus-box').dataset.price, 10);
-        const totalElement = row.querySelector('.product-total span');
-        totalElement.textContent = '₹' + (price * quantity).toFixed(2);
+function updateTotal(e) {
+    const row = e.closest('tr');
+    const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value, 10);
+    const price = parseInt(row.querySelector('.cart-plus-minus-box').dataset.price, 10);
+    const totalElement = row.querySelector('.product-total span');
+    totalElement.textContent = '₹' + (price * quantity).toFixed(2);
 
-        updateCartSummary();
-    }
+    updateCartSummary();
+}
 
-    document.addEventListener('DOMContentLoaded', () => {
-        updateCartSummary();
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartSummary();
+});
+
+function updateCartSummary() {
+    let subtotal = 0;
+    document.querySelectorAll('.product-total span').forEach(item => {
+        subtotal += parseInt(item.textContent.replace('₹', ''), 10);
     });
 
-    function updateCartSummary() {
-        let subtotal = 0;
-        document.querySelectorAll('.product-total span').forEach(item => {
-            subtotal += parseInt(item.textContent.replace('₹', ''), 10);
-        });
+    const total = subtotal; // Adjust if there are additional charges or discounts
+    document.getElementById('cart-subtotal').textContent = '₹' + subtotal.toFixed(2);
+    document.getElementById('cart-total').textContent = '₹' + total.toFixed(2);
+}
 
-        const total = subtotal; // Adjust if there are additional charges or discounts
-        document.getElementById('cart-subtotal').textContent = '₹' + subtotal.toFixed(2);
-        document.getElementById('cart-total').textContent = '₹' + total.toFixed(2);
-    }
 </script>
 
 <style>
