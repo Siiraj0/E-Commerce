@@ -86,7 +86,7 @@
                                                             <td><%= e.quantity %></td>
                                                             <td><%= orders.orderAmount %></td>
                                                             <td>
-                                                                <% if (e.orderStatus === 'Delivered' || e.orderStatus === 'Cancelled') { %>
+                                                                <% if (e.orderStatus === 'Delivered' || e.orderStatus === 'Cancelled' || e.orderStatus === 'Returned' || e.orderStatus === 'Return Requested') { %>
                                                                     <span><%= e.orderStatus %></span>
                                                                 <% } else { %>
                                                                     <select onchange="updateOrderStatus('<%= e._id %>', this.value)">
@@ -94,9 +94,14 @@
                                                                         <option value="Shipped" <%= e.orderStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
                                                                         <option value="Delivered" <%= e.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
                                                                         <option value="Cancelled" <%= e.orderStatus === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                                                        <!-- Only show the "Returned" option after the return request is approved by admin -->
+                                                                        <option value="Returned" <%= e.orderStatus === 'Returned' ? 'selected' : '' %>>Returned</option>
                                                                     </select>
                                                                 <% } %>
                                                             </td>
+                                                            
+                                                            
+                                                            
                                                         </tr>
                                                     <% }); %>
                                                 </tbody>

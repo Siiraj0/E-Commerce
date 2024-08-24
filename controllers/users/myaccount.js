@@ -14,7 +14,7 @@ require('dotenv').config()
 
 const myaccount = async (req, res) => {
     try {
-      // loading cart quantity
+      
   
       const userId = req.session.userId;
       const cartItems = await cartmodel
@@ -118,12 +118,12 @@ const myaccount = async (req, res) => {
         return res.status(404).json({ msg: 'User not found' });
       }
   
-      // Update user details
+      
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.mobile = req.body.mobile || user.mobile;
   
-      // Handle password change
+      
       if (req.body.currentPwd && req.body.newPwd) {
         const isMatch = await bcrypt.compare(req.body.currentPwd, user.password);
         if (!isMatch) {
@@ -158,7 +158,7 @@ const addWallet = async (req,res)=>{
 const razorPay = async (req, res) => {
   try {
       const user = await usermodel.findOne({ _id: req.session.userId });
-      const amount = req.body.amount * 100; // Amount in paise for Razorpay
+      const amount = req.body.amount * 100; 
       console.log(parseFloat(amount),'amount');
       
       const options = {
@@ -247,40 +247,39 @@ const saveEdit = async (req,res)=>{
 }
  
 
-
 const orderDetails = async (req, res) => {
   try {
       const id = req.params.id;
 
-      
-      // Fetch the order with populated product details
       const order = await orderModel.findById(id)
-      .populate('userId')
-      .populate('products.productId');
-      
-      // Check if the order was found
+        .populate('userId')
+        .populate('products.productId');
+
       if (!order) {
-        return res.status(404).render('error', { message: 'Order not found' });
+          return res.status(404).render('error', { message: 'Order not found' });
       }
 
-      const deliveredProds = order.products.filter(product=> product.orderStatus === 'Delivered')
-      // Calculate the tracking percentage based on the order status
+      const deliveredProds = order.products.filter(product => product.orderStatus === 'Delivered' || product.orderStatus === 'Return Requested');
+
       const getTrackingPercentage = (status) => {
           switch (status) {
               case 'Pending':
-                  return 33; // 1/3
+                  return 33;
               case 'Shipped':
-                  return 66; // 2/3
+                  return 66;
               case 'Delivered':
-                  return 100; // Complete
+                  return 100;
+              case 'Return Requested':
+                  return 50; // Return requested but not completed
+              case 'Returned':
+                  return 0; // Order was returned
               default:
-                  return 0; // Default
+                  return 0;
           }
       };
 
       res.render('user/orderDetails', { 
           order,
-        
           deliveredProds,
           getTrackingPercentage 
       });
@@ -291,12 +290,13 @@ const orderDetails = async (req, res) => {
 };
 
 
-// Cancel Order
+
+
 const cancelOrder = async (req, res) => {
   const { orderId, productId } = req.body;
 
   try {
-      // Find the order by ID
+      // Find the order
       const order = await orderModel.findById(orderId);
 
       if (!order) {
@@ -307,11 +307,25 @@ const cancelOrder = async (req, res) => {
       const product = order.products.find(p => p._id.toString() === productId);
 
       if (product) {
-          // Update product status to cancelled
+          // Mark the product as cancelled and update the order status
           product.cancelled = true;
           product.orderStatus = 'Cancelled';
+
+          // Save the order with updated status
           await order.save();
-          return res.json({ message: 'Order cancelled successfully' });
+
+          // Find the product in the inventory
+          const productInInventory = await productModel.findById(product.productId);
+
+          if (productInInventory) {
+              // Increment the product stock count
+              productInInventory.stock += product.quantity;
+              await productInInventory.save();
+          } else {
+              return res.status(404).json({ message: 'Product not found in inventory' });
+          }
+
+          return res.json({ message: 'Order cancelled successfully and product stock updated' });
       }
 
       return res.status(404).json({ message: 'Product not found in order' });
@@ -321,35 +335,46 @@ const cancelOrder = async (req, res) => {
   }
 };
 
-// Return Order
+
 const returnOrder = async (req, res) => {
   const { orderId, productId } = req.body;
 
   try {
-      // Find the order by ID
-      const order = await orderModel.findById(orderId);
+    const order = await orderModel.findById(orderId);
 
-      if (!order) {
-          return res.status(404).json({ message: 'Order not found' });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    const product = order.products.find(p => p._id.toString() === productId);
+
+    if (product) {
+      // Check if the product is already returned
+      if (product.returned) {
+        return res.status(400).json({ message: 'Product already returned' });
       }
 
-      // Find the product in the order
-      const product = order.products.find(p => p._id.toString() === productId);
+      // Mark the product as returned and set the order status
+      product.returned = true;
+      product.orderStatus = "Return Requested"; // Set to "Return Requested" initially
+      await order.save();
 
-      if (product) {
-          // Update product status to returned
-          product.returned = true;
-          product.orderStatus = "Return Requested";
-          await order.save();
-          return res.json({ message: 'Order returned successfully' });
-      }
+      // Update the stock count of the product in the database
+      await productModel.findByIdAndUpdate(product.productId, {
+        $inc: { stock: product.quantity }
+      });
 
-      return res.status(404).json({ message: 'Product not found in order' });
+      return res.json({ message: 'Return request submitted successfully' });
+    }
+
+    return res.status(404).json({ message: 'Product not found in order' });
   } catch (error) {
-      console.error('Error returning order:', error.message);
-      res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error returning order:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+
 
 const returnApprove = async(req, res) => {
   try{

@@ -241,7 +241,7 @@
                           <p class="offer-percentage"><%= e.productId.offerPercentage %>% off</p>
                       <% } %>
                   </div>
-                  <% if (e.orderStatus !=='Cancelled' && e.orderStatus !== 'Returned' && e.orderStatus !== 'Delivered') { %>
+                  <% if (e.orderStatus !=='Cancelled' && e.orderStatus !== 'Returned' && e.orderStatus !== 'Delivered' && e.orderStatus !== 'Return Requested') { %>
                       <button class="cancel-button" type="button" onclick="cancelOrder('<%= order._id %>', '<%= e._id %>')">Cancel Order</button>
                   <% } else if (e.orderStatus === 'Returned') { %>
                       <p>Returned</p>

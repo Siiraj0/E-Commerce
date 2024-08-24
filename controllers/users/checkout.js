@@ -79,13 +79,13 @@ const placeOrder = async (req, res) => {
     const userId = req.session.userId;
     const address = await addressModel.findOne({ _id: addressSelected });
     const cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
-console.log(orderAmount,'orderamountt');
+console.log(statusMethod,'statusMethodstatusMethodstatusMethodstatusMethod');
 console.log(typeof orderAmount,'orderamountt');
 
     let payStatus=""
     if(paymentMethod=="wallet Payment" || paymentMethod=="COD"){
       payStatus="Paid"
-    }else if(paymentMethod=="Online payment"){
+    }else if(paymentMethod=="Online Payment"){
       payStatus=statusMethod
     }else{
       payStatus = 'Pending'
@@ -149,6 +149,10 @@ console.log(typeof orderAmount,'orderamountt');
 
 
 
+
+
+
+
 const thankyou= (req,res)=>{
   try {
     res.render('user/thankyou')
@@ -205,7 +209,7 @@ const couponFetch = async (req, res) => {
   try {
     let amount = req.body.money;
     const updatedAmount = parseInt(amount, 10); // Directly use the amount
-    const now = new Date();
+    const now = new Date
 
     console.log(`Fetching coupons for amount: ${updatedAmount}`);
     const data = await couponModel.find({
