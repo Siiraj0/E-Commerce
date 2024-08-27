@@ -440,7 +440,7 @@
                                         <select id="paymentMethod" class="select-active ">
                                             <option value="COD">Cash on Delivery</option>
                                             <option value="Online Payment">Razor Pay</option>
-                                            <% if(grandTotal < wallet.balance){ %>
+                                            <% if(grandTotal < wallet?.balance){ %>
                                             <option value="wallet Payment">Wallet Payment</option>
                                             <% } %>
                                         </select>
