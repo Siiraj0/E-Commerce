@@ -1216,7 +1216,13 @@ function removeCoupon() {
                     });
                     razorpayObject.open();
                 } else {
-                    alert('Failed to initiate payment');
+                   Swal.fire({
+                   icon: 'error',
+                   title: 'Payment Failed',
+                   text: 'Failed to initiate payment. Please try again.',
+                   confirmButtonText: 'OK'
+                 });
+
                 }
             })
             .catch(error => {

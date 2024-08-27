@@ -583,9 +583,12 @@ document.getElementById("ll").addEventListener('click',e=>{
 async function addwishlist(id) {
   try {
     const { data } = await axios.post(`/addtowishlist`, { id });
-    if (data.msg === 'no user') {
-      window.location.href = "/login";
+    console.log(data.msg,"hihiiihi");
+    if (data.msg == 'no user') {
+        
+        window.location.href = "/login";
     } else {
+        console.log("hoihoihoi");
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -603,6 +606,7 @@ async function addwishlist(id) {
       });
     }
   } catch (error) {
+    window.location.href = "/login"
     console.error('Error adding to wishlist:', error);
   }
 }

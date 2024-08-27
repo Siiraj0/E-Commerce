@@ -17,7 +17,7 @@ const wishlist = async (req, res) => {
 const addtowishlist = async (req, res) => {
   try {
     if (!req.session.userId) {
-      return res.status(201).send({ msg: "no user" });
+      return res.status(401).send({ msg: "no user" });
     }
 
     const userId = req.session.userId;

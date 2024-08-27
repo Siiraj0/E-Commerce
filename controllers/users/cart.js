@@ -31,9 +31,9 @@ const cartpage = async (req, res) => {
 
 const addtocart = async (req, res) => {
   try {
-    if (!req.session.userId) {
-      return res.status(401).send({ msg: "no user" });
-    }
+      if (!req.session.userId) {
+        return res.status(401).send({ msg: "no user" });
+      }
 
     await wishlistModel.findOneAndUpdate(
       { userId: req.session.userId },

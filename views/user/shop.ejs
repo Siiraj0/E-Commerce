@@ -423,6 +423,7 @@
     <script>
 
 async function addcart(id){
+    try {
   const {data}= await axios.post(`/addtocart`,{id})
    if(data.msg=='no user'){
     window.location.href="/login"
@@ -445,6 +446,9 @@ Toast.fire({
 });
 
    }
+} catch (error) {
+    window.location.href='/login'
+  }
 }
 
 
@@ -474,7 +478,7 @@ async function addwishlist(id) {
       });
     }
   } catch (error) {
-    console.error('Error adding to wishlist:', error);
+   window.location.href = "/login"
   }
 }
 </script>
