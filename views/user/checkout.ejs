@@ -1042,7 +1042,13 @@
     const couponCode = document.getElementById('couponCode').value.trim();
 
     if (couponCode === '') {
-        alert('Please enter a valid coupon code.');
+        Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'The coupon code you entered is not valid. Please try again!',
+  confirmButtonText: 'Got it!'
+});
+
         return;
     }
 
@@ -1210,7 +1216,13 @@ function removeCoupon() {
 
                     let razorpayObject = new Razorpay(options);
                     razorpayObject.on('payment.failed', (response) => {
-                        alert('Payment failed');
+                        Swal.fire({
+  icon: 'error',
+  title: 'Payment Failed',
+  text: 'Something went wrong with your payment. Please try again later.',
+  confirmButtonText: 'Okay'
+});
+
                         paymentStatus.value = 'Pending';
                         form.submit();
                     });
@@ -1227,7 +1239,13 @@ function removeCoupon() {
             })
             .catch(error => {
                 console.error('Error initiating payment:', error);
-                alert('Error initiating payment');
+                Swal.fire({
+  icon: 'error',
+  title: 'Payment Error',
+  text: 'There was an issue initiating the payment. Please try again later.',
+  confirmButtonText: 'Okay'
+});
+
             });
         }
     } else {

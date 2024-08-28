@@ -932,7 +932,13 @@ console.log(paymentForm,'amount');
                               
                               let razorpayObject = new Razorpay(options);
                               razorpayObject.on('payment.failed', (response) => {
-                                  alert('payment failed');
+                                alert('payment failed');Swal.fire({
+  icon: 'error',
+  title: 'Payment Failed',
+  text: 'Your payment could not be processed. Please check your details and try again.',
+  confirmButtonText: 'Okay'
+});
+
                              
 
                               });
@@ -983,7 +989,13 @@ console.log(amount.value,'lpppppppppppppppppppp');
                                 
                                 let razorpayObject = new Razorpay(options);
                                 razorpayObject.on('payment.failed', (response) => {
-                                    alert('payment failed');
+                                  Swal.fire({
+  icon: 'error',
+  title: 'Payment Failed',
+  text: 'Your payment could not be processed. Please check your details and try again.',
+  confirmButtonText: 'Okay'
+});
+
                                 });
                                 razorpayObject.open();
                             }
