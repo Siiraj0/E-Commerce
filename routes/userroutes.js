@@ -45,56 +45,56 @@ userRoute.post("/forgetpass", userController.updatepass);
 userRoute.post("/logout", myaccountController.logout);
 
 // Product routes
-userRoute.get("/shop", productController.shopPage);
-userRoute.get("/product/:id", productController.productpage);
-userRoute.get('/searchProduct',productController.searchProduct);
-userRoute.get('/shopFiltering',productController.shopFiltering);
+userRoute.get("/shop", auth.userIn, productController.shopPage);
+userRoute.get("/product/:id", auth.userIn, productController.productpage);
+userRoute.get('/searchProduct', auth.userIn,productController.searchProduct);
+userRoute.get('/shopFiltering', auth.userIn,productController.shopFiltering);
 
 
 // Cart routes
 userRoute.get("/cart", auth.userIn, cartController.cartpage);
-userRoute.post("/addtocart", cartController.addtocart);
-userRoute.post("/cartupdate", cartController.cartupdate);
-userRoute.post("/remove", cartController.remove);
+userRoute.post("/addtocart", auth.userIn, cartController.addtocart);
+userRoute.post("/cartupdate", auth.userIn, cartController.cartupdate);
+userRoute.post("/remove", auth.userIn, cartController.remove);
 
 // Checkout routes
 userRoute.get('/checkout', auth.userIn, checkoutController.checkout);
-userRoute.post('/placeOrder', checkoutController.placeOrder);
-userRoute.patch('/checkoutAddAddress', checkoutController.checkoutAddAddress);
-userRoute.post('/loadEditAddress', checkoutController.loadEditAddress);
-userRoute.patch('/saveEditAddress', checkoutController.saveEditAddress);
-userRoute.patch('/removeAddress', checkoutController.removeAddress);
-userRoute.post('/couponFetch', checkoutController.couponFetch);
-userRoute.post('/couponSubmit', checkoutController.couponSubmit);
-userRoute.get('/thankyou', checkoutController.thankyou);
+userRoute.post('/placeOrder', auth.userIn, checkoutController.placeOrder);
+userRoute.patch('/checkoutAddAddress', auth.userIn, checkoutController.checkoutAddAddress);
+userRoute.post('/loadEditAddress', auth.userIn, checkoutController.loadEditAddress);
+userRoute.patch('/saveEditAddress', auth.userIn, checkoutController.saveEditAddress);
+userRoute.patch('/removeAddress', auth.userIn, checkoutController.removeAddress);
+userRoute.post('/couponFetch', auth.userIn, checkoutController.couponFetch);
+userRoute.post('/couponSubmit', auth.userIn, checkoutController.couponSubmit);
+userRoute.get('/thankyou', auth.userIn, checkoutController.thankyou);
 
 // My Account routes
 userRoute.get("/myaccount", auth.userIn, myaccountController.myaccount);
-userRoute.post("/addAddress", myaccountController.addAddress);
-userRoute.post("/editUser/:id", myaccountController.editUser);
+userRoute.post("/addAddress", auth.userIn, myaccountController.addAddress);
+userRoute.post("/editUser/:id", auth.userIn, myaccountController.editUser);
 userRoute.post("/updateprofile", auth.userIn, myaccountController.updateProfile);
-userRoute.post("/addWallet", myaccountController.addWallet);
-userRoute.post("/razors", myaccountController.razorPay);
+userRoute.post("/addWallet", auth.userIn, myaccountController.addWallet);
+userRoute.post("/razors", auth.userIn, myaccountController.razorPay);
 
-userRoute.post("/editAddress", myaccountController.editAddress);
-userRoute.patch("/saveEdit", myaccountController.saveEdit);
+userRoute.post("/editAddress", auth.userIn, myaccountController.editAddress);
+userRoute.patch("/saveEdit", auth.userIn, myaccountController.saveEdit);
 userRoute.get('/orderDetails/:id', auth.userIn, myaccountController.orderDetails);
-userRoute.post('/order/cancel', myaccountController.cancelOrder);
-userRoute.post('/order/return', myaccountController.returnOrder);
-userRoute.patch('/returnOrder', myaccountController.returnApprove);
-userRoute.get('/getinvoice/:id', myaccountController.loadInvoice)
-userRoute.post('/repayment/:id', myaccountController.repayment);
+userRoute.post('/order/cancel', auth.userIn, myaccountController.cancelOrder);
+userRoute.post('/order/return', auth.userIn, myaccountController.returnOrder);
+userRoute.patch('/returnOrder', auth.userIn, myaccountController.returnApprove);
+userRoute.get('/getinvoice/:id',  auth.userIn,myaccountController.loadInvoice)
+userRoute.post('/repayment/:id',  auth.userIn,myaccountController.repayment);
 
 // Wishlist routes
 userRoute.get('/wishlist',auth.userIn,  wishlistController.wishlist);
 userRoute.post('/addtowishlist',auth.userIn,  wishlistController.addtowishlist);
-userRoute.post("/wishlistupdate", wishlistController.wishlistupdate);
+userRoute.post("/wishlistupdate", auth.userIn, wishlistController.wishlistupdate);
 
 // Payment routes
-userRoute.post('/razor', paymentController.razor);
+userRoute.post('/razor', auth.userIn, paymentController.razor);
 
 // Error route
-userRoute.get('/error-404', userController.errorpage);
+userRoute.get('/error-404', auth.userIn, userController.errorpage);
 
 // Google Authentication routes
 userRoute.get("/auth/google", googleLogin.googleAuth);

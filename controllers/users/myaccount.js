@@ -270,9 +270,9 @@ const orderDetails = async (req, res) => {
               case 'Delivered':
                   return 100;
               case 'Return Requested':
-                  return 50; // Return requested but not completed
+                  return 50; 
               case 'Returned':
-                  return 0; // Order was returned
+                  return 0; 
               default:
                   return 0;
           }
@@ -285,7 +285,7 @@ const orderDetails = async (req, res) => {
       });
   } catch (error) {
       console.error('Error fetching order details:', error.message);
-      res.status(500).render('error', { message: 'Internal Server Error' });
+      res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -296,7 +296,7 @@ const cancelOrder = async (req, res) => {
   const { orderId, productId } = req.body;
 
   try {
-      // Find the order
+      const userId = req.session.userId;
       const order = await orderModel.findById(orderId);
 
       if (!order) {
@@ -305,20 +305,37 @@ const cancelOrder = async (req, res) => {
 
       // Find the product in the order
       const product = order.products.find(p => p._id.toString() === productId);
-
+      console.log(product,'prduct in cancelled orderer 0000');
+      
       if (product) {
-          // Mark the product as cancelled and update the order status
+          // Mark the product as cancelled
           product.cancelled = true;
           product.orderStatus = 'Cancelled';
 
-          // Save the order with updated status
+          // Update wallet if payment method is not COD
+          if (order.payment !== "COD") {
+              // Calculate the total amount to be added to the wallet
+              console.log(product.totalPrice,'product.totalprice')
+              const totalAmount = parseFloat(product.totalPrice.toFixed(2)) * product.quantity;
+
+              // Update wallet balance and transaction
+              await walletModel.findOneAndUpdate(
+                { userId: userId },
+                {
+                    $inc: { balance: totalAmount },
+                    $push: { transaction: { amount: totalAmount, creditOrDebit: 'credit' } }
+                },
+                { new: true, upsert: true }
+              );
+          }
+
+          // Save the updated order
           await order.save();
 
-          // Find the product in the inventory
+          // Update the product stock in the inventory
           const productInInventory = await productModel.findById(product.productId);
 
           if (productInInventory) {
-              // Increment the product stock count
               productInInventory.stock += product.quantity;
               await productInInventory.save();
           } else {
@@ -349,17 +366,17 @@ const returnOrder = async (req, res) => {
     const product = order.products.find(p => p._id.toString() === productId);
 
     if (product) {
-      // Check if the product is already returned
+      
       if (product.returned) {
         return res.status(400).json({ message: 'Product already returned' });
       }
 
-      // Mark the product as returned and set the order status
+      
       product.returned = true;
-      product.orderStatus = "Return Requested"; // Set to "Return Requested" initially
+      product.orderStatus = "Return Requested"; 
       await order.save();
 
-      // Update the stock count of the product in the database
+      
       await productModel.findByIdAndUpdate(product.productId, {
         $inc: { stock: product.quantity }
       });

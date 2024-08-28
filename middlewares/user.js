@@ -1,9 +1,21 @@
-const userIn = (req,res,next)=>{
+const userModel = require("../models/usermodel")
+
+const userIn =async (req,res,next)=>{
+    console.log(req.session.userId,'lalalala');
     if(req.session.userId){
-        next()
-    }else{
+        const userData = await userModel.findOne({_id:req.session?.userId?._id})
+        console.log(userData,'userData')
+        if(userData &&!userData?.isBlocked ){
+            next()
+        }else{
+            delete req.session.userId
+            res.redirect('/login')
+        }
+    }
+    else{
         res.redirect('/login')
     }
+    
 }
 
 const existUser= (req,res,next)=>{

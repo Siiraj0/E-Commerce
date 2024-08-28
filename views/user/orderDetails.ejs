@@ -269,7 +269,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
 <script>
-  function cancelOrder(orderId, productId) {
+ function cancelOrder(orderId, productId) {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -280,8 +280,10 @@
         confirmButtonText: 'Yes, cancel it!'
     }).then((result) => {
         if (result.isConfirmed) {
+            console.log('Sending cancellation request with orderId:', orderId, 'and productId:', productId);
             axios.post('/order/cancel', { orderId, productId })
                 .then(response => {
+                    console.log('Cancellation response:', response.data);
                     Swal.fire(
                         'Cancelled!',
                         response.data.message,

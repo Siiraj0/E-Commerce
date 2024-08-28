@@ -138,7 +138,12 @@ console.log(typeof orderAmount,'orderamountt');
     cart.products = [];
     await cart.save();
 
-    res.redirect('/thankyou');
+    if(payStatus == "Paid"){
+
+      res.redirect('/thankyou');
+    }else{
+      res.redirect('/')
+    }
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Internal server error');
