@@ -45,10 +45,10 @@ userRoute.post("/forgetpass", userController.updatepass);
 userRoute.post("/logout", myaccountController.logout);
 
 // Product routes
-userRoute.get("/shop", auth.userIn, productController.shopPage);
-userRoute.get("/product/:id", auth.userIn, productController.productpage);
-userRoute.get('/searchProduct', auth.userIn,productController.searchProduct);
-userRoute.get('/shopFiltering', auth.userIn,productController.shopFiltering);
+userRoute.get("/shop",  productController.shopPage);
+userRoute.get("/product/:id",  productController.productpage);
+userRoute.get('/searchProduct',productController.searchProduct);
+userRoute.get('/shopFiltering',productController.shopFiltering);
 
 
 // Cart routes
@@ -94,7 +94,7 @@ userRoute.post("/wishlistupdate", auth.userIn, wishlistController.wishlistupdate
 userRoute.post('/razor', auth.userIn, paymentController.razor);
 
 // Error route
-userRoute.get('/error-404', auth.userIn, userController.errorpage);
+userRoute.get('/error-404',  userController.errorpage);
 
 // Google Authentication routes
 userRoute.get("/auth/google", googleLogin.googleAuth);
