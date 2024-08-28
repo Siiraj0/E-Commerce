@@ -66,14 +66,14 @@
                                                         <div class="col-lg-4">
                                                             <div class="mb-3 mb-4">
                                                                 <label class="form-label" for="billing-phone">price</label>
-                                                                <input type="text" class="form-control" name="price" value="<%= specialProduct.price %>" id="billing-phone" placeholder="enter the price.">
+                                                                <input type="text" min="1" class="form-control" name="price" value="<%= specialProduct.price %>" id="billing-phone" placeholder="enter the price.">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-lg-4">
                                                             <div class="mb-3 mb-4">
                                                                 <label class="form-label" for="billing-phone">stock</label>
-                                                                <input type="text" class="form-control" name="stock" id="billing-phone" value="<%= specialProduct.stock %>" placeholder="enter the price.">
+                                                                <input type="text" class="form-control" min="0" name="stock" id="billing-phone" value="<%= specialProduct.stock %>" placeholder="enter the price.">
                                                             </div>
                                                         </div>
                                                         <div class="mb-4 col-lg-7">

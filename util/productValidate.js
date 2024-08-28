@@ -5,16 +5,16 @@ const validate = async (userId)=>{
     try {
         const cart = await cartModel.findOne({userId});
         
-        if(cart && cart.products.length!==0){
+        if(cart && cart.products.length!==0 ){
 
             
             for(const key of cart.products){
     
                 
                const product= await productModel.findOne({_id:key.productId});
-               if(!product || product.isBlocked){
+               console.log(key.count<=0 ,'count')
+               if(!product || product.isBlocked || product.stock<=0 || key.count<=0){
     
-                
                 await cartModel.findOneAndUpdate({userId},{ $pull: { products: { productId: key.productId } } })
                }
             }
