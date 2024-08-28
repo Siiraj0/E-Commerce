@@ -566,7 +566,15 @@ document.getElementById("ll").addEventListener('click',e=>{
         
         if(Number(elem.value)+1<=elem.max){
             // elem.value=elem.value+1;
-        }else elem.value=elem.max
+        }else {
+            elem.value=elem.max;
+            Swal.fire({
+                icon: 'error',
+                title: 'Stock Unavailable',
+                text: 'The maximum stock limit has been reached.',
+                confirmButtonText: 'OK'
+            });
+        }
    }
     
    if(e.target.classList.contains('dec')){
